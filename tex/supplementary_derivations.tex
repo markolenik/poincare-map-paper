@@ -1,0 +1,336 @@
+\documentclass[12pt,authoryear]{elsarticle}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{siunitx}
+\usepackage{soul}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage[textsize=tiny]{todonotes}
+\usepackage{soul}
+\usepackage{appendix}
+\usepackage{physics}
+
+% Define better ref abbreviations
+\usepackage{cleveref}
+\usepackage{sectsty}
+\sectionfont{\fontsize{13}{15}\selectfont\centering}
+\subsectionfont{\normalfont\fontsize{12}{15}\selectfont\textit}
+
+\renewcommand{\d}{\mathrm{d}}
+\newcommand{\dstar}{d^\star}
+\newcommand{\gstar}{g^\star}
+\newcommand{\gbar}{\bar g}
+\newcommand{\phin}{\phi_n}
+\newcommand{\Phin}{\Phi_n}
+\newcommand{\delt}{\Delta t}
+\newcommand{\taus}{\tau_s}
+\newcommand{\dn}{\delta_n}
+\renewcommand{\P}{\Pi_n}
+\newcommand{\F}{F_n}
+\newcommand{\Q}{Q_n}
+
+\journal{Journal of Theoretical Biology}
+
+% This removes the horizontal lines around abstract
+\makeatletter
+  \long\def\pprintMaketitle{\clearpage
+  \iflongmktitle\if@twocolumn\let\columnwidth=\textwidth\fi\fi
+  \resetTitleCounters
+  \def\baselinestretch{1}%
+  \printFirstPageNotes
+  \begin{center}%
+ \thispagestyle{pprintTitle}%
+   \def\baselinestretch{1}%
+    \Large\@title\par\vskip18pt
+    \normalsize\elsauthors\par\vskip10pt
+    \footnotesize\itshape\elsaddress\par\vskip36pt
+    % \hrule\vskip12pt
+    % \ifvoid\absbox\else\unvbox\absbox\par\vskip10pt\fi
+    % \ifvoid\keybox\else\unvbox\keybox\par\vskip10pt\fi
+    % \hrule\vskip12pt
+    \end{center}%
+  \gdef\thefootnote{\arabic{footnote}}%
+  }
+\makeatother
+
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{A scalar Poincaré map for struggling in \textit{Xenopus} tadpoles: Supplemental Information}
+
+\author{Mark Olenik$^{1}$}
+\ead{mark.olenik@gmail.com}
+\address{$^{1}$School of Biological Sciences, University of Bristol, Bristol BS81TQ, United Kingdom}
+\author{Conor Houghton$^{2}$\corref{mycorrespondingauthor}}
+\address{$^{2}$School of Computer Science, Electrical and Electronic Engineering, and Engineering Mathematics, University of Bristol, Bristol BS81UB, United Kingdom}
+\cortext[mycorrespondingauthor]{Corresponding author}
+\ead{conor.houghton@bristol.ac.uk}
+
+\end{frontmatter}
+
+\section{Explicit map $\Pi_{n}$}
+
+\begin{align}
+  \rho &= e^{-T/\tau_{d}}
+\end{align}
+
+
+\noindent
+Predicted period from $\Pi_{n}$:
+\begin{equation}
+ ~\label{eq:P}
+  P=2(\Delta t + (n-1)T),
+\end{equation}
+
+\noindent
+Map $\psi(d_{k})$ computes the value of $d$ at the next spike:
+\begin{equation}
+  \psi(d_{k}):= \lambda\rho d_{k} + (1-\rho)~\label{eq:map-d},
+\end{equation}
+
+\noindent
+Value of $d$ at cycle start associated with suppressed solution:
+\begin{equation}
+ ~\label{eq:dsup}
+  d_{s}=\frac{1-\rho}{1-\lambda\rho},
+\end{equation}
+
+\noindent
+Left domain boundary of $\Pi_{n}$
+\begin{equation}
+  d_{a}(n)=-\frac{(1-\rho)\sum_{i=0}^{n-2}(\lambda \rho)^{i}}{ (\lambda \rho)^{n-1} }\leq 0~\label{eq:da}.
+\end{equation}
+Release condition:
+\begin{equation}
+ ~\label{eq:release}
+  \bar gs=g^{\star}
+\end{equation}
+
+
+\subsection{Map $\delta_{n}$}
+This equation predicts $d$ after $n$ spikes:
+\begin{equation}
+ ~\label{eq:delta-map}
+  \delta_{n}(d^{\star}) = {(\lambda \rho)}^{n-1} d^{\star} + (1-\rho)\sum_{i=0}^{n-2}{(\lambda \rho)}^{i}.
+\end{equation}
+Map $\delta_{n}(\dstar)$ has a root for $\dstar=d_{a}$, where
+\begin{equation}
+  d_{a}(n)=-\frac{(1-\rho)\sum_{i=0}^{n-2}(\lambda \rho)^{i}}{ (\lambda \rho)^{n-1} }\leq 0.
+\end{equation}
+The fixed point is $\dstar=d_{s}$ and given by:
+\begin{equation}
+  d_{s}=\frac{1-\rho}{1-\lambda\rho}.
+\end{equation}
+Derivative computes as
+\begin{equation}
+  \dv{\dn}{\dstar} = {(\lambda\rho)}^{n-1}.
+\end{equation}
+
+\subsection{Map $F_{n}$}
+\begin{equation}
+ ~\label{eq:Fn-map}
+  F_{n}:=\tau_{s}\ln{\left(\frac{\bar g }{g^{\star}} \delta_{n}(d^{\star})\right)}= \Delta t.
+\end{equation}
+Since for $\dstar>d_{a}$ we have $\delta_{n}(\dstar)>0$, map $F_{n}$ is also defined only for $\dstar>d_{a}$.
+Partial derivatives are
+\begin{align}
+  \pdv{\F}{\dstar} &= \taus \frac{(\lambda\rho)^{n-1}}{\dn(\dstar)}>0\\
+  \nonumber\\
+  \pdv{\F}{\gbar}  &= \frac{\taus}{\gbar}>0
+\end{align}
+
+\subsection{Map $Q_{n}$}
+\begin{equation}
+ ~\label{eq:Qn-map}
+  Q_{n}(\Delta t):=1- (1- \lambda d_{n})e^{-(2\Delta t+(n-1)T)/\tau_{d}}.
+\end{equation}
+
+with
+\begin{equation}
+ ~\label{eq:dn}
+  d_{n} = \frac{g^{\star}}{\bar g} e^{\Delta t/\tau_{s}}.
+\end{equation}
+
+\subsection{Map $\Pi_{n}$}
+\begin{align}
+  \Pi_{n}(d^{\star})&= 1-
+\frac{\rho^{n-1}{g^{\star}}^{\tau}}{{\bar g}^{\tau}}\delta_{n}^{-\tau}(d^{\star})\Big(1-\lambda\delta_{n}(d^{\star})\Big)\\
+  \nonumber\\
+  \frac{\mathrm{d}\Pi_{n}}{\mathrm{d}d^{\star}} &= \frac{\rho^{n-1}{g^{\star}}^{\tau}}{\bar g^{\tau}}\Big(\tau \delta_{n}^{-(\tau+1)}(d^{\star})+\lambda(1-\tau) \delta_{n}^{-\tau}(d^{\star})\Big)\\
+  \nonumber\\
+  \frac{\mathrm{d}\Pi_{n}}{\mathrm{d}\bar g} &= \tau\frac{\rho^{n-1}{g^{\star}}^{\tau}}{\bar g^{\tau+1}}\delta_{n}^{-\tau}(d^{\star})\Big(1-\lambda\delta_{n}(d^{\star})\Big)
+\end{align}
+
+\noindent
+Implicit function for fix points of $\Pi_{n}$, satisfied at $(d^{\star}_{f}, \bar g_{f})$:
+\begin{align}
+  \Phi_{n}(d^{\star}; \bar g):&=\Pi_{n}(d^{\star}; \bar g)-d^{\star}=0,\\
+  \nonumber\\
+  \frac{\partial \Phi_{n}}{\partial d^{\star}} &= \frac{\mathrm{d} \Pi_{n}}{\mathrm{d}d^{\star}} - 1 \neq 0 \quad (< 0?)\\
+  \nonumber\\
+  \frac{\mathrm{d}\Phi_{n}}{\mathrm{d}\bar g} &= \frac{\mathrm{d}\Pi_{n}}{\mathrm{d}\bar g} > 0
+\end{align}
+
+\noindent
+Fixed points, essentially the inverse of $d_{f}^{\star}=\phi_{n}(\bar g_{f})$. For a fixed point $d_{f}^{\star}$ compute corresponding $\bar g_{f}$:
+\begin{equation}
+  \bar g_{f} = G_{n}(d^{\star}_{f}) := g^{\star} \left(\frac{\rho^{n-1}\delta_{n}^{-\tau}(d^{\star}_{f})(1-\lambda\delta_{n}(d^{\star}_{f}))}{1-d^{\star}_{f}}\right)^{1/\tau}.
+\end{equation}
+
+\section*{Existence and stability of fixed points of $\Pi_{n}$}
+As $\gbar$ is increased maps $\Pi_{n}$ move up the plane, colliding the diagonal tangentially, which creates two fixed points, one stable and one unstable.
+We will show below that these fixed points are created by a fold bifurcation of maps, and that they exist for a sufficiently large coupling strength $\gbar>\gbar_{b}(n)$, where $\gbar_{b}(n)$ is the critical value of the parameter where the fold bifurcation occurs for each map $\Pi_{n}$.
+
+Fixed points of $\Pi_{n}$ satisfy the fixed point equation
+\begin{equation}
+  \Phi_{n}(\dstar; \gbar)= \Pi_{n}(\dstar; \gbar) - \dstar = 0.
+\end{equation}
+It is straightforward to show that the slope of $\Phi_{n}$ with respect to $\dstar$ is monotonically decreasing,
+\begin{equation}\label{eq:non-degen1}
+  \frac{\d^{2}\Phi_{n}}{\d{(d^{\star})}^{2}}<0,
+\end{equation}
+and because in the limit of the left domain boundary $\dstar \to d_{a}$ the slope is positive,
+\begin{equation}
+  \lim_{\dstar \to d_{a}}\dv{\Phin}{\dstar} = \infty,
+\end{equation}
+it follows that for $\dstar$ large enough $\Phin$ has zero slope and a
+global maximum.
+Moreover, since $\Phin$ is monotonic with respect to $\gbar$,
+\begin{equation}\label{eq:non-degen2}
+  \frac{\d \Phi_{n}}{\d \gbar}>0,
+\end{equation}
+for $\gbar$ sufficiently large the maximum of $\Phin$ will align tangentially with the abscissa at some critical fixed point $(\dstar_{b}, \gbar_{b})$.
+For $\gbar > \gbar_{b}$ two roots of $\Phin$ arise with slopes of opposite signs, respectively.
+Thus at $(\dstar_{b}, \gbar_{b})$ we have
+\begin{align}
+  \Phi_{n}(\dstar_{b}; \gbar_{b}) &=0,\\
+  \frac{\d}{\d \dstar}\Phi_{n}(\dstar_{b}; \gbar_{b})&=0,
+\end{align}
+or equivalently
+\begin{align}
+  \Pi_{n}(\dstar_{b}; \gbar_{b}) &=\dstar_{b},\\
+  \frac{\d}{\d \dstar}\Pi_{n}(\dstar_{b}; \gbar_{b})&=1.
+\end{align}
+Equations~\eqref{eq:non-degen1} and~\eqref{eq:non-degen2} constitute the non-degeneracy conditions for a codimension-1 fold bifurcation of maps, indicating that in a neighbourhood of $(\dstar_{b}, \gbar_{b})$ map $\Pi_{n}$ has the topological normal form described by the graph of
+\begin{equation}
+x\mapsto \beta+x-x^{2},
+\end{equation}
+with a stable and unstable fixed point $x=\pm\sqrt{\beta}$, and slopes $\dv*{x}{\beta}=\mp {(2\sqrt{\beta})}^{-1}$, respectively.
+
+
+\section*{Why \boldmath{$\dstar_{f}$} increases with \boldmath{$\gbar$}}
+As we have shown for $\gbar>\gbar_{b}(n)$ there exists a local relationship $\dstar_{f}=\phi_{n}(\gbar)$.
+We can compute the slope of $\phi_{n}(\gbar)$ using implicit differentiation:
+\begin{equation}
+  \dv{\phin}{\gbar} = -\frac{\pdv*{\Phin}{\gbar}}{\pdv*{\Phin}{\dstar}}=
+  -\frac{\pdv*{\P}{\gbar}}{\pdv*{\P}{\dstar}-1}
+\end{equation}
+As we have seen in the fold bifurcation plot, the slope of $\phin(\gbar)$ is positive for the unstable, and negative for the stable fixed points, respectively.
+Both inequalities follow from normal form of the fold bifurcation:
+\begin{equation}
+x\mapsto \beta+x-x^{2},
+\end{equation}
+with a stable and unstable fixed point $x=\pm\sqrt{\beta}$, and slopes $\dv*{x}{\beta}=\mp {(2\sqrt{\beta})}^{-1}$, respectively.
+
+% NOTE: It's also trivial to prove the slopes without using the normal form. The nominator is always positive, the denominator is negative for the stable since the slope of Phi is mon. decreasing, and the stable fp is larger than the unstable, and at the fold bif the slope of Phi is zero.
+% TODO: Ask Conor whether the normal form derivation is sufficient here.
+
+\section*{Why slope of period decreases with \boldmath{$\gbar$}}
+\emph{NOTE: Will leave this out, since the decrease of the slope of the period isn't really interesting, what's interesting is how it changes with $n$, and that is hard to show.}
+
+Recall that the period from the map is computed by
+\begin{align}
+  P_{n}(n)&= (n-1)T + \delt\\
+          &= (n-1)T + F_{n}\big(\phin^{-}(\gbar), \gbar\big)
+\end{align}
+We will show below that
+\begin{equation}
+  \dv[2]{P_{n}}{\gbar} < 0
+\end{equation}
+We can calculate the derivative as
+\begin{align}
+  \dv{P_{n}}{\gbar} &= \dv{F_{n}(\phin(\gbar), \gbar)}{\gbar} \\[0.5ex]
+                    &= \grad F_{n} \cdot \dv{\gbar}\begin{bmatrix}\phin^{-}\\[0.5ex] \gbar\end{bmatrix}\\[0.5ex]
+                    &= \pdv{\F}{\dstar}\dv{\phin^{-}}{\gbar} + \pdv{\F}{\gbar}\\[0.5ex]
+                    &>0
+\end{align}
+The last inequality follows from the fact that all terms are positive, as we've shown somewhere earlier.
+Then the second derivative is given by
+\begin{align}
+  \dv[2]{P_{n}}{\gbar}&=\dv{\gbar}\Big(\dv{F_{n}(\phin(\gbar), \gbar)}{\gbar} \Big)\\[0.5ex]
+                      &=\dv{\gbar}\Big(\grad F_{n} \cdot \begin{bmatrix}\dv*{\phin}{\gbar}\\1 \end{bmatrix}\Big)\\[0.5ex]
+                      &= \dv{\gbar}\grad F_{n} \cdot \begin{bmatrix}\dv*{\phin}{\gbar}\\ 1\end{bmatrix} + \grad F_{n}\cdot \begin{bmatrix}\dv*[2]{\phin}{\gbar}\\0\end{bmatrix}\\[0.5ex]
+  &=\dv[2]{F_{n}}{\gbar} + \pdv{F_{n}}{\dstar}\dv[2]{\phin}{\gbar}\\[0.5ex]
+  &< 0
+\end{align}
+The last inequality follow from the following
+\begin{align}
+  \pdv{\gbar}\dv{F_{n}}{\gbar}<0\\[0.5ex]
+  \pdv{F_{n}}{\dstar}>0
+\end{align}
+and the fact that
+\begin{equation}
+  \dv[2]{\phin}{\gbar}<0
+\end{equation}
+The latter inequality is easy to show but also follows from the fold bifurcation, i.e. $\dv*{(2\sqrt(\beta)^{-1})}{\beta}<0$.
+
+
+\section*{Why slope of period decreases with \boldmath{$n$}}
+
+
+
+\section*{Period adding/subtracting bifurcations}
+So far we have assumed that both neurons produce exactly $n$ spikes in a burst, irrespective of the coupling strength.
+As we have seen in the numerical bifurcation diagram branches of stable $n-n$ solutions exist on increasingly smaller intervals of $\gbar$ with increasing $n$.
+We can once again use the release condition to derive the exact values of $\gbar$ where these bifurcations occur.
+There are two bifurcations for each branch, on the left there's period subtraction, on the right period-adding.
+
+We've already briefly touched on the period-adding bifurcation.
+Remember, we have shown
+\begin{equation}
+  \dv{P_{n}}{\gbar}=\dv{\delt}{\gbar}>0,
+\end{equation}
+that is, as the coupling strength increases, it takes longer for the total synaptic conductance to cross the release conductance, which delay the release of the quiet cell, thus $\delt$ becomes larger.
+Once $\delt=T$, the free cell can produce another spike, thus we have period-adding (ref), and the solution bifurcates into a stable $(n+1)-(n+1)$.
+Note that on the left side the period-subtraction bifurcation into a $(n-1)-(n-1)$ does not occur when $\delt=0$.
+Here the mechanism is different: A sufficient reduction of $\gbar$ causes the total synaptic conductance to drop below the release conductance in the previous $ISI$, which allows the quiet cell to be released one spike earlier.
+
+Using the above reasoning we can now formulate the conditions for both period-adding and -subtracting bifurcations.
+We will only restrict ourselves to the analysis of the stable fixed points.
+In case of period adding, we have $\delt=T$, and after substituting our $F_{n}$-map this translates into
+\begin{equation}
+   R_{n}(\gbar):=\underbrace{\taus \ln\big[\frac{\gbar}{\gstar}\delta_{n}\big(\phi_{n}^{-}(\gbar)\big)\big]}_{F_{n}\big(\phi_{n}^{-}(\gbar)\big)} -T =0.
+\end{equation}
+In case of period subtraction, the release condition is satisfied exactly at the $n$th spike time, which translates into
+\begin{equation}
+  L_{n}(\gbar):=\gbar \delta_{n-1}\big(\phi_{n}^{-}(\gbar)\big)e^{-T/\taus} -\gstar = 0.
+\end{equation}
+Finding the roots of $L_{n}$ and $R_{n}$ gives us the desired period adding and subtracting bifurcations, respectively.
+
+It is easy to show that the period increment and decrement bifurcations for each $n$ are unique, since both $R_{n}$ and $L_{n}$ are monotonous with respect to $\gbar$:
+\begin{align}
+  \dv{\gbar}R_{n}(\gbar) = \dv{\gbar}F_{n}(\phin(\gbar), \gbar) = \grad F_{n} \cdot \begin{bmatrix}\dv*{\phin^{-}}{\gbar}\\ 1\end{bmatrix} > 0.
+\end{align}
+
+
+
+
+
+
+\section*{Computing bifurcation diagram numerically}
+The bifurcation diagram of stable $n-n$ solutions of the two-cell network in \cref{fig:bif-diagram} is obtained numerically as follows:
+We initialise the coupling strength at parameter values associated with one type of $n-n$ solution, that is we choose the values $\bar g = 0.4, 0.7, 0.8, 0.9, 0.98$ for the $1-1$, $2-2$, $3-3$, $4-4$, and $5-5$ solutions respectively.
+For each $\bar g$ the system is then numerically integrated sufficiently long for any transients to fully subside.
+We then identify one period of the solution by finding the first return of the depression variable $d_{1}$.
+That is, we choose some value $d_{k}$ at a spike time $t_{k}$, and by iterating from spike to spike find some subsequent value $d_{k+1}$ at spike time such that $|d_{k+1}-d_{k}|<\epsilon$.
+If a periodic solution of type $n-n$ is found in such way, $\bar g$ is step-wise increased/decreased, and the above algorithm is repeated.
+Otherwise, the set of all previously found solutions and the corresponding values $\bar g$ are returned.
+
+Note that applying conventional methods of numerical continuation is not straightforward for our model, as the discontinuous resets in \cref{eq:s-reset} and~\eqref{eq:d-reset} make the root finding challenging~\citep[e.g. see][ for continuation methods]{kuznetsov2004}.
+
+\bibliographystyle{model5-names}
+\bibliography{bibliography.bib}
+\end{document}

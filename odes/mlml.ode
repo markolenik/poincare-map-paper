@@ -1,0 +1,86 @@
+# The Morris-Lecar equations for two coupled cells.
+
+# DEFAULT PARAMETERS
+par G=0.6
+par GL=.15
+par GCA=0.3
+par GK=0.6
+par VK=-70
+par VL=-50
+par VCA=100
+par VA=1
+par VB=14.5
+par VC=4.
+par VD=15.0
+par TAUW=100
+par TAUA=1000
+par TAUB=100
+par TAUK=100
+par TAUY=0.0001
+par VTHETA=0
+par VINB=-80
+par GTOT=0.
+par GSTAR=0.03804
+par IAPP=3.8
+par PERIOD=376
+
+# Define some functions.
+minf(v)=.5*(1+tanh((v-VA)/VB))
+winf(v)= .5*(1+tanh((v-VC)/VD))
+
+# define the right-hand sides
+# NOTE: We append another synaptic current term for v
+# in order to be able to compute nullclines from the same file.
+# gtot should be set to zero for full network simulations.
+
+dv1/dt= -GL*(v1-VL)-GK*w1*(v1-VK)-GCA*minf(v1)*(v1-VCA)-G*s2*(v1-VINB)+IAPP-GTOT*(v1-vinb)
+dv2/dt= -GL*(v2-VL)-GK*w2*(v2-VK)-GCA*minf(v2)*(v2-VCA)-G*s1*(v2-VINB)+IAPP-GTOT*(v2-vinb)
+
+dw1/dt= (winf(v1)-w1)/TAUW
+dw2/dt= (winf(v2)-w2)/TAUW
+
+dd1/dt= heav(VTHETA-v1)*(1-d1)/TAUA - heav(v1-VTHETA)*d1/TAUB
+dd2/dt= heav(VTHETA-v2)*(1-d2)/TAUA - heav(v2-VTHETA)*d2/TAUB
+
+ds1/dt= heav(v1-VTHETA)*(d1-s1)/TAUY - heav(VTHETA-v1)*s1/TAUK
+ds2/dt= heav(v2-VTHETA)*(d2-s2)/TAUY - heav(VTHETA-v2)*s2/TAUK
+
+# some initial conditions -- not necessary but for completeness
+init v1= -5.0
+init v2= 30
+init w1= 0.1
+init w2= 0.1
+init s1= 0
+init s2= 0
+init d1= 0.8
+init d2= 0.8
+
+# total synaptic conductance
+aux gtot1=g*s1
+aux gtot2=g*s2
+
+# .5, .7, .8, .9, .95
+
+# NOTE: Command line options do not allow changes of graphical parameters.
+
+# INTEGRATION
+@ TOTAL=5000,DT=.5
+# @ xlo=-60,xhi=75,ylo=-0.1,yhi=.45
+@ xlo=-64,xhi=75,ylo=-1,yhi=1.
+@ xplot=v1,yplot=w1
+@ MAXSTOR=40000000,BOUNDS=100000,method=stiff
+@ NMESH=150
+# NEWTON METHOD
+# DEFAULTS ARE: NEWT_ITER=20, NEWT_TOL=1e-3, JAC_EPS=1e-3
+# @ NEWT_ITER=200, NEWT_TOL=1e-3, JAC_EPS=1e-3
+
+# AUTO
+@ NMAX=1000, DS=0.01, DSMIN=0.001, DSMAX=0.1, PARMIN=0., PARMAX=3.0
+# very important to reduce ncol from 4 to 3 in this case, otherwise auto maxes out
+@ NTST=100, NPR=4, NCOL=4
+@ AUTOXMIN=0, AUTOXMAX=3.0, AUTOVAR=v, AUTOYMIN=-80, AUTOYMAX=100
+@ EPSS=1e-5, EPSU=1e-7 EPSL=1e-7
+@ NORMMIN=0, NORMMAX=100000
+@ SIMPLOT=1
+
+done

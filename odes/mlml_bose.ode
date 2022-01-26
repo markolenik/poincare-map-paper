@@ -1,0 +1,82 @@
+# I-I with reciprocal inhibitory depressing synapses
+# 1 = v, 2 = vpost
+# The Morris-Lecar equations ml1.ode
+#  NOTE: I use only the first letter for declarations!
+p gl=.15,gca=0.3,gk=0.6
+p vk=-70,vl=-50,vca=100
+p v1=1,v2=14.5,v3=20,v4=15,v5=20
+p iapp=7.5,tau=100
+p ipost=7.5,taupost=100
+p alpha1=1500,beta1=200
+p kappa1=1,kappas1=50000
+p vtheta=0,g12=0.17
+p alpha2=1500,beta2=200
+p kappa2=1,kappas2=50000
+p g21=0.17,vinb=-80
+p gcapost=.3
+# Define some functions
+minf(v)=.5*(1+tanh((v-v1)/v2))
+winf(v)= .5*(1+tanh((v-v3)/v4))
+lamw(v)= cosh((v-v3)/(2*v4))
+winfpost(vpost)= .5*(1+tanh((vpost-v5)/v4))
+lamwpost(vpost)= cosh((v-v5)/(2*v4))
+
+# define the right-hand sides
+dv/dt= gl*(vl-v)+gk*w*(vk-v)-icaf-g21*s21*(v-vinb)+iapp
+dw/dt= (winf(v)-w)/tau
+dvpost/dt= gl*(vl-vpost)+gk*wpost*(vk-vpost)-icafpost-g12*s12*(vpost-vinb)+ipost
+dwpost/dt = (winfpost(vpost)-wpost)/taupost
+
+dd12/dt = (1-d12)*Heav(vtheta-v)/alpha1 - d12*Heav(v-vtheta)/beta1
+ds12/dt = -s12*Heav(v-vtheta)/kappas1 - s12*Heav(vtheta-v)/kappa1
+
+dd21/dt = (1-d21)*Heav(vtheta-vpost)/alpha2 - d21*Heav(vpost-vtheta)/beta2
+ds21/dt = -s21*Heav(vpost-vtheta)/kappas2 - s21*Heav(vtheta-vpost)/kappa2
+
+global 1 v-vtheta {s12=d12}
+global 1 vpost-vtheta {s21=d21}
+
+# where
+icaf=gca*minf(v)*(v-vca)
+icafpost=gcapost*minf(vpost)*(vpost-vca)
+# and
+aux ica=icaf
+
+# period and phase calculation
+# phase of vpost relative to v1
+dy/dt=1
+dtf/dt=0
+dperiod/dt=0
+period(0)=1
+tf(0)=1
+y(0)=0
+
+# flags, third equation calculates period of pre-synaptic cell
+global 1 v-0 {period=y}
+global 1 v-0 {y=0}
+global 1 vpost-0 {tf=y}
+#global 1 v+0.01 {period=y}
+
+#phase of postsynaptic cell firing
+aux phase=tf/period
+
+
+# some initial conditions -- not necessary but for completeness
+v(0)=50
+w(0)=0
+vpost(0)=50
+wpost(0)=0
+d12(0)=0
+s12(0)=0
+d21(0)=0
+s21(0)=0
+
+
+#xpp junk:
+@ TOTAL=5000,DT=1,
+@ xlo=0,xhi=5000,ylo=-70,yhi=40
+# xplot=t,yplot=v,nmesh=100
+@ MAXSTOR=4000000,BOUNDS=100000,method=stiff
+
+# Done!!
+d

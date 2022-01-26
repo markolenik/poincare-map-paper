@@ -1,0 +1,55 @@
+# Single Morris-Lecar equations.
+
+# DEFAULT PARAMETERS
+par GTOT=0.0
+par g=0.
+par GL=.15
+par GCA=0.3
+par GK=0.6
+par VK=-70
+par VL=-50
+par VCA=100
+par VA=1
+par VB=14.5
+par VC=4.
+par VD=15.0
+par TAUW=100
+par tauk=100
+par VTHETA=0
+par VINB=-80
+par IAPP=3.8
+
+# Define some functions.
+minf(v)=.5*(1+tanh((v-VA)/VB))
+winf(v)=.5*(1+tanh((v-VC)/VD))
+
+dv/dt=-GL*(v-VL)-GK*w*(v-VK)-GCA*minf(v)*(v-VCA)+IAPP-g*s*(v-vinb)-GTOT*(v-vinb)
+dw/dt=(winf(v)-w)/TAUW
+ds/dt=-s/tauk
+
+# For starting from LC
+init v=14.215
+init w=0.034
+init s=1
+
+
+# INTEGRATION
+@ TOTAL=436,DT=1
+@ xlo=-64,xhi=75,ylo=-1,yhi=1.
+@ xplot=v,yplot=w
+@ MAXSTOR=40000000,BOUNDS=100000
+@ NMESH=150, method=stiff
+# NEWTON METHOD
+# DEFAULTS ARE: NEWT_ITER=20, NEWT_TOL=1e-3, JAC_EPS=1e-3
+@ NEWT_ITER=200, NEWT_TOL=1e-3, JAC_EPS=1e-3
+
+# AUTO
+@ NTST=5000, NMAX=10000, DS=0.0001, DSMIN=0.0001, DSMAX=0.01, PARMIN=0., PARMAX=0.01
+# very important to reduce ncol from 4 to 3 in this case, otherwise auto maxes out
+@ NPR=2, NCOL=3
+@ AUTOXMIN=0, AUTOXMAX=0.005, AUTOVAR=v, AUTOYMIN=-80, AUTOYMAX=100
+@ EPSS=1e-5, EPSU=1e-7 EPSL=1e-7
+@ NORMMIN=0, NORMMAX=100000
+@ SIMPLOT=1
+
+done

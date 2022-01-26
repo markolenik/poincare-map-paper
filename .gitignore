@@ -1,0 +1,10 @@
+# python
+__pycache__/*
+*.pyc
+.mypy_cache
+*.egg-info*
+.ipynb_checkpoints
+*.pkl
+
+# XPP
+*.auto
