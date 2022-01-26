@@ -8,3 +8,6 @@ __pycache__/*
 
 # XPP
 *.auto
+
+# TeX
+*.auctex-auto/
