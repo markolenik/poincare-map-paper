@@ -1,4 +1,4 @@
-name: poincare-map
+name: poincare-map-paper
 channels:
   - defaults
   - conda-forge
@@ -10,6 +10,7 @@ dependencies:
   - scipy
   - pandas
   - tqdm
+  - fastparquet
   # VISUALIZATION
   - matplotlib
   - xppaut
@@ -34,3 +35,5 @@ dependencies:
   - jupyter_client==6.1.12
   - jupyter_console
   - pyright
+  - ipdb
+  - qtconsole

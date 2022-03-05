@@ -1,3 +1,4 @@
+# %% Initialise
 import itertools
 import multiprocessing
 import os
@@ -7,12 +8,13 @@ import warnings
 from os import path
 
 import matplotlib
+matplotlib.use('pgf')
+
 import pandas as pd
 import pyxpp.pyxpp as xpp
 import scipy as sp
 from matplotlib import patches
 from matplotlib import pyplot as plt
-from matplotlib.backends.backend_pgf import FigureCanvasPgf
 from matplotlib.gridspec import GridSpec
 from matplotlib.lines import Line2D
 from pandas import DataFrame
@@ -22,27 +24,19 @@ from pathlib import Path
 from poincare_map import helpers
 from poincare_map import model
 from poincare_map import ode
+from poincare_map import paths
 
 import numpy as np
+
+plt.ioff()
 
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 # Ignore devide by zero
 np.seterr(divide='ignore')
 np.seterr(all='ignore')
 
-rcp = matplotlib.rcParamsDefault
-plt.ioff()
-matplotlib.use('pgf')
 
-
-DATDIR = Path('data')
-FIGDIR = Path('figures/')
-if not os.path.isdir(DATDIR):
-    os.mkdir(DATDIR)
-if not os.path.isdir(FIGDIR):
-    os.mkdir(DATDIR)
-
-XPPFILE = 'mlml.ode'
+xppfile = str(paths.odes / "mlml.ode")
 CENTER_TITLE_SIZE = 11
 FIGWIDTH = 3.85
 FIGSIZE = (FIGWIDTH, FIGWIDTH)
@@ -50,6 +44,7 @@ FIG2by1 = (FIGWIDTH*1.4, (FIGWIDTH*1.4)/2)
 
 EQSIZE = 15                     # Font size of equaitons.
 
+rcp = matplotlib.rcParamsDefault
 rcp['figure.max_open_warning'] = 0
 rcp['axes.unicode_minus'] = False
 rcp['text.usetex'] = True
@@ -66,12 +61,10 @@ rcp['pgf.preamble'] = r'\usepackage{amsmath} \usepackage{siunitx}'
 
 matplotlib.rcParams.update(rcp)
 
-p = xpp.read_pars(XPPFILE)
+p = xpp.read_pars(xppfile)
 
 # pars = model.Pars(p['g'], p['gstar'], p['taud'], p['taus'],
 #                   p['period'], p['lambda'])
-
-
 
 
 #%% Fig: nullclines-uncoupled
@@ -561,7 +554,7 @@ TRANSIENT = 3000
 TOTAL = 12000
 G = 0.8
 N = 2
-sol = ode.run(XPPFILE, transient=3000, total=10000, g=G)
+sol = ode.run(xppfile, transient=3000, total=10000, g=G)
 lc = ode.find_lc(sol, norm=True)
 
 period = lc.t.iloc[-1]
@@ -572,7 +565,7 @@ idxs = sp.concatenate((idxs, [-1]))
 fig, axs = plt.subplots(nrows=3, tight_layout=True, sharex=True,
                         figsize=(FIGWIDTH, FIGWIDTH*1.7))
 
-# A: Plot trace.
+# A: Plot voltage trace.
 ax = axs[0]
 ax.plot(lc.t, lc.v1)
 ax.plot(lc.t, lc.v2)
@@ -759,7 +752,7 @@ LABEL = 'psi-map'
 ds = sp.linspace(0, 1, 1000)
 
 fig, ax = plt.subplots(figsize=FIGSIZE, tight_layout=True)
-ax.plot(ds, [model.d_map(pars, d) for d in ds])
+ax.plot(ds, [model.d_sol(pars, d) for d in ds])
 ax.plot(ds, ds, 'k--')
 
 ax.spines['top'].set_visible(False)    
@@ -785,7 +778,7 @@ fig, ax = plt.subplots(figsize=FIGSIZE, tight_layout=True)
 
 for n in ns:
     # Plot curves.
-    ys = [model.d_map_sol(pars, d, n) for d in ds]
+    ys = [model.delta(pars, d, n) for d in ds]
     ax.plot(ds, ys, label=n, c='C0')
     
     # Add n numbers.
@@ -1139,6 +1132,7 @@ ax.text(1.015, 3950, r'$9$')
 fig.savefig(f'{FIGDIR}{LABEL}.pdf')
 fig.savefig(f'{FIGDIR}{LABEL}.pgf')
 
+#region phin?
 #%% Fig: phin(n)
 LABEL = 'phin'
 
@@ -1166,7 +1160,9 @@ ax.legend()
 fig.savefig(f'{FIGDIR}{LABEL}.pdf')
 fig.savefig(f'{FIGDIR}{LABEL}.png')
 fig.savefig(f'{FIGDIR}{LABEL}.pgf')
+#endregion
 
+#region LR
 #%% Fig: LR
 LABEL = 'LR'
 
@@ -1187,7 +1183,9 @@ ax.legend()
 fig.savefig(f'{FIGDIR}{LABEL}.pdf')
 fig.savefig(f'{FIGDIR}{LABEL}.pgf')
 
+#endregion
 
+#region T-plots???
 #%% T-plots
 LABEL = 'T-plots'
 ns = [2, 3, 4, 5]
@@ -1300,386 +1298,4 @@ for idx, ax in enumerate(axs):
 fig.savefig(f'{FIGDIR}{LABEL}.pdf')
 fig.savefig(f'{FIGDIR}{LABEL}.pgf')
 
-#%% Fig: F-map
-LABEL = 'F-map'
-
-ds = sp.linspace(0.0001, 1, 1000)
-Ls = sp.linspace(0, 1000, 10000)    
-ns = sp.arange(1, 4)
-
-fig, ax = plt.subplots(tight_layout=True, figsize=FIGSIZE)
-
-# F-map
-Fs = sp.array([model.F_map(pars, d) for d in ds])
-for n in ns:
-    ys = sp.array([(n-1)*pars.period+model.Fn_map(pars, d, n) for d in ds])
-    # Plot F-n.
-    ax.plot(ds, ys, c='C1', lw=0.5)
-    # Find Fs that correspond to n.
-    n_idxs = (Fs>(n-1)*pars.period) & (Fs<n*pars.period)
-    ax.plot(ds[n_idxs], Fs[n_idxs], c='C0', lw=1.7)
-
-# Add labels.
-ax.lines[-1].set_label(s=r'$F(d^\star)$')
-ax.lines[-2].set_label(s=r'$(n-1)T+F_n(d^\star)$')
-ax.legend(handles=ax.lines[-2:][::-1], loc=4)
-
-ax.set_xlabel(r'$d^\star$')
-ax.set_ylabel(r'$L=F(d^\star)$')
-ax.autoscale(axis='x', tight=True)
-ax.set_xlim(left=0)
-ax.spines['top'].set_visible(False)
-ax.spines['right'].set_visible(False)
-
-# Add n-number.
-ax.text(0.3, 180, r'$1$')
-ax.text(0.7, 440, r'$2$')
-ax.text(0.95, 640, r'$3$')
-
-fig.savefig(f'{FIGDIR}{LABEL}.pdf')
-fig.savefig(f'{FIGDIR}{LABEL}.pgf')
-
-#%% Fig: Q-map
-LABEL = 'Q-map'
-
-Ls = sp.linspace(0, 1000, 10000)    
-ns = sp.arange(1, 6)
-
-fig, ax = plt.subplots(tight_layout=True, figsize=FIGSIZE)
-
-# Q-map
-Qs = sp.array([model.Q_map(pars, L) for L in Ls])
-for n in ns:
-    # Plot Q-n.
-    ax.plot(Ls, [model.Qn_map(pars, L-(n-1)*pars.period, n) for L in Ls],
-            c='C1', lw=0.5)
-    # Find Qs that correspond to n.
-    n_idxs = (Ls>(n-1)*pars.period) & (Ls<n*pars.period)
-    ax.plot(Ls[n_idxs], Qs[n_idxs], c='C0', lw=1.7)
-
-# Add labels
-ax.lines[-1].set_label(s=r'$Q(L)$')
-ax.lines[-2].set_label(s=r'$Q_n(L-(n-1)T)$')
-ax.legend(handles=ax.lines[-2:][::-1], loc=4)
-
-# Add n-number to curves.
-ax.text(180, 0.55, r'$1$')
-ax.text(380, 0.6, r'$2$')
-ax.text(580, 0.65, r'$3$')
-ax.text(820, 0.75, r'$4$')
-ax.text(940, 0.7, r'$5$')
-
-ax.set_ylim((0, 1))    
-ax.autoscale(axis='x', tight=True)
-ax.set_xlabel(r'$L$')
-ax.set_ylabel(r'$d^\star=Q(L)$')
-ax.spines['top'].set_visible(False)
-ax.spines['right'].set_visible(False)
-
-fig.savefig(f'{FIGDIR}{LABEL}.pdf')
-fig.savefig(f'{FIGDIR}{LABEL}.pgf')
-
-#%% Fig: P-map
-LABEL = 'P-map'
-
-ds = sp.linspace(0.0001, 1, 1000)
-Ls = sp.linspace(0, 1000, 10000)    
-ns = sp.arange(1, 4)
-
-fig, axs = plt.subplots(ncols=2, tight_layout=True,
-                        figsize=FIG2by1)
-
-for idx, ax in enumerate(axs):
-    ax.set_xlabel(r'$d^\star$')
-    ax.set_ylabel(r'$\Pi(d^\star)$')
-    ax.autoscale(axis='x', tight=True)
-    ax.set_title(string.ascii_uppercase[idx], loc='left')
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-    ax.set_xlim((0, 1))
-    ax.set_ylim((0, 1))
-    ax.locator_params(axis='both', tight=True, nbins=8)
-    # Diagonal
-    ax.plot(ds, ds, c='k', ls='--')
-
-## A: P-map with Pn-map
-ax = axs[0]
-Ps = sp.array([model.P_map(pars, d) for d in ds])
-Pns = sp.array([model.d2n(pars, d) for d in ds])
-for n in ns:
-    # Plot P-n.
-    ax.plot(ds, [model.Pn_map(pars, d, n) for d in ds],
-            c='C1', lw=0.5)
-    # Find Ps that correspond to n.
-    n_idxs = Pns==n
-    ax.plot(ds[n_idxs], Ps[n_idxs], c='C0', lw=1.7)
-
-    
-# Add labels.
-ax.lines[-1].set_label(s=r'$\Pi(d)$')
-ax.lines[-2].set_label(s=r'$\Pi_n(d)$')
-ax.legend(handles=ax.lines[-2:][::-1], loc=4)
-
-# Add n-number.
-ax.text(0.1, 0.25, r'$1$')
-ax.text(0.25, 0.52, r'$2$')
-ax.text(0.4, 0.64, r'$3$')
-
-## B: P-map for various g
-ax = axs[1]
-gs = [.6, .8, .95]
-labels = []
-lines = []
-for idx, g in enumerate(gs):
-    _pars = pars._replace(g=g)
-    Ps = sp.array([model.P_map(_pars, d) for d in ds])
-    Pns = sp.array([model.d2n(_pars, d) for d in ds])
-    ns = sp.arange(1, max(Pns)+1)
-    for n in ns:
-        # Find Ps that correspond to n.
-        n_idxs = Pns==n
-        ax.plot(ds[n_idxs], Ps[n_idxs], c='C%s' % idx)
-    ax.lines[-1].set_label(s=r'$\bar g=%s$' % g)
-    lines.append(ax.lines[-1])
-
-ax.legend(handles=lines, loc=4)
-
-fig.savefig(f'{FIGDIR}{LABEL}.pdf')
-fig.savefig(f'{FIGDIR}{LABEL}.pgf')
-
-
-#%% Fig: cobwebs
-LABEL = 'cobwebs'
-
-
-# Create P-map with right parameters for iteration.
-g = 0.76
-_pars = pars._replace(g=g)
-P_map = lambda d: model.P_map(_pars, d)
-ds = sp.linspace(0.0001, 1., 500)
-
-d0s = [0.1, 0.99]
-sol1 = helpers.iterate(P_map, d0s[0], 30)
-sol2 = helpers.iterate(P_map, d0s[1], 30)
-
-# Depression traces
-dsols = []
-for d0 in d0s[::-1]:
-    ics = xpp.read_ics(XPPFILE)
-    state_vars = xpp.read_state_vars(XPPFILE)
-    ics[sp.where(state_vars=='d1')] = d0
-    L = model.F_map(_pars, d0)
-    delt = model.L2delt(_pars, L)
-    dl = model.d_n(_pars, delt)
-    ics[sp.where(state_vars=='d2')] = 1-(1-_pars.Lambda*dl)*sp.exp(-delt/
-                                                        _pars.taud)
-    ics[sp.where(state_vars=='v1')] = -40.
-    ics[sp.where(state_vars=='v2')] = -60.
-    _sol = ode.run(XPPFILE, g=g, ics=ics)
-    dsols.append(_sol)
-
-fig = plt.figure(tight_layout=True, figsize=FIG2by1)
-
-gridspec = GridSpec(2, 2)
-spec1 = gridspec.new_subplotspec(loc=(0, 0), rowspan=2, colspan=1)
-spec2 = gridspec.new_subplotspec(loc=(0, 1), rowspan=1, colspan=1)
-spec3 = gridspec.new_subplotspec(loc=(1, 1), rowspan=1, colspan=1)
-axs = [fig.add_subplot(spec) for spec in [spec1, spec2, spec3]]
-for idx, ax in enumerate(axs):
-    if idx<2:
-        ax.set_title(string.ascii_uppercase[idx], loc='left')
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-
-# A: Plot P-map with cobwebs.
-ax = axs[0]
-Ps = sp.array([P_map(d) for d in ds])
-Pns = sp.array([model.d2n(_pars, d) for d in ds])
-ns = sp.arange(1, max(Pns)+1)
-# Compute fps and take only stable ones (last two).
-fps = model.P_map_fps(_pars)[1:]
-for n in ns:
-    # Find Ps that correspond to n.
-    n_idxs = Pns==n
-    ax.plot(ds[n_idxs], Ps[n_idxs], c='k', ls='-')
-
-ax = helpers.cobwebplot(P_map, sol1, ax, c='C0')
-ax = helpers.cobwebplot(P_map, sol2, ax, c='C1')
-
-ax.plot(ds, ds, c='k', ls='--')
-ax.set_xlim((0, 1))
-ax.set_ylim((0, 1))
-ax.set_xlabel(r'$d^\star$')
-ax.set_ylabel(r'$\Pi(d^\star)$')
-for fp_stable in fps:
-    ax.plot(fp_stable, fp_stable, 'o', markeredgecolor='k')
-
-# B: Plot depression traces.
-EPS=0.02                        # For finding fps.
-colors = ['C1', 'C0']
-for dsol, ax, col in zip(dsols, axs[1:], colors):
-    _ts = dsol.t
-    ax.plot(_ts, dsol.d1, c=col)
-    ax.set_ylim((0, 1))
-    ax.set_yticks([0, 0.5, 1.])
-    ax.set_xticks([0, 2000, 4000])
-    ax.autoscale(axis='x', tight=True)
-    ax.set_ylabel(r'$d$')
-    # Indicate return points of d-variable.
-    idxs = helpers.events(dsol.d1)
-    tks = dsol.t.iloc[idxs]
-    dks = dsol.d1.iloc[idxs]
-    max_dk = dks.iloc[-5:].max()
-    max_idxs = (dks<max_dk+EPS) & (dks>max_dk-EPS)
-    ax.plot(tks[max_idxs], dks[max_idxs], 'o',
-            markeredgecolor='k', c=col)
-
-axs[-2].set_xticklabels([])
-axs[-1].set_xlabel(r'time ' + r'$(\si{ms})$')
-
-fig.savefig(f'{FIGDIR}{LABEL}.pdf')
-fig.savefig(f'{FIGDIR}{LABEL}.pgf')
-
-#%% Fig: ana-bif-diagram
-LABEL = 'ana-bif-diagram'
-
-## Compute numerical diagram.
-DATFILE = "dat/bif-diagram.dat"
-NSTEPS = 100
-TOTAL = 10000
-if not path.isfile(DATFILE):
-    print('COMPUTING BIFDIAGRAM')
-    n0s = [1, 2, 3, 4, 5]
-    p0s = [.4, .7, .8, .9, .96]
-    parsteps = [0.01, 0.01, 0.01, 0.005, 0.001]
-    curves = []
-    for n0, p0, step in zip(n0s, p0s, parsteps):
-        left = ode.cont(XPPFILE, 'g', g=p0, parstep=-step, nsteps=NSTEPS,
-                        total=TOTAL)
-        right = ode.cont(XPPFILE, 'g', g=p0, parstep=step, nsteps=NSTEPS,
-                         total=TOTAL)
-        curve = left.iloc[::-1].append(right).reset_index(drop=True)
-        curves.append(curve)
-    dat = pd.concat(curves)
-    pickle.dump(dat, open(DATFILE, 'wb'))
-else:
-    dat = pickle.load(open(DATFILE, 'rb'))
-
-## Compute analytic diagram.
-ANA_FILE = os.path.join(DATDIR, LABEL + '.dat')
-if not path.isfile(ANA_FILE):
-    print('COMPUTING BIFDIAGRAM')
-    gs = sp.linspace(0.3, 1.0, 200)
-    # adat = bmap.compute_gbif(gs)
-    adat = model.P_map_bif(pars, gs=gs)
-    pickle.dump(adat, open(ANA_FILE, 'wb'))
-else:
-    adat = pickle.load(open(ANA_FILE, 'rb'))
-
-
-## Plot everything.
-
-fig, ax = plt.subplots(tight_layout=True, figsize=FIGSIZE)
-
-# Plot numerical results.
-for n in range(max(dat['n'])+1)[1:]:
-    ndat = dat.loc[dat['n']==n]
-    ax.plot(ndat['g'], ndat['period'], c='C0', lw=3.5)
-    ax.set_xlabel(r'$\bar g$')
-    ax.set_ylabel(r'$P$')
-    ax.set_yticks(sp.arange(500, 2500, 500))
-
-    # Place text next to branch.
-    right_idx = ndat['g'].argmax()
-    right_g = ndat.loc[right_idx]['g']
-    left_g = ndat['g'].min()
-    mid_g = left_g + (right_g - left_g)/2.
-    right_P = ndat.loc[right_idx]['period']
-    ax.text(mid_g, right_P+22, r'$%s$' % n)
-ax.lines[-1].set_label(s='numeric')
-
-# Plot analytic results.
-for n in range(max(dat['n'])+1)[1:]:
-    ndat = adat.loc[(adat['n']==n) & (adat['stable']==True)]
-    ax.plot(ndat['g'], ndat['period'], c='C1', lw=1.5)
-    ax.set_xlabel(r'$\bar g$ ' + r'$(\si{mS/cm^2})$')
-    ax.set_ylabel('period ' + r'$(\si{ms})$')
-    ax.set_yticks(sp.arange(500, 2500, 500))
-ax.lines[-1].set_label(s='from $\Pi$')
-
-ax.spines['top'].set_visible(False)
-ax.spines['right'].set_visible(False)
-ax.legend(handles=[ax.lines[n-1], ax.lines[-1]], loc=4)
-ax.set_xlim(left=0.2)
-
-fig.savefig(f'{FIGDIR}{LABEL}.pdf')
-fig.savefig(f'{FIGDIR}{LABEL}.pgf')
-
-#%% Fig: psi-solution
-LABEL = 'psi-cobweb'
-_g = 0.83
-_pars = pars._replace(g=_g)
-dc = (_pars.gstar/_g)*sp.exp(_pars.period/_pars.taus)
-ds = sp.linspace(0, 1, 1000)
-
-
-# Find 3-3 orbit.
-P_map = lambda d: model.P_map(_pars, d)
-Ps = helpers.iterate(P_map, 1, 30)
-# Choose Pmap fixed point as initial value.
-d0 = Ps[-1]
-# Iterate psi.
-d_map = lambda d: model.d_map(_pars, d)
-d1s = helpers.iterate(d_map, d0, 10)
-
-fig, ax = plt.subplots(tight_layout=True, figsize=FIGSIZE)
-
-# Plot psi with cobweb.
-ax.plot(ds, [d_map(d) for d in ds])
-ax.plot(ds, ds, 'k--')
-ax = helpers.cobwebplot(d_map, d1s, ax, c='k')
-
-ax.set_xlabel(r'$d_k$')
-ax.set_ylabel(r'$d_{k+1}=\psi(d_k)$')
-ax.autoscale(axis='both', tight=True)
-
-# Add fixed point.
-ax.axvline(pars.d_sup, c='grey', ls='--')
-ax.text(pars.d_sup-0.13, 0.8, r'$d_s$')
-
-# Add dc.
-ax.axvline(dc, c='C1', ls='-')
-ax.text(dc+0.02, 0.8, r'$d_{c}$')
-
-ax.spines['top'].set_visible(False)    
-ax.spines['right'].set_visible(False)    
-
-fig.savefig(f'{FIGDIR}{LABEL}.pdf')
-fig.savefig(f'{FIGDIR}{LABEL}.pgf')
-
-#%% Fig: long-burst
-
-LABEL = 'long-burst'
-sol = ode.run(XPPFILE, transient=5000, total=17000, g=1.015)
-t0 = sol.t.iloc[0]
-sol.t -= t0
-
-fig, axs = plt.subplots(nrows=2, sharex=True,
-                        figsize=(FIGWIDTH*1.5, FIGWIDTH))
-
-axs[0].plot(sol.t, sol.v1, label=r'$v_1$')
-axs[0].plot(sol.t, sol.v2, label=r'$v_2$')
-axs[0].set_ylabel(r'$v_1, v_2$')
-axs[1].plot(sol.t, sol.d1, c='C0', label=r'$d_1$')
-axs[1].plot(sol.t, sol.s1, c='grey', label=r'$s_1$')
-axs[1].set_ylabel(r'$d_1, s_1$')
-axs[1].set_xlabel('time ' + r'$(\si{ms})$')
-
-for idx, ax in enumerate(axs):
-    ax.spines['right'].set_visible(False)
-    ax.spines['top'].set_visible(False)
-    ax.set_title(string.ascii_uppercase[idx], loc='left')
-    ax.legend()
-
-fig.savefig(f'{FIGDIR}{LABEL}.pdf')
-fig.savefig(f'{FIGDIR}{LABEL}.pgf')
+#endregion

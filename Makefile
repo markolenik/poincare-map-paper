@@ -6,10 +6,6 @@ scripts_dir := scripts
 data_dir := data
 figures_dir := figures
 ode_dir := odes
-bifdat := $(data_dir)/bif-diagram.pkl
-
-# Where docker data lives
-docker_dir := docker
 
 # * Targets
 
@@ -33,15 +29,15 @@ conda-deactivate:
 	@conda deactivate
 
 
-$(bifdat):
-	@python $(scripts_dir)/compute_bifdat.py \
-	--output=$(bifdat) --xppfile=$(ode_dir)/$(mlml.ode)
+## Compute all stuffs
+.PHONY: compute
+compute:
+	@python $(scripts_dir)/compute.py
 
-
-## Compute bifurcation diagram
-.PHONY: compute-bifdat
-compute-bifdat: $(bifdat)
-	@echo "Done"
+## Recompute all stuffs
+.PHONY: recompute
+recompute:
+	@python $(scripts_dir)/compute.py --recompute
 
 
 ## Delete all compiled Python files

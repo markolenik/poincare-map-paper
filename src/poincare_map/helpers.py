@@ -1,92 +1,148 @@
+from __future__ import annotations
+from logging import debug
+
+import pandas as pd
 import numpy as np
-from typing import List, Optional, Tuple
+from numpy.typing import ArrayLike
+from typing import Dict, List, Optional, Tuple
 from matplotlib import pyplot as plt
 import matplotlib.lines as mlines
 import matplotlib.patches as mpatches
 
 
-def roots(x: np.ndarray) -> np.ndarray:
+def roots(x: np.ndarray, up: int = 0) -> np.ndarray:
     """Find roots using sign changes."""
     signs = np.sign(x)
-    roots = np.where(signs + np.roll(signs, -1) == 0)[0]
-    return roots
+    # root_mask = (signs + np.roll(signs, -1)) == 0
+    # NOTE: Careful here, not sure if this introduces others bugs...
+    root_mask = np.append(np.diff(signs) != 0, False)
+    # Consider direction of sign changes.
+    if up == 1:  # Return positive change roots.
+        return np.where(root_mask & (signs < 0))[0]
+    elif up == -1:  # Return negative change roots.
+        return np.where(root_mask & (signs > 0))[0]
+    else:  # Return all roots.
+        return np.where(root_mask)[0]
 
 
-def spikes(x: np.ndarray) -> np.ndarray:
-    """Find spike indices using roots with positive slope."""
+def spike_times(sol: pd.Series) -> pd.Index:
+    """Find spike times of a voltage trace using upward zero crossings."""
+    ids = roots(sol.to_numpy(), up=1)
+    return sol.index[ids]
 
-    id1 = roots(x)
-    if len(id1) > 0:
-        grad1 = np.gradient(x)
-        return id1[grad1[id1]>0]
+
+# def events(x: np.ndarray, down: bool = True) -> np.ndarray:
+#     """Find indices of events where the slope of array changes its sign."""
+#     grad = np.gradient(x)
+#     signs = np.sign(grad)
+#     direction = signs > 0 if down else signs < 0
+#     sign_changes = np.where((signs + np.roll(signs, -1) == 0) & direction)[0]
+#     return sign_changes
+
+
+# def find_limit_cycle(
+#     sol: pd.DataFrame,
+#     thresh: float = 1e-3,
+#     norm: bool = True,
+# ) -> pd.DataFrame:
+#     """Try to find limit cycle in solution using a voltage section."""
+#     tks = spike_times(sol["v1"])
+#     # Case 1: No spiking - return fixed point.
+#     if tks.empty:
+#         return sol.iloc[-1]
+#     # Case 2: Spiking - return limit cycle.
+#     else:
+#         abs_errors = abs(sol.loc[tks]["v"] - sol.loc[tks[-1]]["v"])
+#         return_mask = np.array(abs_errors < thresh)
+#         # Do we have a return that meets the threshold criteria at all?
+#         if np.any(return_mask[:-1]):
+#             first_return_time = tks[abs_errors < thresh][-2]
+#             lc = sol.loc[(first_return_time <= sol.index) & (sol.index < tks[-1])]
+#             if norm:
+#                 t0 = lc.index[lc["v"].argmax()]
+#                 # Append remaining trajectory to end.
+#                 lc_before = lc.loc[lc.index < t0]
+#                 lc_after = lc.loc[lc.index >= t0]
+#                 lc_normed = pd.concat([lc_after, lc_before])
+#                 # Recompute index.
+#                 period = lc.index[-1] - lc.index[0]
+#                 time = np.linspace(0, period, len(lc))
+#                 return lc_normed.set_index(pd.Index(time, name=lc.index.name))
+#             else:
+#                 return lc
+#     # No limit cycle could be found, return empty dataframe.
+#     else:
+#         return pd.DataFrame(columns=sol.columns)
+#     if spike_times.empty:
+#         return sol.iloc[-1]
+
+
+def limit_cycle_index(
+    series: pd.Series, event_times: pd.Index, thresh: float = 1e-3
+) -> pd.Index:
+    """Return limit limit cycle indices in variable using events."""
+    # Compute errors in series to last event.
+    abs_errors = abs(series.loc[event_times] - series.loc[event_times[-1]])
+    return_mask = np.array(abs_errors < thresh)
+    # Do we have a return that meets the threshold criteria at all?
+    if np.any(return_mask[:-1]):
+        first_return_time = event_times[abs_errors < thresh][-2]
+        return series.index[
+            (first_return_time <= series.index)
+            & (series.index < event_times[-1])
+        ]
+    # No limit cycle could be found, return empty series.
     else:
-        return np.array([])
+        return pd.Index([], name=series.index.name)
 
 
-def events(x: np.ndarray, down: bool = True) -> np.ndarray:
-    """Find indices of events where the slope of array changes its sign."""
-    grad = np.gradient(x)
-    signs = np.sign(grad)
-    direction = signs > 0 if down else signs < 0
-    sign_changes = np.where((signs + np.roll(signs, -1) == 0) & direction)[0]
-    return sign_changes
+def find_depression_limit_cycle(
+    sol: pd.DataFrame,
+    thresh: float = 1e-3,
+    norm: bool = True,
+) -> pd.DataFrame:
+    """Try to fine limit cycle in 2-cell solution. Return empty dataframe on fail."""
 
-
-def find_lc(x: np.ndarray, thresh: float = 1e-3) -> Optional[Tuple[int, int]]:
-    """Return start and end index of limit cycle solution."""
-    idxs = events(x)
-
-    def first_return(idxs, thresh=thresh):
-        """Compute indices of limit cycle via first periodic return."""
-
-        # Go backwards because of transients.
-        back_cross = idxs[::-1]
-        # Find crossing where norm function is small enough.
-        for _, idx in enumerate(back_cross[1:]):
-            err = abs(x[idx] - x[idxs[-1]])
-            if err < thresh:
-                return idx
-        # No section return found.
-        return None
-
-    start = first_return(idxs, thresh=thresh)
-    end = idxs[-1]
-    if start is not None:
-        return (start, end)
+    tks = spike_times(sol["v1"])
+    # Compute errors in d1 to last spike
+    abs_errors = abs(sol.loc[tks]["d1"] - sol.loc[tks[-1]]["d1"])
+    return_mask = np.array(abs_errors < thresh)
+    # Do we have a return that meets the threshold criteria at all?
+    if np.any(return_mask[:-1]):
+        first_return_time = tks[abs_errors < thresh][-2]
+        lc = sol.loc[(first_return_time <= sol.index) & (sol.index < tks[-1])]
+        # Normalise limit cycle s.t. d1 is maximum at t=0.
+        if norm:
+            t0 = lc.index[lc["d1"].argmax()]
+            # Append remaining trajectory to end.
+            lc_before = lc.loc[lc.index < t0]
+            lc_after = lc.loc[lc.index >= t0]
+            lc_normed = pd.concat([lc_after, lc_before])
+            # Recompute index.
+            period = lc.index[-1] - lc.index[0]
+            time = np.linspace(0, period, len(lc))
+            return lc_normed.set_index(pd.Index(time, name=lc.index.name))
+        else:
+            return lc
+    # No limit cycle could be found, return empty dataframe.
     else:
-        return None
+        return pd.DataFrame(columns=sol.columns)
 
 
-def shift_sol(sol, shift):
-    """Shift solution by some time."""
-    P = sol[-1, 0]
-    dt = sol[1, 0] - sol[0, 0]
-    roll_by = int(shift / float(dt))
-    shifted_sol = np.roll(sol, roll_by, axis=0)
-    # Recompute time.
-    shifted_sol[:, 0] = np.linspace(0.0, P, len(shifted_sol))
-    return shifted_sol
+def limit_cycle_info(lc: pd.DataFrame) -> Dict:
+    """Extract info from LC."""
+    period = lc.index[-1] - lc.index[0]
+    tks = spike_times(lc["v1"])
+    n = len(tks)
+    dmax = lc["d1"].max()
+    dmin = lc["d1"].min()
+    info = {"n": n, "period": period, "dmax": dmax, "dmin": dmin}
+    return info
 
 
-def cobwebplot(f, xn, ax=None, **plot_args):
-    """Plot a sequence as cobweb."""
-    if ax is None:
-        ax = plt.gca()
-    for x in xn:
-        ax.plot([x, f(x)], [f(x), f(x)], **plot_args)
-        ax.plot([f(x), f(x)], [f(x), f(f(x))], **plot_args)
-    return ax
-
-
-def iterate(f, x0, N):
-    """Iterate function with given initial condition for some steps."""
-    ns = range(N)
-    xs = np.zeros(N)
-    xs[0] = x0
-    for idx, x in enumerate(xs[:-1]):
-        xprev = xs[idx]
-        xs[idx + 1] = f(xprev)
-    return xs
+def sigmoid(x: float, A, B) -> float:
+    """Sigmoid function."""
+    return 0.5 * (1 + np.tanh((x - A) / B))
 
 
 # https://stackoverflow.com/a/27637925/9904918

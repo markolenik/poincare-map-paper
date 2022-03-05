@@ -1,7 +1,8 @@
 # The Morris-Lecar equations for two coupled cells.
 
 # DEFAULT PARAMETERS
-par G=0.6
+par GTOT=0.
+par G=0.5
 par GL=.15
 par GCA=0.3
 par GK=0.6
@@ -12,17 +13,20 @@ par VA=1
 par VB=14.5
 par VC=4.
 par VD=15.0
-par TAUW=100
-par TAUA=1000
-par TAUB=100
-par TAUK=100
-par TAUY=0.0001
 par VTHETA=0
-par VINB=-80
-par GTOT=0.
-par GSTAR=0.03804
+par VS=-80
 par IAPP=3.8
-par PERIOD=376
+
+par TAUW=100
+# d recovery time constant
+par TAUA=1000
+# d decay time constant
+par TAUB=100
+# s recovery time constant
+par TAUY=0.0001
+# s decay time constant
+par TAUK=100
+
 
 # Define some functions.
 minf(v)=.5*(1+tanh((v-VA)/VB))
@@ -33,8 +37,8 @@ winf(v)= .5*(1+tanh((v-VC)/VD))
 # in order to be able to compute nullclines from the same file.
 # gtot should be set to zero for full network simulations.
 
-dv1/dt= -GL*(v1-VL)-GK*w1*(v1-VK)-GCA*minf(v1)*(v1-VCA)-G*s2*(v1-VINB)+IAPP-GTOT*(v1-vinb)
-dv2/dt= -GL*(v2-VL)-GK*w2*(v2-VK)-GCA*minf(v2)*(v2-VCA)-G*s1*(v2-VINB)+IAPP-GTOT*(v2-vinb)
+dv1/dt= -GL*(v1-VL)-GK*w1*(v1-VK)-GCA*minf(v1)*(v1-VCA)-G*s2*(v1-VS)+IAPP-GTOT*(v1-VS)
+dv2/dt= -GL*(v2-VL)-GK*w2*(v2-VK)-GCA*minf(v2)*(v2-VCA)-G*s1*(v2-VS)+IAPP-GTOT*(v2-VS)
 
 dw1/dt= (winf(v1)-w1)/TAUW
 dw2/dt= (winf(v2)-w2)/TAUW
