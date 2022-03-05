@@ -1,8 +1,4 @@
-\documentclass[../manuscript.tex]{subfiles}
-\graphicspath{{../figures/}}
-
-
-\begin{document}
+\section{Introduction}
 % DEPRESSION
 Short-term synaptic plasticity may have a role in burst activity in central pattern
 generators (CPGs).  Short-term synaptic depression is commonly found in neuronal networks
@@ -34,27 +30,27 @@ proposed as an explaination of the antiphase burst rhythm in struggling in
 of two identical, tonically active Morris-Lecar~\citep{morris1981} neurons coupled through
 inhibitory depressing synapses.  Numerical simulations showed that when the reciprocal
 synaptic conductance between the two neurons is varied, the network produces symmetric
-$n-n$ anti-phase bursts, with stronger synaptic coupling leading to longer bursts.  They
+\(n-n\) anti-phase bursts, with stronger synaptic coupling leading to longer bursts.  They
 used methods from geometric singular perturbation theory to separate the timescales of the
 fast membrane, and the slow synaptic dynamics of the network to derive one-dimensional
-conditions necessary for the existence of stable $n-n$ solutions (for $n\leq 2$).
+conditions necessary for the existence of stable \(n-n\) solutions (for \(n\leq 2\)).
 According to these conditions the type of firing pattern largely depends on the slow
 depression dynamics of the synapses between the two neurons, and can therefore be
 predicted by knowing the strengths of the synaptic conductances of the two synapses.
 Thus, the scalar conditions derived in~\citet{bose2011} provide a method to numerically
-identify the type of stable $n-n$ pattern for any given value of the coupling strength.
+identify the type of stable \(n-n\) pattern for any given value of the coupling strength.
 However, they do not predict the exact period of such solutions.  Furthermore, while they
 provide good arguments for the validity of their reduction assumptions and the resulting
 scalar conditions, they do not verify them numerically.
 
 Here we extend the previous analysis by providing a Poincaré map of the slow depression
-dynamics.  This allows us not only to predict the types of stable $n-n$ solutions the full
-network can produce, (for any $n$), but also to study how varying the coupling strength
+dynamics.  This allows us not only to predict the types of stable \(n-n\) solutions the full
+network can produce, (for any \(n\)), but also to study how varying the coupling strength
 affects the period of such solutions.  To do this, we build on, and numerically test, the
 assumptions on the fast-slow timescale disparity made in~\cite{bose2011}.  We reduce the
 two-cell model to a scalar Poincaré map that tracks the evolution of the depression from
 the beginning of one burst to the beginning of the next burst.  Stable fixed points of our
-map are associated with stable $n-n$ burst solutions.  Our map construction is motivated
+map are associated with stable \(n-n\) burst solutions.  Our map construction is motivated
 by the burst length map of a T-type calcium current, utilised by~\citet{matveev2007},
 which approximates the anti-phase bursting dynamics of a network of two coupled
 Morris-Lecar neurons.  In contrast to our model, the network described in
@@ -64,12 +60,12 @@ termination is instead accomplished through the dynamics of a slow T-type calciu
 % MAIN RESULTS AND CONCLUSIONS
 The Poincaré map derived here replicates the results from numerical simulations of the
 full two-cell ODE system: Given the strength of maximum conductance between the two
-neurons, fixed points of our map predict the type and period of $n-n$ patterns, the switch
+neurons, fixed points of our map predict the type and period of \(n-n\) patterns, the switch
 between burst solutions of different periods, as well as the occurrence of co-existent
 solutions.  In addition to proving the existence and stability of fixed points, our map
 shows that fixed points are created via a fold bifurcation of maps.  We also derive
 algebraic conditions that predict the period increment bifurcations that allow the switch
-between $n-n$ and $(n+1)-(n+1)$ solutions.  Because our map is fully explicit, it lays the
+between \(n-n\) and \((n+1)-(n+1)\) solutions.  Because our map is fully explicit, it lays the
 framework for studying the effects of other model parameter on network dynamics without
 the need to run expensive numerical integrations of the ODEs.
 
@@ -80,6 +76,4 @@ of the network to provide an intuition for the range of possible burst dynamics 
 can produce.  Next, we state and justify the simplifying assumptions that are necessary
 for the map construction.  Finally, we analytically derive the first return map of the
 depression variable as well as the conditions that are required for stable solutions to
-bifurcate between $n-n$ and $(n+1)-(n+1)$ solutions.  We end this work with a discussion.
-
-\end{document}
+bifurcate between \(n-n\) and \((n+1)-(n+1)\) solutions.  We end this work with a discussion.
