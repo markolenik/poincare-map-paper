@@ -10,5 +10,9 @@ figures.mkdir(exist_ok=True)
 odes.mkdir(exist_ok=True)
 
 # Data files
-numeric_bif_diagram = data / "numeric-bif-diagram.parquet"
-analytic_bif_diagram = data / "analytic-bif-diagram.parquet"
+numeric_bif_diagram = data / "numeric-bif-diagram.pkl"
+analytic_bif_diagram = data / "analytic-bif-diagram.pkl"
+
+# ODE files
+ml_file = odes / "ml.ode"
+mlml_file = odes / "mlml.ode"

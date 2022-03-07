@@ -11,7 +11,16 @@ __pycache__/*
 
 # TeX
 *.auctex-auto/
+*.aux
+*.synctex.gz
+*.tex.bak
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.log
+*.out
 
 # Other
 tmp/*
-.vscode
+.DS_Store

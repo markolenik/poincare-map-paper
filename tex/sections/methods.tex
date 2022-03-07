@@ -1,54 +1,62 @@
 \section{Materials and Methods}
-We consider a pair of identical Morris-Lecar neurons \citep{morris1981}, with parameters adapted from \cite{bose2011}.  The Morris-Lecar model is a set of two first-order differential equations that describe the membrane dynamics of a spiking neuron.  The depolarisation is modelled by an instantaneous calcium current, and the hyperpolarisation by a slow potassium current and a leak current.  The membrane potential \(v_{i}\) and potassium activation \(w_{i}\) of neuron \(i\) (\(i, j=1,2\)) is described by: \begin{align}
+We consider a pair of identical Morris-Lecar neurons \citep{morris1981}, with parameters adapted from \cite{bose2011}.
+The Morris-Lecar model is a set of two first-order differential equations that describe the membrane dynamics of a spiking neuron.
+The depolarisation is modelled by an instantaneous calcium current, and the hyperpolarisation by a slow potassium current and a leak current.
+The membrane potential $v_{i}$ and potassium activation $w_{i}$ of neuron $i$ ($i, j=1,2$) is described by: \begin{align}
 	\label{eq:cell-modelA}
 	\dot v_{i} & = f(v_{i}, w_{i}) -\gbar s_j(v_i-v_{s}), \\
 	\label{eq:cell-modelB}
 	\dot w_{i} & =h(v_i,w_i).
 \end{align}
-Here \(v_{s}\) is the inhibitory reversal potential, and \(\gbar\) and \(s_{j}\) are the
-maximal synaptic conductance and the synaptic gating, respectively, constituting the total
-inhibitory conductance \(\gbar s_{j}\) from neuron \(j\) to neuron \(i\).  Function
-\(f(v_{i}, w_{i})\) describes the membrane currents of a single cell:
+Here $v_{s}$ is the inhibitory reversal potential, and $\gbar$ and $s_{j}$ are the maximal synaptic conductance and the synaptic gating, respectively, constituting the total inhibitory conductance $\gbar s_{j}$ from neuron $j$ to neuron $i$.
+Function $f(v_{i}, w_{i})$ describes the membrane currents of a single cell:
 \begin{equation}
 	\label{eq:memcur}
 	f(v_{i}, w_{i}) = -g_{\ca}m_{\infty}(v_{i})(v_{i}-v_{\ca}) - g_{\k}w_{i}(v_{i}-v_{\k})
 	-g_{\leak}(v_{i}-v_{\leak}) + I.
 \end{equation}
-The currents include a constant current \(I\), and three ionic currents: an instantaneous
-calcium current, a potassium current, and a leak current, with respective reversal
-potentials \(v_{\ca}\), \(v_{\k}\), and \(v_{\leak}\), as well as maximum conductances
-\(g_{\ca}\), \(g_{\k}\), and \(g_{\leak}\).  The function \(h(v_{i}, w_{i})\) models the
-kinetics of the potassium gating variable \(w_{i}\), and is given by
+The currents include a constant current $I$, and three ionic currents: an instantaneous calcium current, a potassium current, and a leak current, with respective reversal
+potentials $v_{\ca}$, $v_{\k}$, and $v_{\leak}$, as well as maximum conductances
+$g_{\ca}$, $g_{\k}$, and $g_{\leak}$.  The function $h(v_{i}, w_{i})$ models the
+kinetics of the potassium gating variable $w_{i}$, and is given by
 \begin{equation}
 	h(v_{i}, w_{i})=\frac{w_{\infty}(v_{i})-w_{i}}{\tau_{w}}~\label{eq:h}.
 \end{equation}
-The steady-state activation functions \(m_{\infty}\) and \(w_{\infty}\) as well as the default
-model parameters are described in the \textbf{Supplementary Material S1}.
+The steady-state activation functions $m_{\infty}$ and $w_{\infty}$ as well as the default model parameters are described in the \textbf{Supplementary Material S1}.
 
-The dynamics of the synaptic interactions between the neurons are governed by a synaptic
-gating variable \(s_{i}\) and a depression variable \(d_{i}\):
+The dynamics of the synaptic interactions between the neurons are governed by a synaptic gating variable $s_{i}$ and a depression variable $d_{i}$:
 \begin{numcases}{\dot d_{i} = }
-	(1-d_{i})/\tau_{a} & \text{ if }v_{i}<v_{\theta},\label{eq:dot-d-up}
+	(1-d_{i})/\tau_{a} &  if $v_{i}<v_{\theta}$,\label{eq:dot-d-up}
 	\\
-	-d_{i}/\tau_{b}    & \text{ if }v_{i}>v_{\theta},\label{eq:dot-d-down}
+	-d_{i}/\tau_{b}    &  if $v_{i}>v_{\theta}$,\label{eq:dot-d-down}
 \end{numcases}
 
 \begin{numcases}{\dot s_{i} = }
-	-s_{i} / \tau_\kappa & \text{ if }v_{i}<v_{\theta},\label{eq:dot-s-down}
+	-s_{i} / \tau_{\kappa} & if $v_{i}<v_{\theta}$,\label{eq:dot-s-down}
 	\\
-	0                & \text{ if }v_{i}>v_{\theta.}\label{eq:dot-s-up}
+	0                & if $v_{i}>v_{\theta}$.\label{eq:dot-s-up}
 \end{numcases}
 
-% TODO: Needs EDITING
-Variable \(d_{i}\) describes a firing rate dependent depletion mechanism that governs the amount of depression acting on the synapse. The model is agnostic with respect to the exact mechanism of this depletion, be it pre- or post-synaptic. When the voltage of cell \(i\) is above firing threshold (\(v_i>v_\theta\)), variable \(d_i\) decays with time constant \(\tau_b\), and recovers with time constant \(\tau_a\) when voltage is below firing threshold (\(v_i < v_\theta\)). Since the synaptic inhibition occurs on a much faster timescale than synaptic depression, we assume that \(s_i\) is instantaneously reset to \(d_i\) whenever \(v_i\) increases above \(v_\theta\), where it remains throughout \(v_i > v_\theta\). Whenever \(v_i < v_\theta\), the synaptic variable decays exponentially with time constant \(\tau_\kappa\). The equations for the depression model were adapted from the \citet{bose2001} model. These equations are a mathematically tractable simplification of the established phenomenological depression model previously described by \citet{tsodyks1997}.
+% TOD: Needs EDITING
+Variable $d_{i}$ describes a firing rate dependent depletion mechanism that governs the amount of depression acting on the synapse.
+The model is agnostic with respect to the exact mechanism of this depletion, be it pre- or post-synaptic.
+When the voltage of cell $i$ is above firing threshold ($v_i>v_\theta$), variable $d_i$ decays with time constant $\tau_b$, and recovers with time constant $\tau_a$ when voltage is below firing threshold ($v_i < v_\theta$).
+Since the synaptic inhibition occurs on a much faster timescale than synaptic depression, we assume that $s_i$ is instantaneously reset to $d_i$ whenever $v_i$ increases above $v_\theta$, where it remains throughout $v_i > v_\theta$.
+Whenever $v_i < v_\theta$, the synaptic variable decays exponentially with time constant $\tau_\kappa$.
+The equations for the depression model were adapted from the \citet{bose2001} model.
+These equations are a mathematically tractable simplification of the established phenomenological depression model previously described by \citet{tsodyks1997}.
 
-When the cells are uncoupled (\(\gbar=0\)), the membrane dynamics are determined by the cubic \(v\)-nullcline \(v_{\infty}(v_i)\) and the sigmoid \(w\)-nullcline \(w_{\infty}(v_{i})\), satisfying \(\dot v_{i}=0\) and \(\dot w_{i}=0\), respectively.
-The two curves intersect along the middle branch of \(v_{\infty}\), creating an unstable fixed point with a surrounding stable limit cycle of period \(T=T_{act}+T_{inact}\) (\cref{fig:nullclines}A).
-Here \(T_{act}\) is the amount of time the cell spends in the active state when \(v>v_\theta\), while \(T_{inact}\) is the time it spends in the silent state when \(v<v_\theta\).
+When the total inhibitory conductance $g = \bar g s$ is constant, the membrane dynamics are determined by the cubic $v$-nullcline $v_{\infty}(v_i)$ and the sigmoid $w$-nullcline $w_{\infty}(v_{i})$, satisfying $\dot v_{i}=0$ and $\dot w_{i}=0$, respectively.
+In case of no inhibition ($g=0$), the two curves intersect near the local minimum of $v_{\infty}$ to the left of $v_{\theta}$ (commonly referred to as ``left knee'' of $v_{\infty}$), creating an unstable fixed point with a surrounding stable limit cycle of period $T=T_{act}+T_{inact}$ (\cref{fig:nullclines}A).
+Here $T_{act}$ is the amount of time the cell spends in the active state when $v>v_\theta$, while $T_{inact}$ is the time it spends in the silent state when $v<v_\theta$.
 Trajectories along that limit cycle have the familiar shape of the action potential (\cref{fig:nullclines}B).
 The trajectory of an action potential can be dissected into four phases: (1) a silent phase, (2) a jump up, (3) an active phase, and (4) a jump down~\citep[see e.g.][]{ermentrout2010}.
-During the silent phase the trajectory evolves along the left branch (\(v_{i}<v_{\theta}\)) of the cubic \(v\)-nullcline.
-Once the trajectory reaches the local minimum of \(v_{\infty}\), it ``jumps up'' to the right branch (\(v_{i}>v_{\theta}\)), crossing the firing threshold \(v_{\theta}\).
+During the silent phase the trajectory evolves along the left branch ($v_{i}<v_{\theta}$) of the cubic $v$-nullcline.
+Once the trajectory reaches the local minimum of $v_{\infty}$, it ``jumps up'' to the right branch ($v_{i}>v_{\theta}$), crossing the firing threshold $v_{\theta}$.
 During the active phase the trajectory then evolves along the right branch of the cubic until it arrives at the local maximum, where it ``jumps down'' to the left branch commencing a new cycle.
+In the case of a non-zero inhibition ($g>0$) the location of $v_{\infty}$ depends on the exact value of $g$.
+Increasing $g$ moves the cubic $v_{\infty}$ with the ensuing unstable fixed point down $w_{\infty}$ in the $(v-w)$ -plane.
+When $g$ is large enough, the fixed point moves past the left knee and becomes stable via a subcritical Andoronov-Hopf bifurcation, attracting all previously periodic trajectories.
+In the following section we will refer to the value of the total conductance at the bifurcation as $g_{HB}$.
 
-The two-cell network model is numerically integrated using an adaptive step-size integrator for stiff differential equations implemented with XPPAUT~\citep{ermentrout2002} and controlled through the Python packages SciPy~\citep{scipy2020} and PyXPP~\citep{pyxpp}. The following mathematical analysis is performed on the equations of a single cell. Unless required for clarity, we will therefore omit the subscripts \(i,j\) from here on.
+The two-cell network model is numerically integrated using an adaptive step-size integrator for stiff differential equations implemented with XPPAUT~\citep{ermentrout2002} and controlled through the Python packages SciPy~\citep{scipy2020} and PyXPP~\citep{pyxpp}. The following mathematical analysis is performed on the equations of a single cell. Unless required for clarity, we will therefore omit the subscripts $i,j$ from here on.

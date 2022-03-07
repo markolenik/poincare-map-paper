@@ -1,13 +1,11 @@
 from __future__ import annotations
-from logging import debug
 
-import pandas as pd
-import numpy as np
-from numpy.typing import ArrayLike
-from typing import Dict, List, Optional, Tuple
-from matplotlib import pyplot as plt
+from typing import Dict
+
 import matplotlib.lines as mlines
 import matplotlib.patches as mpatches
+import numpy as np
+import pandas as pd
 
 
 def roots(x: np.ndarray, up: int = 0) -> np.ndarray:
@@ -138,6 +136,13 @@ def limit_cycle_info(lc: pd.DataFrame) -> Dict:
     dmin = lc["d1"].min()
     info = {"n": n, "period": period, "dmax": dmax, "dmin": dmin}
     return info
+
+
+def calc_delta_t(lc: pd.DataFrame, Tact: float = 49) -> float:
+    """Calculate numerical Delta-t from limit cycle solution."""
+    spikes1 = spike_times(lc["v1"])
+    spikes2 = spike_times(lc["v2"])
+    return spikes2[0] - (spikes1[-1] + Tact)
 
 
 def sigmoid(x: float, A, B) -> float:

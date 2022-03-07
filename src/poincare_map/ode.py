@@ -2,9 +2,10 @@
 from __future__ import annotations
 
 import multiprocessing
+import typing as tp
 from abc import ABC, abstractmethod
 from functools import partial
-import typing as tp
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -25,9 +26,9 @@ class ODE(ABC):
     # Numerical options.
     numerics: tp.Dict[str, float]
 
-    def __init__(self, ode_file: str) -> None:
+    def __init__(self, ode_file: str | Path) -> None:
         """Initialise class from ode file."""
-        self.ode_file = ode_file
+        self.ode_file = str(ode_file)
         self.state_vars = list(xpp.read_vars(ode_file))
         self.pars = dict(xpp.read_pars(ode_file))
         self.ics = pd.DataFrame(
@@ -50,7 +51,9 @@ class ODE(ABC):
         index = pd.Index(data=sol[:, 0], name="time")
         return pd.DataFrame(sol[:, 1:], columns=self.state_vars, index=index)
 
-    def parallel_run(self, nrand: int = 5, **kwargs) -> tp.List[pd.DataFrame]:
+    def parallel_rand_run(
+        self, nrand: int = 5, **kwargs
+    ) -> tp.List[pd.DataFrame]:
         """Randomise ICs and integrate system multiple times."""
 
         with multiprocessing.get_context("fork").Pool() as pool:
@@ -186,7 +189,7 @@ class MLML(ODE):
             time = np.linspace(0, period, len(lc))
             return lc_normed.set_index(pd.Index(time, name=lc.index.name))
 
-        solutions = self.parallel_run(nrand=nrand, **kwargs)
+        solutions = self.parallel_rand_run(nrand=nrand, **kwargs)
         for sol in solutions:
             spikes = helpers.spike_times(sol["v1"])
             lc_index = helpers.limit_cycle_index(
@@ -232,8 +235,6 @@ class MLML(ODE):
 
         # Run continuation in some direction
         for _ in range(nsteps):
-            # Update ICs and parameter.
-            g = g + step
             # import pdb; pdb.set_trace()
             if gmin < g < gmax:
                 # Try finding a n-limit cycle
@@ -248,6 +249,7 @@ class MLML(ODE):
                                 **lc_info,
                                 **{
                                     "g": g,
+                                    "lc": lc
                                 },
                             }
                         )
@@ -260,6 +262,8 @@ class MLML(ODE):
                     return pd.DataFrame(results)
             else:
                 return pd.DataFrame(results)
+            # Update ICs and parameter.
+            g = g + step
         # Done with all steps.
         else:
             return pd.DataFrame(results)

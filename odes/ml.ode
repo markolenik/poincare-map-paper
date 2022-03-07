@@ -33,7 +33,7 @@ init gtot=0.0
 
 
 # INTEGRATION
-@ TOTAL=436,DT=1
+@ TOTAL=2000,DT=1
 @ xlo=-64,xhi=75,ylo=-1,yhi=1.
 @ xplot=v,yplot=w
 @ MAXSTOR=40000000,BOUNDS=100000

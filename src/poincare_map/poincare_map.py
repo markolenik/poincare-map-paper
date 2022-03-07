@@ -19,9 +19,9 @@ from scipy import optimize
 class PoincareMap(NamedTuple):
     """Model for map computation."""
 
-    n: int
+    n: int = 2
 
-    # These parameters should be read from ODE file.
+    # These parameters should match the ODE file.
     tauk: float = 100
     taua: float = 1000
     taub: float = 100
