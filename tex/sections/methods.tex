@@ -57,6 +57,10 @@ During the active phase the trajectory then evolves along the right branch of th
 In the case of a non-zero inhibition ($g>0$) the location of $v_{\infty}$ depends on the exact value of $g$.
 Increasing $g$ moves the cubic $v_{\infty}$ with the ensuing unstable fixed point down $w_{\infty}$ in the $(v-w)$ -plane.
 When $g$ is large enough, the fixed point moves past the left knee and becomes stable via a subcritical Andoronov-Hopf bifurcation, attracting all previously periodic trajectories.
-In the following section we will refer to the value of the total conductance at the bifurcation as $g_{HB}$.
+In the following section we will refer to the value of the total conductance at the bifurcation as $g_{bif}$.
 
-The two-cell network model is numerically integrated using an adaptive step-size integrator for stiff differential equations implemented with XPPAUT~\citep{ermentrout2002} and controlled through the Python packages SciPy~\citep{scipy2020} and PyXPP~\citep{pyxpp}. The following mathematical analysis is performed on the equations of a single cell. Unless required for clarity, we will therefore omit the subscripts $i,j$ from here on.
+The two-cell network model is numerically integrated using an adaptive step-size integrator for stiff differential equations implemented with XPPAUT~\citep{ermentrout2002} and controlled through the Python packages SciPy~\citep{scipy2020} and PyXPP~\citep{pyxpp}.
+The following mathematical analysis is performed on the equations of a single cell.
+Unless required for clarity, we will therefore omit the subscripts $i,j$ from here on.
+% TODO: Edit this later
+It should be noted that \citep{bose2011} used $n-n$ to denote the stable bursts with $n$ spikes, however, here we use the $n:n$ notation for more clarity.

@@ -75,11 +75,11 @@ $^{2}$School of Computer Science, Electrical and Electronic Engineering, and Eng
   Short-term synaptic plasticity is found in many areas of the central nervous system.
   In the inhibitory half-centre central pattern generators involved in locomotion, synaptic depression is believed to act as a burst termination mechanism, allowing networks to generate anti-phase bursting patterns of varying periods.
   To better understand burst generation in these central patter generators, we study a minimal network of two neurons coupled through depressing synapses.
-  Depending on the strength of the synaptic conductance between the two neurons, this network can produce symmetric $n-n$ anti-phase bursts, where neurons fire $n$ spikes in alternation, with the period of such solutions increasing with the strength of the synaptic conductance.
+  Depending on the strength of the synaptic conductance between the two neurons, this network can produce symmetric $n:n$ anti-phase bursts, where neurons fire $n$ spikes in alternation, with the period of such solutions increasing with the strength of the synaptic conductance.
   Relying on the timescale disparity in the model, we reduce the eight-dimensional network equations to a fully-explicit scalar Poincaré burst map.
   This map tracks the state of synaptic depression from one burst to the next and captures the complex bursting dynamics of the network.
   Fixed points of this map are associated with stable burst solutions of the full network model, and are created through fold bifurcations of maps.
-  We derive conditions that describe period-increment bifurcations between stable $n-n$ and $(n+1)-(n+1)$ bursts, producing a full bifurcation diagram of the burst cycle period.
+  We derive conditions that describe period-increment bifurcations between stable $n:n$ and $(n+1):(n+1)$ bursts, producing a full bifurcation diagram of the burst cycle period.
   Predictions of the Poincaré map fit excellently with numerical simulations of the full network model and allow the study of parameter sensitivity for rhythm generation.
 
 
@@ -149,11 +149,11 @@ The datasets generated for this study are available on request to the correspond
 \begin{figure}[h!]
   \centering
   \includegraphics{fig/bif-diagram.pdf}
-  \caption{Numerically computed bifurcation diagrams of stable $n-n$ solutions for
+  \caption{Numerically computed bifurcation diagrams of stable $n:n$ solutions for
     increasing coupling strength $\gbar$. $\bm{\mathrm{(A)}}$ Period of stable
     solutions. Dashed lines show the interval between the $5-5$ and the suppressed
-    solutions, where higher period $n-n$ solutions occur on increasingly smaller intervals
-    of $\gbar$. $\bm{\mathrm{(B)}}$ $ISI$s corresponding to $n-n$ solutions in
+    solutions, where higher period $n:n$ solutions occur on increasingly smaller intervals
+    of $\gbar$. $\bm{\mathrm{(B)}}$ $ISI$s corresponding to $n:n$ solutions in
     $\mathrm{(A)}$. Long $ISI$s are associated with the quiet phase of a burst, short
     $ISI$s with the free phase. During the free phase, $ISI$s are of approximately
     constant duration $T$.\label{fig:bif-diagram}}
@@ -183,7 +183,7 @@ The datasets generated for this study are available on request to the correspond
     a long release delay associated with a subset of $2-2$ solutions. Here the release
     condition is briefly satisfied after the first spike of cell 1. This does not cause
     firing of cell 2, which only occurs after the second spike of cell 1.
-    $\bm{\mathrm{(C)}}$ Branch with $n-n$ solutions  where release delay is
+    $\bm{\mathrm{(C)}}$ Branch with $n:n$ solutions  where release delay is
     approximately zero and the release condition is sufficient for firing of cell 2.
     ~\label{fig:release-delay}}
 \end{figure}
@@ -203,7 +203,7 @@ The datasets generated for this study are available on request to the correspond
   \centering
   \includegraphics{fig/delta-t.pdf}
   \caption{Numerically computed bifurcation diagram of $\delt$ for varying $\gbar$.
-    Each continuous branch is associated with a stable $n-n$ burst solution. Increasing
+    Each continuous branch is associated with a stable $n:n$ burst solution. Increasing
     $\gbar$ increases $\Delta t$ until the solutions bifurcate at $\Delta t\approx
     T$.~\label{fig:delta-t}}
 \end{figure}
@@ -238,7 +238,7 @@ The datasets generated for this study are available on request to the correspond
 \begin{figure}[h!]
   \centering
   \includegraphics[width=0.8\textwidth]{fig/final-bif.pdf}
-  \caption{Bifurcation diagrams of stable $n-n$ solutions computed analytically from
+  \caption{Bifurcation diagrams of stable $n:n$ solutions computed analytically from
     fixed points of $\Pi_n$ and plotted on the respective intervals of $\gbar\in
     \big[\gbar_+(n),\gbar_-(n)\big]$ (blue), and computed from numerical integrations of
     the ODEs (orange).~\label{fig:final-bif}}

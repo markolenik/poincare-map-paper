@@ -1,12 +1,12 @@
 \section{Results}
 \subsection{Anti-phase burst solutions}
-Short-term synaptic depression of inhibition in a half-centre oscillator acts as a \emph{burst termination} mechanism \citep{brown1911} and is known to produce $n-n$ anti-phase burst solutions of varying period.
-Such $n-n$ solutions consist of cells firing bursts of $n$ spikes in alternation.
-\Cref{fig:depression-traces}A shows the timecourse of a typical $4-4$ burst.
+Short-term synaptic depression of inhibition in a half-centre oscillator acts as a \emph{burst termination} mechanism \citep{brown1911} and is known to produce $n:n$ anti-phase burst solutions of varying period.
+Such $n:n$ solutions consist of cells firing bursts of $n$ spikes in alternation.
+\Cref{fig:depression-traces}A shows the timecourse of a typical $4:4$ burst.
 While one cell is firing a burst it provides an inhibitory conductance to the other cell,  preventing it from firing.
 % FIXME: This isn't consistent with Bose, that needs to be mentioned
 Therefore, at any given moment one cell is spiking while the other is inhibited. Consistent with \citet{bose2011} we will refer to the currently firing cell as ``\free{}'' and we will call the inhibited cell ``\suppressed{}''.
-Additionally, we will distinguish between two phases of a $n-n$ solution:
+Additionally, we will distinguish between two phases of a $n:n$ solution:
 We will refer to the time interval when a cell is firing as the ``\free{} phase'', and we will call the remaining duration of a cycle, when a cell is not firing, the ``\suppressed{}  phase''.
 
 % TODO: Add mention of gstar. Once critical conductance is crossed, cell is released.
@@ -14,21 +14,21 @@ With each action potential of the \free{} cell, short-term depression leads to a
 If $d$ depresses faster at spike time than it can recover in the inter-spike-intervals ($ISI$s), the total synaptic conductance $\bar g s$ will eventually become sufficiently small to allow for the \suppressed{} cell to be released and start firing, thus inhibiting the previously \free{} cell.
 While a cell is \suppressed{} its depression variable can recover.
 Once the \suppressed{} cell becomes \free{} again its synaptic inhibition will be sufficient to terminate the burst of the previously \free{} cell and commence a new cycle.
-% BUG: This is not 100% true, gbar AND the initial conditions uniquely determine the type of n-n pattern.
-As previously demonstrated by~\citet{bose2011}, in a two-cell reciprocally inhibitory network with synaptic depression the coupling strength $\bar g$ determines the type of $n-n$ solution.
-Increasing $\bar g$ produces higher $n-n$ burst solutions with more spikes per burst and a longer cycle period.
-\Cref{fig:burst-sols} shows numerically stable $n-n$ solutions for varying values of $\bar g$.
-For small values of $\bar g$ the network produces anti-phase spiking $1-1$ solutions.
-As $\bar g$ is increased the network generates solutions of increasing $n$, that is $2-2$, $3-3$, and $4-4$.
+% BUG: This is not 100% true, gbar AND the initial conditions uniquely determine the type of n:n pattern.
+As previously demonstrated by~\citet{bose2011}, in a two-cell reciprocally inhibitory network with synaptic depression the coupling strength $\bar g$ determines the type of $n:n$ solution.
+Increasing $\bar g$ produces higher $n:n$ burst solutions with more spikes per burst and a longer cycle period.
+\Cref{fig:burst-sols} shows numerically stable $n:n$ solutions for varying values of $\bar g$.
+For small values of $\bar g$ the network produces anti-phase spiking $1:1$ solutions.
+As $\bar g$ is increased the network generates solutions of increasing $n$, that is $2:2$, $3:3$, and $4:4$.
 When $\bar g$ is sufficiently large (bottom of \cref{fig:burst-sols}), one of the cells continuously spikes at its uncoupled period $T$ while the other cell remains fully suppressed.
 Depending on the initial conditions either of the two cells can become the suppressed cell, which is why the suppressed solution is numerically bistable.
 
-Branches of numerically stable $n-n$ solutions and their associated limit cycle period for varying values of $\bar g$ are depicted in \cref{fig:bif-diagram}A (see \textbf{Supplementary Material S2} for algorithm description).
-Not only do higher $n-n$ solutions branches require stronger coupling $\bar g$, but also within $n-n$ branches the period increases with $\bar g$.
-In line with~\citet{bose2011} we find small overlaps between solution branches indicating numerical bistability, for example such as between the $2-2$ and $3-3$ solution branches.
-Branches of higher $n-n$ burst solutions occur on increasingly smaller intervals of $\bar g$, for instance is the $\bar g$ interval of the $5-5$ branch shorter than that of the $4-4$ branch and so on.
-The interval between the $5-5$ branch and the suppressed solution (region between dotted lines in \cref{fig:bif-diagram}A) not only contains even higher numerically stable $n-n$ solutions, such as $11-11$ bursts, but also other non-symmetric $n-m$ solutions as well irregular, non-periodic solutions.
-However, the analysis in the following sections will only be concerned with the numerically stable and symmetric $n-n$ solutions.
+Branches of numerically stable $n:n$ solutions and their associated limit cycle period for varying values of $\bar g$ are depicted in \cref{fig:bif-diagram}A (see \textbf{Supplementary Material S2} for algorithm description).
+Not only do higher $n:n$ solutions branches require stronger coupling $\bar g$, but also within $n:n$ branches the period increases with $\bar g$.
+In line with~\citet{bose2011} we find small overlaps between solution branches indicating numerical bistability, for example such as between the $2:2$ and $3:3$ solution branches.
+Branches of higher $n:n$ burst solutions occur on increasingly smaller intervals of $\bar g$, for instance is the $\bar g$ interval of the $5:5$ branch shorter than that of the $4:4$ branch and so on.
+The interval between the $5:5$ branch and the suppressed solution (region between dotted lines in \cref{fig:bif-diagram}A) not only contains even higher numerically stable $n:n$ solutions, such as $11:11$ bursts, but also other non-symmetric $n:m$ solutions as well irregular, non-periodic solutions.
+However, the analysis in the following sections will only be concerned with the numerically stable and symmetric $n:n$ solutions.
 
 \subsection{Mathematical analysis of two-cell network}
 \label{sec:assumptions}
@@ -43,7 +43,7 @@ The second assumption states that once the inhibitory conductance acting on the 
 The second assumption is necessary to predict the release time of the \suppressed{} cell, which allows us to model the recovery of $d$ during the \suppressed{} phase.
 In other words, the second assumption requires that the release of the \suppressed{} cell from inhibition depends only on the timecourse of the inhibition, and not on the membrane dynamics of the \suppressed{} cell.
 Both assumptions can be observed in coupled relaxation-oscillator types of neurons such as the Morris-Lecar model we use, and will be numerically verified below.
-Both assumptions were first explored in~\cite{bose2011} to derive algebraic conditions that guarantee the periodicity of the depression variable for different $n-n$ solutions.
+Both assumptions were first explored in~\cite{bose2011} to derive algebraic conditions that guarantee the periodicity of the depression variable for different $n:n$ solutions.
 However here we will use these assumptions to construct a Poincaré map of $d$, which will provide a geometric intuition for the dynamics of the full two-cell network and its dependence on model parameters.
 
 % Assumption 1: Free phase
@@ -52,7 +52,7 @@ Our first assumption about the model states that the \free{} cell fires at its u
 Solution profiles in \cref{fig:burst-sols} suggest that the $ISI$s are indeed approximately constant.
 We can further numerically confirm this observation by capturing the $ISI$s of the stable solutions from the bifurcation diagram in \cref{fig:bif-diagram}A.
 In addition to $ISI$s, \Cref{fig:bif-diagram}B also shows inter-\textit{burst} intervals ($IBI$s), which correspond to the time interval between the last spike of the burst and the full cycle period, and which lie in the \suppressed{} phase of the burst.
-$IBI$s lie on multiple branches, each branch associated with a stable $n-n$ solution, and are monotonically increasing with $\bar g$.
+$IBI$s lie on multiple branches, each branch associated with a stable $n:n$ solution, and are monotonically increasing with $\bar g$.
 In contrast, $ISI$s are calculated from the spikes within the \free{} phase and do not vary significantly with $\bar g$, but are approximately $ISI\approx T$, affirming our first assumption.
 Assuming $ISI=T$ allows us to ignore the non-linear membrane dynamics during the \free{} phase, and to construct the evolution of the synaptic variables iteratively from spike to spike.
 Assuming $ISI=T$ seems reasonable given that inhibition acting on the \suppressed{} cell decays exponentially to zero on a much shorter timescale than the duration of the $ISI$, and therefore, once the \suppressed{} cell is released its trajectory quickly approaches the spiking limit cycle.
@@ -62,11 +62,16 @@ Assuming $ISI=T$ seems reasonable given that inhibition acting on the \suppresse
 % I don't think we should introduce the g_min notation, instead call g* the minimum value.
 Our second assumption states that the suppressed cell is released and spikes as soon as the total inhibitory conductance $g = \bar g s$ acting on it drops below a constant threshold.
 We call this critical threshold value the ``release conductance'', denoted by $g^\star$, and define it as the value of $g$ at the time when the voltage of the suppressed cell first crosses the firing threshold $v_{\theta}$, that is when that cell is released and fires its first spike.
-Recall from figure ... that when a cell is suppressed its fixed point is stable and $g > g_{HB}$.
-A sufficient condition for the suppressed cell to be released is therefore $g > g_{HB}$ .
-However, depending on the topology of the stable manifold, the trajectory of the suppressed cell can escape the stable fixed point and allow the cell to produce a spike for $g < g_{HB}$.
-This spike will inhibit the previously firing cell and allow cell 2 to take over the role of the firing cell.
-Moreover, there exists a minimal conductance value $g_{min}$ and a condition $g_{tot} > g_{min}$ that is necessary for the trajectory to pass the fixed point and the cell to spike.
+Recall from figure ... that when a cell is suppressed its $v$- and $w$-nullclines intersect at a stable fixed point and $g > g_{bif}$.
+A sufficient condition for the suppressed cell to be released is therefore $g > g_{bif}$ .
+However, depending on the topology of the stable manifold, the trajectory of the suppressed cell can escape the stable fixed point and allow the cell to produce a spike for $g < g_{bif}$.
+This spike will inhibit the firing cell and allow the previously suppressed cell to start firing.
+Moreover, there exists a conductance value $g^{\star}$ and a condition $g > g^{\star}$ that is necessary for the suppressed cell to be release at all.
+In other words, only when $g > g^{\star}$ is satisfied can the network produce stable $n:n$ solutions, and produces the suppressed solution otherwise.
+The true value of the release conductance will depend on the type of $n:n$ solution and the coupling strength $\bar g$, and will lie in the interval $(g_{bif}, g^{\star})$.
+As we will show in the following section, it turns out that $g^{\star}$ is a good approximation
+
+trajectory to pass the fixed point and the cell to spike.
 We will derive the exact value of such a $g_{min}$ in the following section, and to simplify the derivation our map assume that $g_{min}$ is a good approximation for the release conductance, therefore setting $g^\star = g_{min}$ .
 This assumption allows us to predict that timing of the release of the suppressed cell, that is precisely when
 \begin{equation}
@@ -77,21 +82,21 @@ is satisfied.
 
 % NOTE: Perhaps mention the first assumption here as well.
 In summary: We assume that the release condition is sufficient to predict when the \suppressed{} cell is released.
-Due to the symmetry of $n-n$ solutions the release occurs at exactly half the period of the full cycle, that is at $P/2$.
-The release time therefore uniquely determines the type of $n-n$ solution.
+Due to the symmetry of $n:n$ solutions the release occurs at exactly half the period of the full cycle, that is at $P/2$.
+The release time therefore uniquely determines the type of $n:n$ solution.
 Furthermore, computation of the release time does not depend on the membrane nor the synaptic dynamics of the \suppressed{} cell.
 Instead, the solution of the synaptic variable $s$ of the \free{} cell is sufficient to predict when $g=g^{*}$ is satisfied.
 Finally, $s$ is solely determined by the evolution of the depression variable $d$ of the \free{} cell.
 Constructing a solution of $d$ during the \free{} phase of either cell will therefore uniquely determine the solution of the full eight-dimensional network.
 However, finding the solution $d$ requires us to know the initial value $d(0)$ at the start of a cycle at $t=0$.
-In the next section we will construct a scalar return map that tracks these initial values $d(0)$ from cycle to cycle of stable $n-n$ solutions.
+In the next section we will construct a scalar return map that tracks these initial values $d(0)$ from cycle to cycle of stable $n:n$ solutions.
 
 \subsection{Construction of the scalar Poincaré map}
 In this section we construct the scalar Poincaré map $\Pi_n:d^{\star}\mapsto d^{\star}$.
-Here the discrete variable $d^{\star}$ tracks the values of the continuous depression variable $d$ at the beginning of each $n-n$ burst.
+Here the discrete variable $d^{\star}$ tracks the values of the continuous depression variable $d$ at the beginning of each $n:n$ burst.
 The map $\Pi_n$ therefore describes the evolution of $d$, of either of the two cells, from the beginning of one cycle to the beginning of the next cycle.
 To simplify the map construction we will assume that a \free{} cell fires exactly $n$ times before it becomes \suppressed{}.
-We will construct $\Pi_n$ by evolving $d$ first during the \free{} phase and then during the \suppressed{} phase of the $n-n$ limit cycle.
+We will construct $\Pi_n$ by evolving $d$ first during the \free{} phase and then during the \suppressed{} phase of the $n:n$ limit cycle.
 First, let us give explicit definitions of the \free{} and \suppressed{} phases.
 A schematic illustration of both phases is given in \cref{fig:free-quiet1}.
 
@@ -102,7 +107,7 @@ That is at some time $t=(n-1)T + T_{act} + \Delta t$, where $\Delta t < T_{inact
 Cell 2 is then released and prevents cell 1 from further spiking.
 Here $\Delta t$ is the time between the last spike of cell 1 and the first spike of cell 2 ~\citep{bose2011}.
 Once released, cell 2 also fires $n$ spikes until cell 1 becomes \free{} once again.
-Let $P_n$ denote the full cycle period of a $n-n$ solution:
+Let $P_n$ denote the full cycle period of a $n:n$ solution:
 \begin{equation}
 	~\label{eq:P}
 	P_n = 2\Big( (n-1)T + T_{act} + \Delta t \Big).
@@ -119,8 +124,8 @@ From \cref{eq:P} $\Delta t$ can be computed as
 	\label{eq:delta-t-P}
 	\Delta t = \frac{1}{2}P_n - (n-1)T - T_{act}.
 \end{equation}
-We can use \cref{eq:delta-t-P} and the numerically computed bifurcation diagram of the period for stable $n-n$ solutions in \cref{fig:bif-diagram}A to obtain the graph of $\Delta t$ as a function of $\bar g$ (\cref{fig:delta-t}).
-Each continuous branch of $\Delta t$ is monotonically increasing and corresponds to a $n-n$ burst:
+We can use \cref{eq:delta-t-P} and the numerically computed bifurcation diagram of the period for stable $n:n$ solutions in \cref{fig:bif-diagram}A to obtain the graph of $\Delta t$ as a function of $\bar g$ (\cref{fig:delta-t}).
+Each continuous branch of $\Delta t$ is monotonically increasing and corresponds to a $n:n$ burst:
 Stronger coupling $\bar g$ increases the total synaptic conductance $\bar g s$ that acts on the \suppressed{} cell, thus delaying its release.
 It is easy to see that for any $n$-branch we have $\Delta t < T_{inact}$:
 Once $\Delta t$ crosses $T_{inact}$, the \free{} cell can ``squeeze in" an additional spike and the solutions bifurcate into a $(n+1)-(n+1)$ burst.
@@ -150,8 +155,8 @@ Given some $\Delta t$ map $Q_n$ computes $d^\star$ at the start of the next cycl
 Our aim in the following analysis is to elucidate the properties of $\Pi_n$ and to understand the structure of its parameter space by exploring how the stable and unstable fixed points of $\Pi_{n}$ are created.
 To that effect it will be useful to include not only positive, but also negative values of $d^{\star}$ to the domain of $\Pi_{n}$.
 But it is important to add that values $d^{\star}<0$ are biologically impossible as the depression variable models a finite pool of neurotransmitters, and therefore must be positive.
-Because $\Pi_{n}$ maps first from $d^{\star}$ to $\Delta t$, and then back to $d^{\star}$, we will also consider negative values of $\Delta t$, interpreting them as $n-n$ solutions with partially overlapping bursts.
-As will become evident, $\delt<0$ is only a formal violation of the biological realism of the map $\Pi_{n}$, as numerically stable $n-n$ solutions of the full system of ODEs only exist for $\Delta t>0$.
+Because $\Pi_{n}$ maps first from $d^{\star}$ to $\Delta t$, and then back to $d^{\star}$, we will also consider negative values of $\Delta t$, interpreting them as $n:n$ solutions with partially overlapping bursts.
+As will become evident, $\delt<0$ is only a formal violation of the biological realism of the map $\Pi_{n}$, as numerically stable $n:n$ solutions of the full system of ODEs only exist for $\Delta t>0$.
 
 % TODO: Edit par
 We start the construction of $\Pi_n$ by first considering the \free{} phase and building the map $F_n$.
@@ -234,7 +239,7 @@ Map $F_n$ is defined on $d^{\star}>d_{a}$, where $d_{a}$ is a vertical asymptote
 \end{equation}
 
 We now turn to the construction of map $Q_n$, which describes the recovery of the depression variable during the \suppressed{} phase.
-As we have identified earlier, the recovery in the \suppressed{} phase of a $n-n$ solution is of duration $(n-1)T + T_{act} + 2\Delta t$.
+As we have identified earlier, the recovery in the \suppressed{} phase of a $n:n$ solution is of duration $(n-1)T + T_{act} + 2\Delta t$.
 Substituting that into the solution of $d$ (\cref{eq:dot-d}) with the initial condition $d(0)=\dn(d^\star) \lambda$ yields the map $Q_{n}$:
 \begin{equation}
 	\label{eq:Qn-map}
@@ -254,7 +259,7 @@ All curves $Q_{n}$ intersect at some $\Delta t = \tau_\kappa\ln{\left[\bar g/g^\
 \end{equation}
 As we will show in the next section, all fixed points of the full map $\Pi_n$ occur for $d^\star<1$.
 We will therefore restrict the domain of $Q_n$ to $(-\infty, \tau_\kappa\ln{\left[\bar g/(g^\star)\right]})$ and the codomain to $(-\infty, 1)$.
-Additionally, while values $\Delta t>T$ will be helpful in exploring the geometry of $\Pi_{n}$, recall from \cref{fig:delta-t} that in the flow system all $n-n$ solutions bifurcate into $(n+1)-(n+1)$ solutions exactly when $\Delta t = T_{inact}$, and we will address this concern in the last part of our map analysis.
+Additionally, while values $\Delta t>T$ will be helpful in exploring the geometry of $\Pi_{n}$, recall from \cref{fig:delta-t} that in the flow system all $n:n$ solutions bifurcate into $(n+1)-(n+1)$ solutions exactly when $\Delta t = T_{inact}$, and we will address this concern in the last part of our map analysis.
 
 Having found $F_n$ and $Q_n$, we can now construct the full map $\Pi_n(d^\star)=Q_n\big(F_n(d^\star)\big)$:
 \begin{equation}
@@ -325,8 +330,9 @@ Solving \cref{eq:Phi} explicitly for $d^\star$ it not trivial, but solving for $
 	\frac{g^{\star}}{\delta_n(d^\star)\lambda}
 	\Big(
 	\frac{(1-\lambda\delta_n(d^\star)) }{1-d^\star} e^{-((n-1)T + T_{act})/\tau_a}
-	\Big)^{1/\tau}.
+	\Big)^{1/\tau}
 \end{equation}
+is defined for $d^{\star}<1$ and $\delta_{n}(d^{\star})>0$.
 Plotting $d^\star$ against $\bar g$ gives the fixed point curves, which are shown in \cref{fig:folds}A.
 Note the typical quadratic shape of a fold bifurcation of maps.
 It is also evident that the fold bifurcations occur for increasingly smaller $\bar g$ as $n$ is increased.
@@ -392,14 +398,14 @@ where the partial derivatives of $F_n(d^\star_f, \bar g)$ are:
 The latter allows more time for the synapse to depress in the \free{} phase and recover in the \suppressed{} phase, resulting in overall larger values of $d^\star_f$, that is weaker depression at the burst onset.
 
 While fixed points of our Poincaré map predict the cycle period of the flow system excellently, its construction relies on the strong assumption that the \free{} phase contains exactly $n$ spikes.
-As is evident from \cref{fig:folds}B this assumption is clearly violated in the flow system, as stable $n-n$ bursts exists only on certain parameter intervals of $\bar g$.
-In the last sub-section we will analyse the mechanisms that guide how the stable $n-n$ are created and destroyed, and use our previous analysis to derive the corresponding parameter intervals of $\bar g$ where such solutions exist.
+As is evident from \cref{fig:folds}B this assumption is clearly violated in the flow system, as stable $n:n$ bursts exists only on certain parameter intervals of $\bar g$.
+In the last sub-section we will analyse the mechanisms that guide how the stable $n:n$ are created and destroyed, and use our previous analysis to derive the corresponding parameter intervals of $\bar g$ where such solutions exist.
 
 % TODO: Need to find a better sub-section title that doesn't include 'period increment'
 \subsection{Period increment bifurcations with co-existent attractors}
-Let $\bar g_+(n)$ and $\bar g_-(n)$ denote the left and right parameter borders on $\bar g$ where stable $n-n$ solutions exist.
-That is, as $\bar g$ is increased stable $n-n$ solutions are created at $\bar g_+(n)$ and destroyed at $\bar g_-(n)$.
-When $\bar g$ is reduced beyond $\bar g_+(n)$, $n-n$ solutions bifurcate into $(n-1)-(n-1)$ solutions, while when $\bar g$ is increased beyond $\bar g_-(n)$, $n-n$ solutions bifurcate into $(n+1)-(n+1)$ solutions.
+Let $\bar g_+(n)$ and $\bar g_-(n)$ denote the left and right parameter borders on $\bar g$ where stable $n:n$ solutions exist.
+That is, as $\bar g$ is increased stable $n:n$ solutions are created at $\bar g_+(n)$ and destroyed at $\bar g_-(n)$.
+When $\bar g$ is reduced beyond $\bar g_+(n)$, $n:n$ solutions bifurcate into $(n-1)-(n-1)$ solutions, while when $\bar g$ is increased beyond $\bar g_-(n)$, $n:n$ solutions bifurcate into $(n+1)-(n+1)$ solutions.
 Let us briefly recap our observations regarding $\bar g_+(n)$ and $\bar g_-(n)$ from the numerical bifurcation diagram in \cref{fig:folds}B.
 For $n>1$ there are the following relations:
 \begin{align}
@@ -409,8 +415,8 @@ For $n>1$ there are the following relations:
 	\bar g_-(n+1) - \bar g_+(n+1) & < \bar g_-(n) - \bar g_-(n)\label{eq:robustness}.
 \end{align}
 \Cref{eq:easy1,eq:easy2} are self-explanatory.
-\Cref{eq:coexistence} formally describes occurrence of co-existence between stable $n-n$ and $(n+1)-(n+1)$ solutions.
-\Cref{eq:robustness} implies that the parameter interval on $\bar g$ of $n-n$ solutions decreases with $n$, in other words, bursts with more spikes occur on increasingly smaller intervals of the coupling strength.
+\Cref{eq:coexistence} formally describes occurrence of co-existence between stable $n:n$ and $(n+1)-(n+1)$ solutions.
+\Cref{eq:robustness} implies that the parameter interval on $\bar g$ of $n:n$ solutions decreases with $n$, in other words, bursts with more spikes occur on increasingly smaller intervals of the coupling strength.
 All of the above relations are reminiscent of the period increment bifurcations with co-existent attractors, first described for piecewise-linear scalar maps with a single discontinuity by Avrutin and colleagues~\cite[e.g.
 	see][]{gardini2012,tramontana2012,avrutin2011,gardini2012}.
 While our maps $\Pi_n$ are fully continuous, the above observation suggests that a different piecewise-linear scalar map that captures the period increment bifurcations of the full system might exist.
@@ -453,14 +459,14 @@ whose root is $\bar g_+(n)$.
 Both $\mathcal{R}_n$ and $\mathcal{L}_n$ are increasing with respect to $\bar g$, which makes finding their roots numerically straightforward.
 
 \Cref{fig:final-bif} shows the period $P_n(\bar g)$ as predicted by the fixed points of $\Pi_n$ (\cref{eq:period}) plotted on their respective intervals $\bar g \in [\bar g_+(n),\bar g_-(n)]$ (blue), as well as the cycle period acquired from numerical integration of the full system of ODEs (orange).
-Note that the width of $n-n$ branches decreases with $n$, which confirms the inequality in \cref{eq:robustness}.
+Note that the width of $n:n$ branches decreases with $n$, which confirms the inequality in \cref{eq:robustness}.
 That is, bursts with more spikes occur on increasingly smaller intervals of $\bar g$, which can be interpreted as a lost of robustness with respect to the coupling strength of long-cyclic solutions.
-We also note the occurrence of bi-stability between pairs of $n-n$ and $(n+1)-(n+1)$ branches, which also confirms our initial observation in
+We also note the occurrence of bi-stability between pairs of $n:n$ and $(n+1)-(n+1)$ branches, which also confirms our initial observation in
 \cref{eq:coexistence}.
 
 As previously observed in \cref{fig:folds}B our maps prediction of the cycle period is accurate for $n>1$.
 Recall that our reduction assumptions required a sufficiently large coupling strength, which we numerically estimated to be $\bar g \approx 0.592\si{mS/cm^2}$ in \cref{fig:release-delay}.
 The mismatch in period for $1-1$ solutions, but also the mismatch in the left bifurcation border $\bar g_-(n=2)$ of the $2-2$ solution can be attributed to the violation of that assumption.
-However, even for branches of large $n-n$ solutions there is a mismatch between the bifurcation borders.
+However, even for branches of large $n:n$ solutions there is a mismatch between the bifurcation borders.
 Presumably our assumptions on the time scales of $w$ and $s$ dynamics do not hold here, and can only be captured by more complex approximations.
 Nevertheless, our map allows approximate extrapolation of the cycle period and the respective bifurcation borders where numerical integration of the ODEs would require a very small time step.
