@@ -106,12 +106,17 @@ class PoincareMap(NamedTuple):
     #     C = np.exp(-((n - 1) * self.T + self.Tact) / self.taua)
     #     return 1 - A * B * C
 
-    def G(self, d: float) -> float:
+    def G(self, d: float) -> float | None:
         """Fixed point function maps d to the corresponding fixed point value gbar."""
         delta = self.delta(d)
-        A = (1 - delta * self.Lambda) / (1 - d)
-        B = np.exp(-((self.n - 1) * self.T + self.Tact) / self.taua)
-        return (self.gstar / (delta * self.Lambda)) * pow(A * B, 1 / self.tau)
+        if (delta < 0) and (d < 1):  # G is only defined here.
+            return None
+        else:
+            A = (1 - delta * self.Lambda) / (1 - d)
+            B = np.exp(-((self.n - 1) * self.T + self.Tact) / self.taua)
+            return (self.gstar / (delta * self.Lambda)) * pow(
+                A * B, 1 / self.tau
+            )
 
     def period(self, g: float) -> float | None:
         """Compute n-n period (eq. 45)."""
@@ -120,7 +125,7 @@ class PoincareMap(NamedTuple):
             delta_t = self.F_map(df, g)
             return 2 * ((self.n - 1) * self.T + self.Tact + delta_t)
 
-    def critical_fp(self, x0: float = 0.5) -> Tuple:
+    def critical_fp(self, x0: float = 0.5) -> Tuple[float, float]:
         """Compute critical fixed point (db, gb) at fold bifurcation
         (equations 41 and 42).
         """

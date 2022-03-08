@@ -44,8 +44,8 @@ rcp["pgf.preamble"] = r"\usepackage{amsmath} \usepackage{siunitx}"
 
 matplotlib.rcParams.update(rcp)
 
-np.seterr(divide='ignore')
-np.seterr(all='ignore')
+np.seterr(divide="ignore")
+np.seterr(all="ignore")
 
 FIGWIDTH = 3.85
 FIGSIZE = (FIGWIDTH, FIGWIDTH)
@@ -56,6 +56,7 @@ mlml = ode.ML(paths.mlml_file)
 pmap = PoincareMap()
 
 df = pd.read_pickle(paths.numeric_bif_diagram)
+df_ana = pd.read_pickle(paths.analytic_bif_diagram)
 
 #%% Nullclines uncoupled
 vs = np.linspace(-65, 60, 100)
@@ -371,6 +372,7 @@ ns = np.arange(1, 5, 1)
 
 fig, axs = plt.subplots(figsize=FIG2by1, tight_layout=True, ncols=2)
 
+# A: F-map
 ax = axs[0]
 for n in ns:
     pmap_n = PoincareMap(n)
@@ -393,22 +395,23 @@ ax.text(1.01, 325, r"$3$")
 ax.text(1.01, 305, r"$4$")
 
 ax.axvline(pmap.dsup, c="grey", ls="--")
-ax.text(pmap.dsup+0.04, 0, r'$d_s$')
+ax.text(pmap.dsup + 0.04, 0, r"$d_s$")
 
 ax.set(
-    xlabel=r'$d^\star$',
-    ylabel=r'$\Delta t=F_n(d^\star)$',
+    xlabel=r"$d^\star$",
+    ylabel=r"$\Delta t=F_n(d^\star)$",
     xlim=(-1, 1),
-    ylim=(-20, 400)
+    ylim=(-20, 400),
 )
 
+# B: Q-map
 ax = axs[1]
 delts = np.linspace(-200, 500, 10000)
 
 for n in ns:
     pmap_n = PoincareMap(n)
     ys = np.array([pmap_n.Q_map(delt, g=g) for delt in delts])
-    ax.plot(delts, ys, c='C0')
+    ax.plot(delts, ys, c="C0")
 
 # Add n numbers
 ax.text(500, 1.38, r"$1$")
@@ -417,17 +420,184 @@ ax.text(500, 1.14, r"$3$")
 ax.text(500, 1.05, r"$4$")
 
 
-intersection = np.log(g/(pmap.gstar))*pmap.tauk
-ax.axvline(intersection, c='grey', ls='--')
-ax.text(intersection+10, 0,
-        r'$\tau_s\ln{\left(\frac{\bar g}{g^{\star}}\right)}$')
+intersection = np.log(g / (pmap.gstar)) * pmap.tauk
+ax.axvline(intersection, c="grey", ls="--")
+ax.text(
+    intersection + 10, 0, r"$\tau_s\ln{\left(\frac{\bar g}{g^{\star}}\right)}$"
+)
 
 
-ax.set(xlabel=r'$\Delta t$',
-       ylabel=r'$d^\star=Q_n(\Delta t)$',
-       xlim=(-30, 500))
+ax.set(xlabel=r"$\Delta t$", ylabel=r"$d^\star=Q_n(\Delta t)$", xlim=(-30, 500))
 
 for idx, ax in enumerate(axs):
-    ax.set_title(string.ascii_uppercase[idx], loc='left')
+    ax.set_title(string.ascii_uppercase[idx], loc="left")
 
 fig.savefig(paths.figures / "FQ.pdf")
+
+#%% Pi map
+
+g = 0.5
+ds = np.linspace(-1, 1, 10000)
+ns = np.arange(1, 5, 1)
+
+fig, axs = plt.subplots(ncols=2, tight_layout=True, figsize=FIG2by1)
+
+
+# A: Pi with all curves.
+ax = axs[0]
+
+for n in ns:
+    pmap_n = PoincareMap(n)
+    ys = np.array([pmap_n.P_map(d, g=g) for d in ds])
+    realidx = np.isreal(ys)
+    ax.plot(ds[realidx], ys[realidx], c="C0")
+
+
+# Add first 2 asymptotes.
+for n in ns[:2]:
+    pmap_n = PoincareMap(n)
+    d_a = pmap_n.d_asymptote()
+    ax.axvline(d_a, c="k", ls=":")
+    ax.text(d_a - 0.33, 0, r"$d_a(%s)$" % n)
+
+# # Add n numbers.
+n_locs = [(0.03, -0.7), (-0.60, -0.7), (-0.8, 0.67), (-0.8, 0.95)]
+for loc, n in zip(n_locs, ns):
+    ax.text(
+        loc[0],
+        loc[1],
+        r"$%s$" % n,
+        verticalalignment="center",
+        horizontalalignment="left",
+    )
+
+ax.set(ylabel=r"$\Pi_n(d^\star)$")
+
+# B: Pi with n=2 and varying g.
+gs = [0.0005, 0.0015, 0.005]
+ax = axs[1]
+for g in gs:
+    pmap_n = PoincareMap(2)
+    ys = np.array([pmap_n.P_map(d, g) for d in ds])
+    realidx = np.isreal(ys)
+    ax.plot(ds[realidx], ys[realidx], label=r"$\bar g\approx%s$" % round(g, 4))
+ax.legend()
+ax.set(ylabel=r"$\Pi_2(d^\star)$")
+
+for idx, ax in enumerate(axs):
+    # Diagonal
+    ax.plot(ds, ds, c="k", ls="--")
+    ax.set(xlabel=r"$d^\star$", xlim=(-1.0, 1.0), ylim=(-1.0, 1.0))
+    ax.locator_params(axis="x", tight=True, nbins=4)
+    ax.locator_params(axis="y", tight=True, nbins=4)
+    ax.set_title(string.ascii_uppercase[idx], loc="left")
+
+fig.savefig(paths.figures / "Pi-map.pdf")
+
+#%% Folds
+
+ns = [1, 2, 3, 4, 5]
+# gs = np.linspace(0, 0.6, 100)
+gs = np.geomspace(0.000001, 0.6, 100)
+ds = np.linspace(-1.5, 1, 5000)
+gmax = gs[-1]
+
+fig, axs = plt.subplots(figsize=FIG2by1, tight_layout=True, ncols=2)
+ax = axs[0]
+
+# A: Compute analytic bifurcation curves of d.
+curves = []
+for n in ns:
+    pmap_n = PoincareMap(n)
+    d_bif, g_bif = pmap_n.critical_fp()
+    ds_stable = ds[ds>d_bif]
+    ds_unstable = ds[ds<d_bif]
+    curve_stable = [pmap_n.G(d) for d in ds_stable]
+    curve_unstable = [pmap_n.G(d) for d in ds_unstable]
+    ax.plot(curve_stable, ds_stable, color="C0")
+    ax.plot(curve_unstable, ds_unstable, color="C0", linestyle="dashed")
+
+
+ax.set(
+    xlim=(-0.05, gmax),
+    ylim=(-1.5, 1.3),
+    xlabel=r"$\bar g$ " + r"$(\si{mS/cm^{2}})$",
+    ylabel=r"$d^{\star}_{f}$",
+)
+
+ax.locator_params(axis="x", tight=False, nbins=6)
+ax.text(gmax + 0.01, 0.0, r"$1$")
+ax.text(gmax + 0.01, -0.70, r"$2$")
+
+patch_stable = Line2D([], [], linestyle="-", linewidth=1, label="stable")
+patch_unstable = Line2D([], [], linestyle=":", linewidth=1, label="unstable")
+ax.legend(handles=[patch_stable, patch_unstable], loc=(0.5, 0.9))
+
+# B: Compute period curves.
+ax = axs[1]
+for n in ns:
+    pmap_n = PoincareMap(n)
+    dfn = df[df["n"] == n]
+    # analytic
+    ax.plot(gs, [pmap_n.period(g) for g in gs], color="C0")
+    # numeric
+    ax.plot(dfn["g"], dfn["period"], color="C1")
+
+ax.set(
+    ylim=(500, 4300),
+    xlabel=r"$\bar g$ " + r"$(\si{mS/cm^{2}})$",
+    ylabel="period "+r"$(\si{ms})$",
+)
+
+# Add labels
+for n in ns:
+    ax.text(gmax + 0.01, PoincareMap(n).period(gmax)-50, r"$%s$" % n)
+
+for idx, ax in enumerate(axs):
+    ax.set_title(string.ascii_uppercase[idx], loc="left")
+
+patch_ana = Line2D([], [], color='C0', linewidth=1, label='analytic')
+patch_num = Line2D([], [], color='C1', linewidth=1, label='numeric')
+ax.legend(handles=[patch_ana, patch_num], loc=(0.5, 0.9))
+
+fig.savefig(paths.figures / "folds.pdf")
+
+#%% Final bifurcation diagram
+
+ns = np.arange(1, 10)
+
+fig, ax = plt.subplots(tight_layout=True)
+# Plot numeric diagram
+for n in df["n"].unique():
+    dfn = df[df["n"] == n]
+    ax.plot(dfn["g"], dfn["period"], c="C0", lw=2.5)
+
+# Plot analytic diagram on top
+for n in df_ana["n"].unique():
+    dfn_ana = df_ana[df_ana["n"] == n]
+    ax.plot(dfn_ana["g"], dfn_ana["period"], c="C1", lw=1.3)
+
+ax.set(
+    xlim=(0.3, pmap.gsup),
+    xlabel=r"$\bar g$ " + r"$(\si{mS/cm^{2}})$",
+    ylabel="period " + r"(\si{ms})$",
+)
+
+# Add legend
+patch_ana = Line2D([], [], color="C0", linewidth=1, label="analytic")
+patch_num = Line2D([], [], color="C1", linewidth=1.5, label="numeric")
+
+fig.legend(handles=[patch_ana, patch_num], loc=(0.2, 0.8), prop={"size": 12})
+
+
+ax.text(0.35, 890, r"$1$")
+ax.text(0.42, 1560, r"$2$")
+ax.text(0.5, 2350, r"$3$")
+ax.text(0.53, 3100, r"$4$")
+ax.text(0.56, 3850, r"$5$")
+ax.text(0.57, 4560, r"$6$")
+ax.text(0.5760, 5380, r"$7$")
+ax.text(0.58, 6100, r"$8$")
+ax.text(0.5815, 6850, r"$9$")
+
+fig.savefig(paths.figures / "final-bif")
