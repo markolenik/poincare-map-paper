@@ -1,47 +1,186 @@
-\documentclass[utf8]{article} % for all articles
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{lipsum} % to generate some filler text
+\usepackage{fullpage}
+
+% import Eq and Section references from the main manuscript where needed
+\usepackage{xr}
+\externaldocument{manuscript}
+
+% package needed for optional arguments
+\usepackage{xifthen}
+
 \usepackage{url,hyperref,lineno,microtype}
 \usepackage[onehalfspacing]{setspace}
+\usepackage{graphicx}
+\usepackage{amsmath}
 \usepackage{cleveref}
 \usepackage{physics}
 \usepackage{siunitx}
 \usepackage{xr}
 
-% \graphicspath{{../figures/}}
+\graphicspath{{../figures/}}
+
+\setcounter{section}{0}
+\newcounter{point}[section]
+\setcounter{point}{0}
+
+% command declarations for reviewer points and our responses
+
+\newenvironment{point}
+   {\refstepcounter{point} \bigskip \noindent {\textbf{Point~P\,\thesubsection.\arabic{point}} } ---\ }
+   {\par }
+
+\newcommand{\shortpoint}[1]{\refstepcounter{point}  \bigskip \noindent
+	{\textbf{Point~P\,\thesubsection.\arabic{point}} } ---~#1\par }
+
+\newenvironment{reply}
+   {\medskip \noindent \begin{sf}\textbf{Reply}:\  }
+   {\medskip \end{sf}}
+
+\newcommand{\shortreply}[2][]{\medskip \noindent \begin{sf}\textbf{Reply}:\  #2
+	\ifthenelse{\equal{#1}{}}{}{ \hfill \footnotesize (#1)}%
+	\medskip \end{sf}}
 
 \begin{document}
-\firstpage{1}
+\begin{center}
+	\Large Response to the reviewers
+\end{center}
+% General intro text goes here
+We thank the reviewers for their critical assessment of our work.
+In the following we address their concerns point by point.
 
-\title{Response}
-\maketitle
+% Let's start point-by-point with Reviewer 1
+\section{Reviewer 1}
 
-% TODO: Add line numbers everywhere.
-\section{Major comments Reviewer 1}
-\textbf{On n-n notation.} As suggested by the reviewer, we've changed the notation from $n-n$ to $n:n$ to denote the type of burst solution.
+\subsection{Terminology}
+\shortpoint{First, the authors refer to the neurons as “free” or “quiet” and refer to the “free phase” and “quiet phase”. They say that they follow Bose and Booth in doing so. But I have read (and written) MANY papers on bursting/CPGs/multi-phase solutions, and they always refer to “active” and “silent” rather than “free” and “quiet”. The authors should switch their word use as well to avoid confusing the field}
+\shortreply{TODO}
 
-\section{Minor comments Reviewer 1}
+\shortpoint{Second, the authors use ISI and IBI incorrectly. The ISI is the inter-spike interval. This is the period BETWEEN spikes, NOT the entire period T of a spiking event (see e.g., line 181). The IBI is the inter-burst interval. In this paper, that would be the silent phase duration for one neuron. It is NOT the entire period of a bursting event, nor is it the delay from the end of one neuron’s active phase to the start of the other neuron’s active phase (e.g., line 266). These need to be corrected throughout the paper.}
+\shortreply{TODO}
 
-\subsection{Changes to the nullclines plot}
-In order to reduce the number of figures we have merged figures 1 and 5, and adjusted added a paragraph describing the non-zero constant synaptic conductance case at the end of the methods part.
+\shortpoint{Third, in the Results, the authors state the signs of various derivatives without proof. Some are obvious (e.g., eqn. (30)) but others, such as eqn. (31), are not. Some brief justification is needed.}
+\shortreply{TODO}
 
-\section{Release delay}
-Due to the changes to the single cell model parameters, i.e. reducing the applied current from $I=6 \si{\mu A/cm^{2}}$ to $I=3.8\si{\mu A/cm^{2}}$, the $v$-nullcline moved down along the $w$-nullcline.
-% I've checked that old HB value manually, should be correct.
-This made the system become more excitable, that is the subcritical Andronov-Hopf bifurcation point where the fixed point changes stability moved from $\bar g=0.038$ to $\bar g=0.0038$.
-As a consequence, the release delay seen previously is now negligible for all $n:n$ solutions, see figure \cref{fig:release-delay}.
+\shortpoint{Fourth, Fig. 11A seems to contrast with Fig. 4A. Fig. 11A seems to show massive multistability of solutions for different n, whereas Fig. 4A only has bistability. Some clarification is needed}
+\shortreply{TODO}
 
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=0.8\textwidth]{release-delay.pdf}
-  \caption{Numerically computed graph of the release delay as a function of $\bar g$~\label{fig:release-delay}}
-\end{figure}
+\shortpoint{And fifth, the notation n-n is non-ideal, as it looks like n minus n. In my opinion, n:n is more standard and clearer.}
+\shortreply{TODO}
+
+\subsection{Major points}
+\setcounter{point}{0}
+
+% Point one description
+\shortpoint{I don’t see the justification for assuming d’=(1-d)/taud when a neuron is ACTIVE (see below for “active” meaning).
+  Can the authors provide some biological justification that the available synaptic resources actually increase during a spike?
+  If not, it seems critical that they give some other justification that this assumption is OK.}
+% Our reply
+\begin{reply}
+	We agree with the reviewer on this important point. This is what we did to
+	fix it.
+	\lipsum[2]
+\end{reply}
+
+\begin{point}
+	Reviewer 1's second point.
+	\label{pt:bar}
+\end{point}
+
+\begin{reply}
+	And our reply to it.
+\end{reply}
+
+\subsection{Minor Points}
+\setcounter{point}{0}
+
+% Use the short-hand macros for one-liners.
+\shortpoint{Line 31: It’s a CPG composed of reciprocally inhibitory neurons; referring to a “reciprocally inhibitory CPG” is misleading.}
+\shortreply{Changed to ``CPG composed of reciprocally inhibitory neurons''.}
+
+\shortpoint{The par. starting on line 38 is unclear: The 1-d conditions for n:n solutions in [6] are stated to be for n<=2 (line 43); the authors should clarify if n:n in line 48 also refers to n<=2 or not.}
+\shortreply{Added clarification of $n\leq 2$.}
+
+\shortpoint{Results line 130: It is important to note that both neurons inhibit each other at all times. S may get small but it’s nonzero. Thus, “inhibited” cell is not really well-defined.}
+\shortreply{Removed ``inhibited cell'' notation.}
+
+\shortpoint{Line 137: Wang \& Rinzel, 1992 (and perhaps Skinner et al. from 1993 or 1994) should be cited in reference to release.}
+% TODO: Add proper citation
+\shortreply{Added Wang \& Rinzel, 1992 and Skinner et al. 1994 reference when ``release'' is mentioned.}
+
+\shortpoint{I don’t understand Fig. 4B. The ISI is less than the IBI, so how can their ratio be bigger than 1? Or perhaps the axis label “ISI/IBI” does not refer to ISI divided by IBI? Clarification is needed.}
+\shortreply{TODO}
+
+\shortpoint{Line 200: “revolve” should be replaced by “evolve”.}
+\shortreply{Reworked the whole paragraph formerly starting at line 194.}
+
+\shortpoint{Line 213 is incorrect: It’s not the decay of d that matters but the decay of s before the next spike occurs. Correction needed – except now I realize that lines 207-219 can be cut, as they add nothing relative to the previous paragraph.}
+\shortreply{Definition of $g^{\star}$ was changed due to the change in model, consequently the paragraph starting in line 207 was removed.}
+
+\shortpoint{It seems like the authors should be able to analytically compute or at least approximate g* and should give some explanation for the delay in Fig. 6A, left branch. This must relate to the silent cell spending too short of a time in the silent phase. Fig. 4 is certainly relevant.}
+\shortreply{TODO}
+
+\shortpoint{Lines 246-7: The authors should revise because s is determined by d and by taus.}
+\shortreply{TODO}
+
+\shortpoint{Line 270: It seems like the active phase ends at time (n-1)T+delta T, yet the authors say it ends as (n-1)T. This may be more convenient for their analysis but it’s not correct usage of the phase terminology, so clarification is needed.}
+\shortreply{TODO}
+
+\shortpoint{It’s disorienting to see $\delta_n(d*)$ in eqn. (20) when just above (line 320) the same quantity is called $d_n = d(t_n^{-})$. The authors should pick one notation for both places.}
+\shortreply{As suggested, we have removed the $d_{n}$ notation completely.}
+
+\shortpoint{Cut line 339 and equation (27). These add a bit of confusion and nothing else.}
+\shortreply{TODO}
+
+\shortpoint{Fig. 9 caption: mention where the $Q_n$ curves intersect.}
+\shortreply{Added intersection to caption in Figure $F_{n}$ and $Q_{n}$ figure.}
+
+\shortpoint{Eqn. (29): remind the reader that $d_n(d*)$ comes from eqn. (20) and that $g^{\star}$ is obtained numerically.}
+\shortreply{TODO}
+
+\shortpoint{Lines 364-6 including eqn. (36) should be cut – they are neither new nor helpful here.}
+\shortreply{TODO}
+
+\shortpoint{Eqns. (37),(38) can and should be combined.}
+\shortreply{TODO}
+
+\shortpoint{Eqn. (44) is confusing: here the authors want $d_f^\star = \phi_h(\bar{g})$, so it’s strange to express it as a function of $d_f^\star$ again.}
+\shortreply{TODO}
+
+\shortpoint{Fig. 11B needs more explanation, such as a reminder that the orange curves are only computed over small intervals of $\bar{g}$ where the solution branch is stable.}
+\shortreply{TODO}
+
+\shortpoint{The notation $\bar{g}_{+}(n) < \bar{g}_{-}(n)$ seems strange – seems like these should be reversed (the math is fine, I’m questioning the choice of notation).}
+\shortreply{TODO}
+
+\shortpoint{Line 415: [21] is cited twice.}
+\shortreply{TODO}
+
+\shortpoint{Rather than stating eqn. (54), it would be clearer just to reference eqn. (47) there.}
+\shortreply{TODO}
+
+\shortpoint{A better explanation of what is shown in Fig. 12 is needed. Is this $\bar{g}_{+}(n)$ and $\bar{g}_{-}(n)$ for various n, computed numerically from (56) and (58)?}
+\shortreply{TODO}
+
+\shortpoint{Discussion lines 459-462: Please explain what such “light” has been shed here. If none, as it appears, that’s OK for this math paper, but then this comment doesn’t really belong in the discussion.}
+\shortreply{TODO}
+
+\shortpoint{I’m confused about lines 534-6. I have never heard of learning in a CPG. Please clarify what is meant.}
+\shortreply{TODO}
 
 
-\bibliographystyle{frontiersinHLTH&FPHY} % for Health, Physics and Mathematics articles
-\bibliography{bibliography.bib}
+% % Begin a new reviewer section
+% \reviewersection
+
+% \begin{point}
+% 	This is the first point of Reviewer \thereviewer. With some more words foo
+% 	bar foo bar ...
+% \end{point}
+
+% \begin{reply}
+% 	Our reply to it with reference to one of our points above using the \LaTeX's
+% 	label/ref system (see also \ref{pt:foo}).
+% \end{reply}
 
 \end{document}
-
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-master: t
-%%% End:
