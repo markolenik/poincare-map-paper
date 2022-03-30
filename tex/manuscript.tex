@@ -1,5 +1,4 @@
-\documentclass[utf8, draft]{frontiersFPHY} % for Physics and Applied Maths
-% \documentclass[utf8]{frontiersFPHY} % for Physics and Applied Maths
+\documentclass[utf8]{frontiersFPHY} % for Physics and Applied Maths
 \usepackage{graphicx}
 \usepackage{amssymb}
 \usepackage{siunitx}
@@ -16,14 +15,17 @@
 \usepackage{cleveref}
 % \usepackage[font={bold,it}]{caption}
 
-\graphicspath{{../figures/}}
+\graphicspath{{../figures}}
 
 % Define better ref abbreviations
 \usepackage{lineno}
 
+\usepackage{xr}
+\externaldocument{supplementary}
+
 % Define terms for "free"/"quiet"
-\newcommand{\free}{free}
-\newcommand{\suppressed}{suppressed}
+\newcommand{\free}{active}
+\newcommand{\suppressed}{silent}
 
 % Define some convenience commands
 \renewcommand{\d}{\mathrm{d}}
@@ -39,9 +41,7 @@
 \newcommand{\dn}{\delta_n}
 \newcommand{\taud}{\tau_d}
 
-
 \linenumbers
-
 
 \def\keyFont{\fontsize{8}{11}\helveticabold }
 \def\firstAuthorLast{Olenik {et~al.}} %use et al only if is more than 1 author
@@ -70,24 +70,6 @@ $^{2}$School of Computer Science, Electrical and Electronic Engineering, and Eng
 
 \maketitle
 
-\begin{abstract}
-  \section{}
-  Short-term synaptic plasticity is found in many areas of the central nervous system.
-  In the inhibitory half-centre central pattern generators involved in locomotion, synaptic depression is believed to act as a burst termination mechanism, allowing networks to generate anti-phase bursting patterns of varying periods.
-  To better understand burst generation in these central patter generators, we study a minimal network of two neurons coupled through depressing synapses.
-  Depending on the strength of the synaptic conductance between the two neurons, this network can produce symmetric $n:n$ anti-phase bursts, where neurons fire $n$ spikes in alternation, with the period of such solutions increasing with the strength of the synaptic conductance.
-  Relying on the timescale disparity in the model, we reduce the eight-dimensional network equations to a fully-explicit scalar Poincaré burst map.
-  This map tracks the state of synaptic depression from one burst to the next and captures the complex bursting dynamics of the network.
-  Fixed points of this map are associated with stable burst solutions of the full network model, and are created through fold bifurcations of maps.
-  We derive conditions that describe period-increment bifurcations between stable $n:n$ and $(n+1):(n+1)$ bursts, producing a full bifurcation diagram of the burst cycle period.
-  Predictions of the Poincaré map fit excellently with numerical simulations of the full network model and allow the study of parameter sensitivity for rhythm generation.
-
-
-  \tiny
-  \keyFont{ \section{Keywords:} Synaptic depression, Poincaré map, Dynamical system, Neuronal bursting, Central pattern generator}
-
-\end{abstract}
-
 \input{sections/introduction}
 \input{sections/methods}
 \input{sections/results}
@@ -112,7 +94,7 @@ We thank Alan Champneys for sharing his insights on non-continuous maps during t
 We are also grateful to Alan Roberts and Stephen R. Soffe for their comments on earlier versions of the manuscript.
 
 \section*{Data Availability Statement}
-The datasets generated for this study are available on request to the corresponding author.
+The data sets generated for this study are available on request to the corresponding author.
 
 \bibliographystyle{frontiersinHLTH&FPHY} % for Health, Physics and Mathematics articles
 \bibliography{bibliography.bib}
@@ -121,7 +103,7 @@ The datasets generated for this study are available on request to the correspond
 
 \begin{figure}[h!]
   \centering
-  \includegraphics{fig/nullclines-uncoupled.pdf}
+  \includegraphics{nullclines}
   \caption{Periodic solution of relaxation-oscillator model neuron. $\bm{\mathrm{(A)}}$
     Projection of limit cycle onto ($v,w$)-phase plane with $v$-nullcline (blue,
     $v_\infty$) and $w$-nullcline (orange, $w_\infty$). Unstable fixed point $p_{f}$
@@ -131,16 +113,7 @@ The datasets generated for this study are available on request to the correspond
 
 \begin{figure}[h!]
   \centering
-  \includegraphics{fig/depression-traces.pdf}
-  \caption{Solution profiles of a $4-4$ burst. $\bm{\mathrm{(A)}}$ Membrane potentials
-    of cell 1 ($v_{1}$, blue), and cell 2 ($v_{2}$, orange). $\bm{\mathrm{(B)}}$
-    Synaptic variables $d_{1}$ (blue) and $s_{1}$ (grey) of cell
-    1.~\label{fig:depression-traces}}
-\end{figure}
-
-\begin{figure}[h!]
-  \centering
-  \includegraphics{fig/burst-sols.pdf}
+  \includegraphics{burst-sols}
   \caption{Voltage traces of both cells of numerically stable solutions for increasing
     values of the coupling strength $\gbar$ (increasing top to
     bottom).~\label{fig:burst-sols}}
@@ -148,60 +121,42 @@ The datasets generated for this study are available on request to the correspond
 
 \begin{figure}[h!]
   \centering
-  \includegraphics{fig/bif-diagram.pdf}
-  \caption{Numerically computed bifurcation diagrams of stable $n:n$ solutions for
-    increasing coupling strength $\gbar$. $\bm{\mathrm{(A)}}$ Period of stable
-    solutions. Dashed lines show the interval between the $5-5$ and the suppressed
-    solutions, where higher period $n:n$ solutions occur on increasingly smaller intervals
-    of $\gbar$. $\bm{\mathrm{(B)}}$ $ISI$s corresponding to $n:n$ solutions in
-    $\mathrm{(A)}$. Long $ISI$s are associated with the quiet phase of a burst, short
-    $ISI$s with the free phase. During the free phase, $ISI$s are of approximately
-    constant duration $T$.\label{fig:bif-diagram}}
+  \includegraphics{bif-diagram}
+  \caption{Numerically computed bifurcation diagram of the cycle period of stable $n:n$ solutions for increasing coupling strength $\gbar$. Dashed lines show the interval between the $5-5$ and the suppressed solution, where higher period $n:n$ solutions occur on increasingly smaller intervals of $\gbar$.\label{fig:bif-diagram}}
+\end{figure}
+
+% \begin{figure}[h!]
+%   \centering
+%   \includegraphics{nullclines-coupled}
+%   \caption{Nullclines $v_{\infty}$ (blue) and $w_{\infty}$ (orange) in the
+%   $(v,w$)-phase plane for different values of the total synaptic conductance $\gbar
+%   s$. For small $\gbar s < g^{\star}$, fixed point $p_{f}$ is unstable (orange
+%   point). Larger values $\gbar s$ move $v_{\infty}$ down in the $(v,w)$-plane until
+%   $p_{f}$ changes stability (half orange,  half blue point) at some critical total
+%   conductance value $\gbar s = g^{\star}$, and becomes stable (blue point) for
+%   $\gbar>g^{\star}$.~\label{fig:nullclines-coupled}}
+% \end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics{gstar-diag}
+  \caption{Numerically computed values of the release conductance ($\tilde g^{\star}$) for various $n:n$ solutions. The dashed line indicates the analytical approximation of the release conductance by $g^{\star}$.\label{fig:gstar-diag}}
 \end{figure}
 
 \begin{figure}[h!]
   \centering
-  \includegraphics{fig/nullclines-coupled.pdf}
-  \caption{Nullclines $v_{\infty}$ (blue) and $w_{\infty}$ (orange) in the
-  $(v,w$)-phase plane for different values of the total synaptic conductance $\gbar
-  s$. For small $\gbar s < g^{\star}$, fixed point $p_{f}$ is unstable (orange
-  point). Larger values $\gbar s$ move $v_{\infty}$ down in the $(v,w)$-plane until
-  $p_{f}$ changes stability (half orange,  half blue point) at some critical total
-  conductance value $\gbar s = g^{\star}$, and becomes stable (blue point) for
-  $\gbar>g^{\star}$.~\label{fig:nullclines-coupled}}
-\end{figure}
-
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=0.8\textwidth]{fig/release-delay.pdf}
-  \caption{Numerically computed values of the release delay for varying $\gbar$. Each of
-    the three branches (A, B, C) also shows the timecourse of the total synaptic
-    conductance $\gbar s$ of a sample stable solution of both cells (blue and orange),
-    as well as the release conductance $g^{\star}$ (dashed green line).
-    $\bm{\mathrm{(A)}}$ Branch corresponding to the $1-1$ solution. Here the quiet
-    cell only spikes after a significant release delay. $\bm{\mathrm{(B)}}$ Branch with
-    a long release delay associated with a subset of $2-2$ solutions. Here the release
-    condition is briefly satisfied after the first spike of cell 1. This does not cause
-    firing of cell 2, which only occurs after the second spike of cell 1.
-    $\bm{\mathrm{(C)}}$ Branch with $n:n$ solutions  where release delay is
-    approximately zero and the release condition is sufficient for firing of cell 2.
-    ~\label{fig:release-delay}}
-\end{figure}
-
-\begin{figure}[h!]
-  \centering
-  \includegraphics{fig/free-quiet.pdf}
+  \includegraphics{free-quiet}
   \caption{Schematic diagram of the free and quiet phases for a $3-3$ solution.
     $\bm{\mathrm{(A)}}$ Membrane potentials of cell 1 ($v_{1}$) and cell 2 ($v_{2}$).
     The grey patches depict inter-burst-intervals $\delt$. $\bm{\mathrm{(B)}}$ Total
     synaptic conductance of cell 1 ($\gbar s_1$) as it crosses the release conductance
     $g^{\star}$. $\bm{\mathrm{(C)}}$ Solution $d_1(t)$ of depression variable of cell
-    1, during free (blue) and quiet phases (orange).~\label{fig:free-quiet1}}
+    1, during free (blue) and quiet phases (orange).~\label{fig:free-quiet}}
 \end{figure}
 
 \begin{figure}[h!]
   \centering
-  \includegraphics{fig/delta-t.pdf}
+  \includegraphics{delta-t}
   \caption{Numerically computed bifurcation diagram of $\delt$ for varying $\gbar$.
     Each continuous branch is associated with a stable $n:n$ burst solution. Increasing
     $\gbar$ increases $\Delta t$ until the solutions bifurcate at $\Delta t\approx
@@ -210,16 +165,16 @@ The datasets generated for this study are available on request to the correspond
 
 \begin{figure}[h!]
   \centering
-  \includegraphics{fig/FQ-map.pdf}
+  \includegraphics{FQ-maps}
   \caption{Maps $F_n$ $\bm{\mathrm{(A)}}$ and $Q_n$ $\bm{\mathrm{(B)}}$ for
-  $\gbar=0.6$ $\si{mS/cm^{2}}$ and $n=1,2,3,4$. Curves $F_n$ intersect at
-  $d_{s}$ which is indicated by a dashed vertical line.~\label{fig:FQ-map}}
+  $\gbar=0.5$ $\si{mS/cm^{2}}$ and $n=1,2,3,4$. Curves $F_n$ intersect at
+  $d^{\star}=d_{s}$ which is indicated by a dashed vertical line. Curves $Q_n$ intersect at $\Delta t = \tau_{\kappa}\ln\Big(\bar g / g^{\star}\Big)$. \label{fig:FQ-maps}}
 \end{figure}
 
 \begin{figure}[h!]
   \centering
-  \includegraphics{fig/Pn-map.pdf}
-  \caption{Map $\Pi_{n}:d^{\star}$. $\bm{\mathrm{(A)}}$ $\Pi_{n}$ for $n=1,2,3,4$
+  \includegraphics{Pn-map}
+  \caption{Map $\Pi_{n}:d^{\star}\mapsto d^{\star}$. $\bm{\mathrm{(A)}}$ $\Pi_{n}$ for $n=1,2,3,4$
   at $\gbar=0.6$ $\si{mS/cm^{2}}$. $\bm{\mathrm{(B)}}$ $\Pi_{2}$ with $n=2$ for
   varying $\gbar \approx 0.01, 0.034, 0.3$ $\si{mS/cm^{2}}$. The identity function is
   illustrated by a diagonal line.~\label{fig:Pn-map}}
@@ -227,21 +182,19 @@ The datasets generated for this study are available on request to the correspond
 
 \begin{figure}[h!]
   \centering
-  \includegraphics{fig/folds.pdf}
+  \includegraphics{folds}
   \caption{$\bm{\mathrm{(A)}}$ Fold bifurcation diagrams of stable (continuous curves)
     and unstable (dotted curves) fixed points of $\Pi_{n}$ for varying $n$.
-    $\bm{\mathrm{(B)}}$ Cycle periods computed from stable fixed points (blue), and the
-    corresponding solution period from numerical integration of the system of ODEs
+    $\bm{\mathrm{(B)}}$ Cycle periods computed from stable fixed points of $\Pi_{n}$ (blue), and the corresponding periods from stable $n:n$ solutions acquired via numerical integration of the system of ODEs
     (orange).~\label{fig:folds}}
 \end{figure}
 
 \begin{figure}[h!]
   \centering
-  \includegraphics[width=0.8\textwidth]{fig/final-bif.pdf}
+  \includegraphics[width=0.8\textwidth]{final-bif}
   \caption{Bifurcation diagrams of stable $n:n$ solutions computed analytically from
     fixed points of $\Pi_n$ and plotted on the respective intervals of $\gbar\in
-    \big[\gbar_+(n),\gbar_-(n)\big]$ (blue), and computed from numerical integrations of
-    the ODEs (orange).~\label{fig:final-bif}}
+    \big[\gbar_{\mathcal{L}}(n),\gbar_{\mathcal{R}}(n)\big]$ (blue), and computed from numerical integrations of the ODEs (orange).~\label{fig:final-bif}}
 \end{figure}
 
 \end{document}

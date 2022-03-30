@@ -2,10 +2,13 @@
 \usepackage{url,hyperref,lineno,microtype}
 \usepackage[onehalfspacing]{setspace}
 \usepackage{cleveref}
+\usepackage{graphicx}
 \usepackage{physics}
 \usepackage{siunitx}
+\usepackage{interval}
+\intervalconfig{soft open fences}
 \usepackage{xr}
-\externaldocument{draft}
+\externaldocument{manuscript}
 
 
 \renewcommand{\d}{\mathrm{d}}
@@ -21,6 +24,7 @@
 \newcommand{\dn}{\delta_n}
 \newcommand{\taud}{\tau_d}
 
+\graphicspath{{../figures}}
 
 % Leave a blank line between paragraphs instead of using \\
 
@@ -73,8 +77,8 @@ Model parameters were adapted from~\cite{bose2011} and are given in \cref{tab:pa
 		$T$                              & $376$ \si{ms}         \\
 		$T_{act}$                        & $49$ \si{ms}          \\
 		$T_{inact}$                      & $327$ \si{ms}         \\
-		$g^{\star}$                         & $0.0068$ \si{mS/cm^2} \\
-		$g_{bif}$                         & $0.0038$ \si{mS/cm^2} \\
+		$g^{\star}$                      & $0.0068$ \si{mS/cm^2} \\
+		$g_{bif}$                        & $0.0038$ \si{mS/cm^2} \\
 		$\lambda:=\exp(-T_{act}/\tau_b)$ & $0.612$               \\
 		$\rho:=\exp(-T_{inact}/\tau_a)$  & $0.721$               \\
 	\end{tabular}
@@ -90,9 +94,47 @@ That is, we choose some value $d_{k}$ at a spike time $t_{k}$, and by iterating 
 If a periodic solution of type $n-n$ is found in such way, $\bar g$ is step-wise increased/decreased, and the above algorithm is repeated.
 Otherwise, the set of all previously found solutions and the corresponding values $\bar g$ are returned.
 
-Note that applying conventional methods of numerical continuation is not straightforward for our model, as the discontinuous resets in \cref{eq:s-reset} and~\eqref{eq:d-reset} make the root finding challenging~\citep[e.g. see][ for continuation methods]{kuznetsov2004}.
+\section{Numerical validation of constant ISI assumption}
+\label{sec:tauk}
+% TODO Double-check that you've addressed all of the reviewers concerns here.
+% TODO Write caption
+To study the effect of the synaptic time constant $\tau_\kappa$ on consecutive $ISI$s of the active cell we consider a single cell that is inhibited by an exponentially decaying synaptic conductance $g$:
+\begin{align}
+	\label{eq:dotv}
+	\dot v & = f(v, w) - g(v - v_{s}), \\
+	\label{eq:dotw}
+	\dot w & =h(v, w),                 \\
+	\label{eq:dotg}
+	\dot g & = -g/\tau_{\kappa},
+\end{align}
+where functions $f$ and $h$ come from \cref{eq:f,eq:h}.
+We assume that the cell is released and fires its first spike at time $t=0$.
+We therefore initialise $v$ at the firing threshold $v_{\theta}$, $w$ at its nullcline, and
+the $g$ at the release conductance $g^{\star}$, respectively:
+\begin{align}
+	v(0) & = v_{\theta}, \\
+	w(0) & = v(0),       \\
+	g(0) & = g^{\star}.
+\end{align}
+We vary $\tau_{\kappa}$ and integrate the system numerically to record consecutive $ISI$s.
 
+\Cref{fig:tauk-vs-ISI} shows the curves for the first ($ISI_{1}$), second ($ISI_{2}$), and third ($ISI_{3}$) inter-spike-intervals for values $\tau_{\kappa} \in \interval[open left]{0}{800}$.
+These results suggest that for $\tau_\kappa \leq 100$ we have $ISI_i \approx T$, that is, inhibition $g$ decays sufficiently fast for its effect on the spiking period to be negligible.
+For $\tau_\kappa > 100$ the first $ISI_{1}$ becomes increasingly longer with $\tau_{\kappa}$, moreover the effect of the inhibition propagates to the subsequent $ISI_{2}$ and $ISI_{3}$, suggesting that for a too slow synaptic time constant the assumption $ISI \approx T$ is not suitable.
 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.8\textwidth]{tauk-vs-ISI}
+	\caption{Voltage traces of both cells of numerically stable solutions for increasing
+		values of the coupling strength $\gbar$ (increasing top to
+		bottom).~\label{fig:tauk-vs-ISI}}
+\end{figure}
+
+% TODO
+% **Note of caution**: Our ICs might be inaccurate for very large $\tau_\kappa$ , since then $w(0) \approx w_\infty(g^\star)$ will be likely violated.
+
+% \section{Irregular solutions}
+% Even
 
 \bibliographystyle{frontiersinHLTH&FPHY} % for Health, Physics and Mathematics articles
 \bibliography{bibliography.bib}
