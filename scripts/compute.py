@@ -11,14 +11,14 @@ import pandas as pd
 from poincare_map import ode, paths, poincare_map
 
 
-def compute_numeric_bif_diagram() -> pd.DataFrame:
+def compute_numeric_bif_diagram(dt: float=0.5) -> pd.DataFrame:
     """Compute bifurcation diagram numerically for n=1,2,3,4,5."""
     mlml = ode.MLML("odes/mlml.ode")
     nsteps = 100
 
-    gmin = 0.3
+    gmin = 0.01
     ns = [1, 2, 3, 4, 5]
-    g0s = [0.3, 0.4, 0.5, 0.52, 0.56]
+    g0s = [0.35, 0.4, 0.5, 0.52, 0.56]
     gsteps = [0.002, 0.002, 0.002, 0.001, 0.001]
     totals = [5000, 8000, 10000, 15000, 15000]
 
@@ -26,10 +26,10 @@ def compute_numeric_bif_diagram() -> pd.DataFrame:
     for n, g0, step, total in zip(ns, g0s, gsteps, totals):
         print(f"Starting branch at g={g0}")
         left = mlml.continuate(
-            n=n, step=-step, nsteps=nsteps, g=g0, total=total, gmin=gmin
+            n=n, step=-step, nsteps=nsteps, g=g0, total=total, gmin=gmin, dt=dt
         )
         right = mlml.continuate(
-            n=n, step=step, nsteps=nsteps, g=g0, total=total, gmin=gmin
+            n=n, step=step, nsteps=nsteps, g=g0, total=total, gmin=gmin, dt=dt
         )
         if (left is not None) and (right is not None):
             curve = pd.concat([left.iloc[::-1], right]).reset_index(
@@ -71,10 +71,10 @@ if __name__ == "__main__":
         numeric_diagram = compute_numeric_bif_diagram()
         numeric_diagram.to_pickle(paths.numeric_bif_diagram)
 
-    if (not paths.analytic_bif_diagram.exists()) or args.recompute:
-        print("Computing analytic bifurcation diagram.")
-        analytic_diagram = compute_analytic_bif_diagram()
-        analytic_diagram.to_pickle(paths.analytic_bif_diagram)
+    # if (not paths.analytic_bif_diagram.exists()) or args.recompute:
+    #     print("Computing analytic bifurcation diagram.")
+    #     analytic_diagram = compute_analytic_bif_diagram()
+    #     analytic_diagram.to_pickle(paths.analytic_bif_diagram)
 
     print("Done!")
     print(f"Computation took {time.time() - t0} seconds.")

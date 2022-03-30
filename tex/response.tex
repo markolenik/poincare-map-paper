@@ -1,8 +1,11 @@
 \documentclass[utf8]{article}
 \usepackage[a4paper, total={6in, 8in}]{geometry}
 
+\usepackage{interval}
+\intervalconfig{soft open fences}
 \usepackage{natbib}
-
+\usepackage{lineno}
+\linenumbers
 % import Eq and Section references from the main manuscript where needed
 \usepackage{xr}
 \externaldocument{manuscript}
@@ -63,17 +66,20 @@ lines \ref{#1}--\ref{#2}%
 \begin{center}
 	\Large Response to the reviewers
 \end{center}
-We thank the reviewers for their critical assessment of our work.
+We are very grateful to the reviews for their comments.
+We are, of course, very pleased that Reviewer 2 was so supportive of our manuscript and that they have endorsed publication.
+We were equally pleased that Reviewer 1 has engaged so fully with our work, that they saw value in our results and have provided such thoughtful and valuable suggestions.
+We are sorry it has taken a long time to reply; we wanted to give careful consideration to these suggestions and have made a number of substantial extensions to the work which we believe has made it stronger; we are very grateful for the help the referee comments provided in this.
+
 The biggest changes in the revised manuscript came as a result of points \hyperref[p:biol]{P2.1.1} and \hyperref[p:gstar]{P2.3.8}, which led us to revert our model to the original equations and parameter values used in \cite{bose2011}.
-The motivation behind a slightly different model in our original manuscript, as well as the consequence of the latest changes in the revised manuscript are given in \cref{sec:model}.
+The motivation behind a slightly different model in our original manuscript, as well as the consequence of the latest changes in the revised manuscript, are explained in \cref{sec:model}.
 Both reviewers also pointed out that some of our notation and terminology is unclear.
 As a result we renamed many of the terms, an overview of the most important terms is given in \cref{sec:terminology}.
-
-We will refer to the first version of the manuscript that was submitted to the journal as ``original manuscript'' (M0), and we will call the latest submitted version the ``revised manuscript'' (M1).
+We will refer to the first version of the manuscript that was submitted to the journal as the ``original manuscript'' (M0), and we will call the latest submitted version the ``revised manuscript'' (M1).
 If not otherwise stated, the equations numbers, figures, and line numbers refer to the revised manuscript.
 This response is structured as follows:
 \Cref{sec:sum} contains the terminology as well as summarises the main model changes in the revised manuscript.
-In \cref{sec:r1} we address the concerns raised by reviewer 1, and in \cref{sec:r1} the concerns raised by reviewer 2.
+In \cref{sec:r1} we address the concerns raised by Reviewer 1, and in \cref{sec:r2} the concerns raised by Reviewer 2.
 
 
 \section{Summary of changes}
@@ -81,22 +87,23 @@ In \cref{sec:r1} we address the concerns raised by reviewer 1, and in \cref{sec:
 
 \subsection{Terminology and notation}
 \label{sec:terminology}
-To increase clarity we have changed some of the terminology.
+Notation and terminology in this field is surprisingly controversial; different authors use different terms for the same thing and the same terms for things that are different, sometimes subtly different.
+We have tried to follow the referees suggestions as much as possible, but would be grateful for any further guidance.
 Below we briefly define the controversial terms.
 In the context of a spiking limit cycle of an uncoupled Morris-Lecar (ML) cell we have:
 \begin{itemize}
-	\item $T_{a}$: The time interval when the voltage is above firing threshold, i.e. when $v>v_{\theta}$.
-	\item $T_{s}$: The time interval when the voltage is below firing threshold, i.e. when $v<v_{\theta}$.
+\item $T_{a}$: The time interval when the voltage is above firing threshold, i.e. when $v>v_{\theta}$.
+\item $T_{s}$: The time interval when the voltage is below firing threshold, i.e. when $v<v_{\theta}$.
 \end{itemize}
 In the context of a stable $n:n$ solution we have:
 \begin{itemize}
-	\item \textbf{Active cell}: Cell that is currently firing.
-	\item \textbf{Silent cell}: Cell that is currently suppressed and does not fire.
-	\item \textbf{Active phase}: Time interval between the start of the limit cycle and the time when the voltage of the active cell falls below firing threshold after the $n$th spike, i.e. for $t \in \left[0, (n-1)T + T_{a}\right]$.
-	\item \textbf{Silent phase}: Time interval after the end of the active phase and the cycle period, i.e. for $t \in \left[(n-1)T + T_{a}, P\right]$.
-	\item \textbf{Active phase map}: Map $F_{n}$ that models the evolution of $d$ during the active phase.
-	\item \textbf{Recovery phase map}: Map $Q_{n}$ that models the evolution of $d$ during the silent phase.
-	\item \textbf{Left and right branch borders}: The left and right branch borders of stable $n:n$ solutions are denoted by $\bar g_{\mathcal{L}}(n)$ and $\bar g_{\mathcal{R}}(n)$, respectively.
+\item \textbf{Active cell}: Cell that is currently firing.
+\item \textbf{Silent cell}: Cell that is currently suppressed and does not fire.
+\item \textbf{Active phase}: Time interval between the start of the limit cycle and the time when the voltage of the active cell falls below firing threshold after the $n$th spike, i.e. for $t \in \left[0, (n-1)T + T_{a}\right]$.
+\item \textbf{Silent phase}: Time interval after the end of the active phase and the cycle period, i.e. for $t \in \interval[open left]{(n-1)T+T_{a}}{P}$
+\item \textbf{Active phase map}: Map $F_{n}$ that models the evolution of $d$ during the active phase.
+\item \textbf{Recovery phase map}: Map $Q_{n}$ that models the evolution of $d$ during the silent phase.
+\item \textbf{Left and right branch borders}: The left and right branch borders of stable $n:n$ solutions are denoted by $\bar g_{\mathcal{L}}(n)$ and $\bar g_{\mathcal{R}}(n)$, respectively.
 \end{itemize}
 
 \subsection{Model changes}
@@ -106,8 +113,8 @@ In this section we first explain the model differences between the \cite{bose201
 We will then outline a short motivation for these changes.
 Finally the model of the revised manuscript is discussed.
 There are two main differences in the model equations and parameters between the original manuscript and \cite{bose2011}:
-First, the value of the applied current $I$ is different: In \cite{bose2011} they have $I=3.8$ $\si{\mu A/cm^2}$, in the original manuscript we had $I=3.8$ $\si{\mu A/cm^2}$.
-Second, the original manuscript used step-wise resets of $d$ and $s$ to simplify the dynamics of the active state of the spike (when $v > v_{\theta}$).
+First, the value of the applied current $I$ is different: In \cite{bose2011} they have $I=3.8$ $\si{\mu A/cm^2}$, in the original manuscript we had $I=6$ $\si{\mu A/cm^2}$.
+Second, the original manuscript uses step-wise resets of $d$ and $s$ to simplify the dynamics of the active state of the spike (when $v > v_{\theta}$).
 
 \begin{figure}[h!]
 	\centering
@@ -115,7 +122,7 @@ Second, the original manuscript used step-wise resets of $d$ and $s$ to simplify
 	\caption{Nullclines of the \cite{bose2011} ML model with $I=3.8$ $\si{\mu A/cm^2}$ (left), and the model from our original manuscript with $I=6$ $\si{\mu A/cm^2}$ (right). The solid blue lines are the $v$-nullclines when $\bar g s=0$. The dashed blue lines are the $v$-nullclines when $\bar g s$ is near the respective bifurcation point where the fixed point changes stability.\label{fig:nullclines}}
 \end{figure}
 
-The main motivation for increasing $I$ in the original manuscript had to do with the excitability of a silent ML cell, and was to simplify the explanation of the concept of the ``release conductance''.
+The main motivation for increasing $I$ in the original manuscript had to do with the ``excitability'' of a silent ML cell, and was to simplify the explanation of the concept of the ``release conductance''.
 \Cref{fig:nullclines} shows the $v$- and $w$-nullclines for $I=3.8$ $\si{\mu A/cm^2}$ (left) and for $I=6$ $\si{\mu A/cm^2}$ (right) when no inhibition is applied and $g = 0$ (let $g:= \bar g s$).
 The dashed lines indicate the $v$-nullcline at the bifurcation point when the total synaptic conductance $g$ is at the respective bifurcation value, $g=g_{bif}$.
 In case of $I=3.8$ $\si{\mu A/cm^2}$ we have $g_{bif}\approx 0.007$ $\si{\mu A/cm^2}$, whereas for $I=6$ $\si{\mu A/cm^2}$ we have $g_{bif}\approx 0.03804$ $\si{\mu A/cm^2}$.
@@ -124,26 +131,27 @@ In other words, a silent cell with $I=3.8$ $\si{\mu A/cm^2}$ is ``easier to exci
 
 In contrast to the $I=6$ $\si{\mu A/cm^2}$ scenario, when $I=3.8$ $\si{\mu A/cm^2}$ the bifurcation at $g=g_{bif}$ is not sufficient to accurately predict the release time of the silent cell, as the silent cell can produce a first spike despite $g > g_{bif}$.
 Why this happens is interesting but not trivial, and we believe that at this stage it is not important.
-However, when $I=6$ $\si{\mu A/cm^2}$ the condition $g>g_{bif}$ becomes sufficient to accurately predict the release time of the silent cell, that is assuming $n>1$ and with the exception of the $2:2$ outliers in fig. 6 (original manuscript).
+However, when $I=6$ $\si{\mu A/cm^2}$ the condition $g>g_{bif}$ becomes sufficient to accurately predict the release time of the silent cell, that is assuming $n>1$ and with the exception of the $2:2$ outliers in fig. 6 (M0).
 When $g>g_{bif}$ is sufficient for predicting the release time, the definition of the release conductance $g^\star$ becomes straightforward, that is $g^\star=g_{bif}$.
-Moreoever, the value of $g^\star$ can be computed numerically, for example using AUTO.
+Moreover, the value of $g^\star$ can be computed numerically, for example using AUTO.
 The downside of using $I=6$ $\si{\mu A/cm^2}$ is that finding $g^\star$ analytically becomes difficult.
-Because reviewer 1 asked for an analytic derivation of $g^\star$ in point \hyperref[p:gstar]{P2.3.8}, and to avoid more confusion by using a different model than \cite{bose2011}, we decided to use $I=3.8$ $\si{\mu A/cm^2}$ in the revised manuscript.
-As explained above, however, this comlicates the definition and explanation of $g^\star$:
+Because Reviewer 1 asked for an analytic derivation of $g^\star$ in point \hyperref[p:gstar]{P2.3.8}, and to avoid more confusion by using a different model than \cite{bose2011},
+we have followed the referee's suggestion and moved the model to $I=3.8$ $\si{\mu A/cm^2}$ in the revised manuscript; all the analysis and numerical computation has been redone with this revised value.
+As explained above, however, this complicates the definition and explanation of $g^\star$:
 Now the actual value of the release conductance (as defined by the value of $g$ at the first spike time of the silent cell) depends on both $n$ and $\bar g$, as we illustrate in \cref{fig:gstar-diag}A.
 But as the graph also shows, the dashed line appears to be a good approximation for the numerically computed release conductances.
-This line marks the value of $g$ of a suppressed and $\bar g= \bar g_s$, at the end of a cycle.
-Here that $\bar g_s$ is smallest value of $\bar g$ that produces the suppressed solution.
+This line marks the value of $g$ of a suppressed and $\bar g= \bar g_s$, at the end of a cycle; recall that $\bar g_{s}$ is the minimum coupling strength that will produce the full suppressed solution.
 And this values is easy to express analytically:
-\begin{equation}
+\begin{equation*}
 	\bar g_s d_s\lambda e^{-T_{s}/\tau_\kappa}=g^{\star} \approx 0.0068\, \si{mS/cm^2}.
-\end{equation}
-Another advantage of using $I=3.8$ $\si{\mu A/cm^2}$ is that all release delays are on the millisecond scale, and there are no more outliers such the branch B in fig. 6 (M0).
+\end{equation*}
+Another advantage of using $I=3.8$ $\si{\mu A/cm^2}$ is that all release delays are on the millisecond scale, and there are no more outliers such the branch B in fig. 6 (M0); or at least none that we could find numerically.
+We had not anticipated this advantage and are pleased that Reviewer 1 prompted us to use this new value of $I$.
 
 The main motivation for changing the synapse model was mathematical convenience, as it made the $\Pi_{n}$-map formulation more readable.
 This change does not appear to affect the overall picture, i.e. the period bifurcation diagram has a similar shape even after our change, e.g. compare fig. 4A (M0) to \cref{fig:bif-diagram} (M1).
-However, the biological realism of the step-wise resets of $s$ and $d$ in the original manuscript were correctly questioned by reviewer 1 in \hyperref[p:biol]{P2.1.1}.
-We hope that reverting to the original equations used in \cite{bose2011} solves this concern.
+However, the biological realism of the step-wise resets of $s$ and $d$ in the original manuscript were correctly questioned by Reviewer 1 in \hyperref[p:biol]{P2.1.1}.
+We trust that reverting to the original equations used in \cite{bose2011} solves this concern.
 
 To sum up the model changes:
 The revised manuscript has $I=3.8$ $\si{\mu A/cm^2}$, and synaptic dynamics are modelled by
@@ -170,17 +178,18 @@ It is important not note that $\lambda$ is a \textit{derived} parameter in the r
 \lambda := \exp(-T_s/\tau_a).
 \end{equation}
 Naturally all the data for all figures was recomputed with the new model.
-Fig. 5 (M0) was removed.
-Because $g^\star$ is not defined by the Hopf-bifurcation in the revised manuscript, an illustration of the nullclines as $\bar g s$ is varied seems to be of minor importance.
-Fig. 6 (M0) was also removed, since the new definition of $g^\star$ does not produce a significant release delay.
+Fig. 5 (M0) that showed the nullclines for various $\bar g s$ was removed;
+because $g^\star$ is not defined by the Hopf-bifurcation in the revised manuscript, an illustration of the nullclines as $\bar g s$ is varied seems to be of minor importance.
+The ``release delay'' fig. 6 (M0) was replaced by \cref{fig:gstar-diag}A and B (M1).
 
 \subsection{Other minor changes}
 
 \begin{itemize}
-	\item In Fig. 1 (M0) we removed the four phases of a spike (``active'', ``silent'', ``jump up'', ``jump down''). We did this to reduce the terminology confusion regarding ``free''/``quite'' vs ``active''/``silent'', pointed out by reviewer 1 in P2.2.1. As suggested by the reviewer, in the revised manuscript we use ``active''/``silent'' to refer to the two phases of burst only.
-	\item Fig. 4B (M0) was removed, as $IBI$ is not clearly defined and is confusing.
-	\item $T_{act}$ and $T_{inact}$ were renamed to $T_a$ and $T_s$, respectively.
-	\item $\bar g_{+}$ and $\bar g_{-}$ were renamed to $\bar g_{\mathcal{L}}$ and $\bar g_{\mathcal{R}}$, as a response to point P2.3.19 raised by reviewer 1.
+\item In Fig. 1 (M0) we removed the four phases of a spike (``active'', ``silent'', ``jump up'', ``jump down''). We did this to reduce the terminology confusion regarding ``free''/``quite'' vs ``active''/``silent'', pointed out by Reviewer 1 in P2.2.1. As suggested by the reviewer, in the revised manuscript we use ``active''/``silent'' to refer to the two phases of burst only.
+\item Fig. 4B (M0) was removed, as $IBI$ is not clearly defined and is confusing.
+\item $T_{act}$ and $T_{inact}$ were renamed to $T_a$ and $T_s$, respectively.
+\item $\bar g_{+}$ and $\bar g_{-}$ were renamed to $\bar g_{\mathcal{L}}$ and $\bar g_{\mathcal{R}}$, as a response to point P2.3.19 raised by Reviewer 1.
+\item Synaptic time constant $\tau_{s}$ was renamed to $\tau_{\kappa}$, the original notation used in \cite{bose2011}.
 \end{itemize}
 
 \section{Reviewer 1}
@@ -227,7 +236,7 @@ We have also added \cref{sec:tauk} to the Supplementary Material where we numeri
 \begin{reply}
 	We agree that the ``free''\slash``quiet'' terminology is uncommon in the field.
 	When referring to a cell in the context of $n:n$ limit cycles, apart from being consistent with \citet{bose2011}, our original intent was to use the ``free''\slash``quiet'' terms to distinguish them from the phases of the action potential, where we used the more common ``active''\slash ``silent'' terms.
-	However, as reviewer 1 has pointed out, using ``active''\slash``silent'' to refer to both the phases of a spiking limit cycle \cite[e.g.~p.~250]{ermentrout2010}, and the bursting limit cycle \cite[e.g.~p.~103]{ermentrout2010} (at least in the context of ``bursty'' single cells) appears to be more common in the field.
+	However, as Reviewer 1 has pointed out, using ``active''\slash``silent'' to refer to both the phases of a spiking limit cycle \cite[e.g.~p.~250]{ermentrout2010}, and the bursting limit cycle \cite[e.g.~p.~103]{ermentrout2010} (at least in the context of ``bursty'' single cells) appears to be more common in the field.
 	For the construction of $\Pi_{n}$ only the distinction between the active ($v>v_{\theta}$) and quiet ($v<v_{\theta}$) states of an action potential, and the associated times intervals $T_{a}$ and $T_{s}$, are essential.
 	To reduce confusion we have therefore removed the mention of the ``four phases of a spike'' (lines 112-118 in M0), such that in the new version of the manuscript ``active'' and ``silent'' refer exclusively to the phases of a $n:n$ solution.
 	We hope that this clarification is sufficient to be consistent with the field, but if this is still confusing we are open for further naming suggestions.
@@ -238,7 +247,6 @@ We have also added \cref{sec:tauk} to the Supplementary Material where we numeri
 We agree with the reviewer that the $IBI$ notation is misleading, and it has been completely removed from the manuscript.
 For the inter-spike-interval $ISI$ we have used what we believe is the standard definition \cite[e.g. see][]{ermentrout1998,bose2011,matveev2007}:
 The $ISI$ is the time interval between successive spike times, where a spike time is the time when the voltage crosses the firing threshold upwards, i.e. the time when $v$ changes from being below the firing threshold to being above it. In the case of an uncoupled ML cell we have $ISI=T$.
-If this definition of the $ISI$ is not common in the field, then we kindly ask the reviewer to point us to references where a different, more common definition is used.
 \end{reply}
 
 \shortpoint{Third, in the Results, the authors state the signs of various derivatives without proof. Some are obvious (e.g., eqn. (30)) but others, such as eqn. (31), are not. Some brief justification is needed.}
@@ -285,7 +293,7 @@ It seems like the authors should be able to analytically compute or at least app
 \shortreply{Thank you for this remark. Due to the aforementioned model changes and redefinition of $g^{\star}$ we can now express $g^{\star}$ explicitly in \cref{eq:gstar}.}
 
 \shortpoint{Lines 246-7: The authors should revise because $s$ is determined by $d$ and by $\tau_{s}$.}
-\shortreply{Agreed. In line \ref{line:E} we clarify that the value of $s$ ``at each spike time'' of the active cell depends only on $d$. This is because in the revised synapse model (eq. (\ref{eq:dot-s-up})) $s$ is set to the value $d$ when $v>v_{\theta}$.}
+\shortreply{Agreed. In line \ref{line:F} we clarify that the value of $s$ ``at each spike time'' of the active cell depends only on $d$. This is because in the revised synapse model (eq. (\ref{eq:dot-s-up})) $s$ is set to the value $d$ when $v>v_{\theta}$.}
 
 \shortpoint{Line 270: It seems like the active phase ends at time $(n-1)T+\Delta t$, yet the authors say it ends at $(n-1)T$. This may be more convenient for their analysis but it’s not correct usage of the phase terminology, so clarification is needed.}
 \begin{reply}
@@ -358,7 +366,7 @@ In the revised manuscript the active phase ends at $(n-1)T + T_{a}$, which is al
 \section{Reviewer 2}
 \label{sec:r2}
 \subsection{Major Comments}
-\textbf{Note on terminology and notation for reviewer 2:} In our replies to reviewer 2 we used the same terminology as used in the original manuscript. This is because the majority of the terminology changes were suggested by reviewer 1. In the following replies we wanted to focus on the content of the points raised by reviewer 2, instead of burdening them with new terminology.
+\textbf{Note on terminology and notation for Reviewer 2:} In our replies to Reviewer 2 we used the same terminology as used in the original manuscript. This is because the majority of the terminology changes were suggested by Reviewer 1. In the following replies we wanted to focus on the content of the points raised by Reviewer 2, instead of burdening them with new terminology.
 \setcounter{point}{0}
 
 \begin{point}

@@ -71,23 +71,22 @@ Model parameters were adapted from~\cite{bose2011} and are given in \cref{tab:pa
 		$\tau_a$                         & $1000$ \si{ms}        \\
 		$\tau_b$                         & $100$ \si{ms}         \\
 		$\tau_\kappa$                    & $100$ \si{ms}         \\
-		$\tau_\gamma$                    & $0.0001$ \si{ms}      \\
 		$v_{\theta}$                     & $0$ \si{mV}           \\
 		$v_{s}$                          & $-80$ \si{mV}         \\
 		$T$                              & $376$ \si{ms}         \\
-		$T_{act}$                        & $49$ \si{ms}          \\
-		$T_{inact}$                      & $327$ \si{ms}         \\
+		$T_{a}$                        & $49$ \si{ms}          \\
+		$T_{s}$                      & $327$ \si{ms}         \\
 		$g^{\star}$                      & $0.0068$ \si{mS/cm^2} \\
 		$g_{bif}$                        & $0.0038$ \si{mS/cm^2} \\
-		$\lambda:=\exp(-T_{act}/\tau_b)$ & $0.612$               \\
-		$\rho:=\exp(-T_{inact}/\tau_a)$  & $0.721$               \\
+		$\lambda:=\exp(-T_{a}/\tau_b)$ & $0.612$               \\
+		$\rho:=\exp(-T_{s}/\tau_a)$  & $0.721$               \\
 	\end{tabular}
 \end{table}
 
 
 \section{Computing bifurcation diagram numerically}\label{appendix2}
 The bifurcation diagram of stable $n-n$ solutions of the two-cell network in \cref{fig:bif-diagram} is obtained numerically as follows:
-We initialise the coupling strength at parameter values associated with one type of $n-n$ solution, that is we choose the values $\bar g = 0.4, 0.7, 0.8, 0.9, 0.98$ for the $1-1$, $2-2$, $3-3$, $4-4$, and $5-5$ solutions respectively.
+We initialise the coupling strength at parameter values associated with one type of $n-n$ solution, that is we choose the values $\bar g = 0.35, 0.4, 0.5, 0.52, 0.56$ for the $1-1$, $2-2$, $3-3$, $4-4$, and $5-5$ solutions respectively.
 For each $\bar g$ the system is then numerically integrated sufficiently long for any transients to fully subside.
 We then identify one period of the solution by finding the first return of the depression variable $d_{1}$.
 That is, we choose some value $d_{k}$ at a spike time $t_{k}$, and by iterating from spike to spike find some subsequent value $d_{k+1}$ at spike time such that $|d_{k+1}-d_{k}|<\epsilon$.

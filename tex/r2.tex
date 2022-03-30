@@ -1,0 +1,306 @@
+\documentclass{ar2rc}
+\usepackage{natbib}
+
+\usepackage{xr}
+\externaldocument{manuscript}
+\externaldocument{supplementary}
+
+
+\usepackage{url,hyperref,lineno,microtype}
+
+\usepackage[onehalfspacing]{setspace}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{cleveref}
+\usepackage{physics}
+\usepackage{siunitx}
+\usepackage{cases}
+\usepackage{xr}
+\usepackage{bm}
+
+\graphicspath{{../figures/}}
+
+\newcommand{\linerange}[2]{%
+\ifthenelse{\equal{\getrefnumber{#1}}{\getrefnumber{#2}}}{%
+line \ref{#1}%
+}{%
+lines \ref{#1}--\ref{#2}%
+}%
+}
+% package needed for optional arguments
+
+\title{A scalar Poincaré map for anti-phase bursting in coupled inhibitory neurons with synaptic depression}
+\author{Mark Olenik, Conor Houghton}
+\journal{Frontiers in Applied Mathematics and Statistics}
+% \doi{12345}
+
+\begin{document}
+
+\maketitle
+
+\section{Terminology and notation}
+To increase clarity we have changed some of the terminology.
+Below we briefly define the controversial terms.
+In the context of a spiking limit cycle of an uncoupled ML cell we have:
+\begin{itemize}
+	\item $T^{+}$: The time interval when the voltage is above firing threshold, i.e. when $v>v_{\theta}$.
+	\item $T^{-}$: The time interval when the voltage is below firing threshold, i.e. when $v<v_{\theta}$.
+\end{itemize}
+In the context of a stable $n:n$ solution we have:
+\begin{itemize}
+	\item \textbf{Active cell}: Cell that is currently firing.
+	\item \textbf{Silent cell}: Cell that is currently suppressed and does not fire.
+	\item \textbf{Active phase}: Time interval between the start of the limit cycle and the time when the voltage of the active cell falls below firing threshold after the $n$th spike, i.e. for $t \in \left[0, (n-1)T + T^{+}\right]$.
+	\item \textbf{Silent phase}: Time interval after the end of the active phase and the cycle period, i.e. for $t \in \left[(n-1)T + T^{+}, P\right]$.
+	\item \textbf{Active phase map}: Map $F_{n}$ that models the evolution of $d$ during the active phase.
+	\item \textbf{Recovery phase map}: Map $Q_{n}$ that models the evolution of $d$ during the silent phase.
+\end{itemize}
+We have also changed the $\bar g_{+}$ and $\bar g_{-}$ notation to $\bar g_{\mathcal{L}}$ and $\bar g_{\mathcal{R}}$.
+
+
+\section{Reviewer \#1}
+
+\subsection{Major Comments}
+\RC
+I don't see the justification for assuming $\dot d=(1-d)/\tau_{d}$ when a neuron is ACTIVE (see below for ``active'' meaning).Can the authors provide some biological justification that the available synaptic resources actually increase during a spike? If not, it seems critical that they give some other justification that this assumption is OK.
+
+\AR
+We agree with the reviewer's criticism.
+Beyond mathematical convenience there was no biological justification for making the assumption that the depression variable recovers when $v>v_{\theta}$.
+In the original model from \cite{bose2011} $d$ indeed decays when $v>v_{\theta}$:
+
+\begin{numcases}{\dot d_{i} = }
+	(1-d_{i})/\tau_{a} &  if $v_{i}<v_{\theta}$,
+	\\
+	-d_{i}/\tau_{b}    &  if $v_{i}>v_{\theta}$,
+\end{numcases}
+
+The main reason for making the above assumption had to do with the fact that in the original model from \cite{bose2011} the time constants for the decay of both the synaptic and depression variables, there denoted by $\tau_{\kappa}$ and $\tau_{b}$, are both $100$ $\si{ms}$. The consequence of this coicidence is that
+
+
+\RC
+The authors assume that each spike has duration $T$. But that can only be true exactly if the $s$ variable from the silent neuron is 0, which is never the case. The authors should compute how fast $s$ has to decay to make period=T a reasonable approximation even in the first spike of a burst, and some commentary about this should be given.
+
+\AR
+The paragraph outlining the $ISI=T$ assumption in \cref{sec:assumptions} of the main text has been edited to highlight the importance of $\tau_{\kappa}$ for the validity of that assumption.
+We have also added \cref{sec:tauk} to the Supplementary Material where we numerically explore how changing the value of $\tau_{\kappa}$ affects the first, second, and third $ISI$. There we conclude that for $\tau_{\kappa} \leq 100$ $\si{ms}$ the effect of a non-zero $s$ at the start of the active phase is negligible for the first, and naturally the subsequent, $ISI$s.
+
+
+\subsection{Minor Comments}
+\subsubsection{Terminology}
+\RC
+First, the authors refer to the neurons as ``free'' or ``quiet'' and refer to the ``free phase'' and ``quiet phase''.
+They say that they follow Bose and Booth in doing so.
+But I have read (and written) MANY papers on bursting\slash CPGs\slash multi-phase solutions, and they always refer to ``active'' and ``silent'' rather than ``free'' and ``quiet''.
+The authors should switch their word use as well to avoid confusing the field.
+
+\AR
+We agree that the ``free''\slash``quiet'' terminology is uncommon in the field.
+When referring to a cell in the context of $n:n$ limit cycles, apart from being consistent with \citet{bose2011}, our original intent was to use the ``free''\slash``quiet'' terms to distinguish them from the phases of the action potential, where we used the more common ``active''\slash ``silent'' terms.
+However, as reviewer 1 has pointed out, using ``active''\slash``silent'' to refer to both the phases of a spiking limit cycle \cite[e.g.~p.~250]{ermentrout2010}, and the bursting limit cycle \cite[e.g.~p.~103]{ermentrout2010} (at least in the context of ``bursty'' single cells) appears to be more common in the field.
+For the construction of $\Pi_{n}$ only the distinction between the active ($v>v_{\theta}$) and quiet ($v<v_{\theta}$) states of an action potential, and the associated times intervals $T_{a}$ and $T_{s}$, are essential.
+To reduce confusion we have therefore removed the mention of the ``four phases of a spike'' (previously lines 112-118), such that in the new version of the manuscript ``active'' and ``silent'' refer exclusively to the phases of a $n:n$ solution.
+We hope that this clarification is sufficient to be consistent with the field, but if this is still confusing we are open for further naming suggestions.
+
+\RC
+Second, the authors use $ISI$ and $IBI$ incorrectly. The $ISI$ is the inter-spike interval. This is the period BETWEEN spikes, NOT the entire period T of a spiking event (see e.g., line 181). The $IBI$ is the inter-burst interval. In this paper, that would be the silent phase duration for one neuron. It is NOT the entire period of a bursting event, nor is it the delay from the end of one neuron's active phase to the start of the other neuron's active phase (e.g., line 266). These need to be corrected throughout the paper.
+
+\AR
+We agree with the reviewer that the $IBI$ notation is misleading, and it has been completely removed from the manuscript. For the inter-spike-interval $ISI$ we have used what we believe is the standard definition \cite[e.g.][]{ermentrout1998,bose2011,matveev2007}: The $ISI$ is the time interval between successive spike times, where a spike time is the time when the voltage crosses the firing threshold upwards, i.e. the time when $v$ changes from being below the firing threshold to being above it. In the case of an uncoupled ML cell we have $ISI=T$. If this definition of the $ISI$ is not common in the field we kindly ask the reviewer to point us to references where a different, more common definition is used.
+
+% TODO
+\RC
+Third, in the Results, the authors state the signs of various derivatives without proof. Some are obvious (e.g., eqn. (30)) but others, such as eqn. (31), are not. Some brief justification is needed.
+
+\AR
+Agreed.
+We have added a brief explanation regarding the monotonicity of $\Pi_{n}$ w.r.t. $d^{\star}$ (\ref{line:mono}).
+We have also added a section to the supplemental materials where the derivation of the derivatives of $F_{n}$ and $Q_{n}$ is shown.
+
+\RC
+Fourth, Fig. 11A seems to contrast with Fig. 4A. Fig. 11A seems to show massive multistability of solutions for different $n$, whereas Fig. 4A only has bistability. Some clarification is needed.
+
+\AR
+In the original manuscript fig. 11A shows stable fixed points of $\Pi_{n}$ for different $n$.
+Fig. 4A shows the period of stable $n:n$ solutions for the flow system. The map $\Pi_{n}$ relies on the assumption that the active phase contains exactly $n$ spikes. This assumption is only valid on certain intervals of $\bar g$, namely those defined by $\bar g_{\mathcal{L}}$ and $\bar g_{\mathcal{R}}$. We have added some additional clarification in XXX
+
+\RC
+And fifth, the notation $n-n$ is non-ideal, as it looks like $n$ minus $n$. In my opinion, $n:n$ is more standard and clearer.
+
+\AR
+Thank you for this suggestion, as it especially makes the $(n+1):(n+1)$ easier to read. As suggested, we have replaced the $n-n$ notation to $n:n$ everywhere in the revised manuscript.
+
+\subsubsection{Additional Minor Points}
+
+% Use the short-hand macros for one-liners.
+\RC
+Line 31: It’s a CPG composed of reciprocally inhibitory neurons; referring to a ``reciprocally inhibitory CPG'' is misleading.
+
+\AR
+Changed to ``CPG composed of reciprocally inhibitory neurons''.
+
+\RC
+The par. starting on line 38 is unclear:
+The $1-d$ conditions for $n:n$ solutions in [6] are stated to be for $n\leq 2$ (line 43); the authors should clarify if $n:n$ in line 48 also refers to $n \leq 2$ or not.
+
+\AR
+Added clarification of $n\leq 2$.
+
+\RC
+Results line 130: It is important to note that both neurons inhibit each other at all times. S may get small but it’s nonzero. Thus, “inhibited” cell is not really well-defined.
+
+\AR
+Removed ``inhibited cell'' notation.
+
+\RC
+Line 137: Wang \& Rinzel, 1992 (and perhaps Skinner et al. from 1993 or 1994) should be cited in reference to release.
+
+% TODO: Add proper citation
+\AR
+Added Wang \& Rinzel, 1992 and Skinner et al. 1994 reference when ``release'' is mentioned.
+
+\RC
+I don’t understand Fig. 4B. The ISI is less than the IBI, so how can their ratio be bigger than 1? Or perhaps the axis label “ISI/IBI” does not refer to ISI divided by IBI? Clarification is needed.
+
+\AR
+The IBI notation was indeed unclear and its mention and Fig. 4B has been removed from the manuscript.
+
+\RC
+Line 200: “revolve” should be replaced by “evolve”.
+
+\AR
+Reworked the whole paragraph formerly starting at line 194.
+
+\RC
+Line 213 is incorrect: It’s not the decay of d that matters but the decay of s before the next spike occurs. Correction needed – except now I realize that lines 207-219 can be cut, as they add nothing relative to the previous paragraph.
+
+\AR
+Definition of $g^{\star}$ was changed due to the change in model, consequently the paragraph starting in line 207 was removed.
+
+\RC
+It seems like the authors should be able to analytically compute or at least approximate $g^\star$ and should give some explanation for the delay in Fig. 6A, left branch. This must relate to the silent cell spending too short of a time in the silent phase. Fig. 4 is certainly relevant.
+
+\AR
+Due to the aforementioned model changes and redefinition of $g^\star$ we can now express $g^{\star}$ explicitly in \Cref{eq:gstar} (latest manuscript).
+
+\RC
+Lines 246-7: The authors should revise because $s$ is determined by $d$ and by $\tau_s$.
+
+\AR
+We clarified that the value of $s$ ``at each spike time'' of the active cell depends only on $d$.
+
+% TODO
+\RC
+Line 270: It seems like the active phase ends at time $(n-1)T+\Delta t$, yet the authors say it ends at $(n-1)T$. This may be more convenient for their analysis but it’s not correct usage of the phase terminology, so clarification is needed.
+
+\AR
+% Comment on difference in definition to conventions etc and why, cause we want to include the recovery etc…
+It is indeed misleading when we let the ``active phase'' (called ``free phase'' in the original manuscript) end at $(n-1)T$, since this time is the beginning of the last spike of the active cell.
+The change of the model to \citet{bose2011} original equations, where $T=T_{act}+T_{inact}$, and the according redefinition of the active phase should clarify this issue.
+
+\RC
+It’s disorienting to see $\delta_n(d*)$ in eqn. (20) when just above (line 320) the same quantity is called $d_n = d(t_n^ -)$. The authors should pick one notation for both places.
+
+\AR
+As suggested, we have removed the $d_ n$ notation completely.
+
+\RC
+Cut line 339 and equation (27). These add a bit of confusion and nothing else.
+
+\AR
+We believe that line 339 and eqn. (27) are central to understanding the derivation of map $Q_{n}$. Eqn. (27) implies that if we know $\Delta t$, then we can predict the value of the depression variable of the active cell after $n$ spikes. This statement is not trivial because when computing $Q_{n}$ we have no knowledge of the initial $d^{\star}$. We have added some additional explanation and would suggest to leave eqn. (27) as it is.
+
+\RC
+Fig. 9 caption: mention where the $Q_n$ curves intersect.
+\AR
+Added intersection to caption in Figure $F_{n}$ and $Q_{n}$ figure.
+
+\RC
+Eqn. (29): remind the reader that $\delta_n(d^ \star)$ comes from eqn. (20) and that $g^{\star}$ is obtained numerically.
+
+\AR
+Edited paragraph accordingly.
+
+\RC
+Lines 364-6 including eqn. (36) should be cut – they are neither new nor helpful here.
+
+\AR
+Lines have been removed as suggested.
+
+\RC
+Eqns. (37),(38) can and should be combined.
+
+\AR
+Combined as suggested.
+
+\RC
+Eqn. (44) is confusing: here the authors want $d_f^\star = \phi_h(\bar{g})$, so it’s strange to express it as a function of $d_f^\star$ again.
+
+\AR
+The $d_{f}^{\star}$ in eqn. (44) was a typo, as pointed out this should be
+\begin{equation}
+    \phi_{n}(\bar g) := G^{-1}(\bar g).
+\end{equation}
+
+\RC
+Fig. 11B needs more explanation, such as a reminder that the orange curves are only computed over small intervals of $\bar{g}$ where the solution branch is stable.
+
+\AR
+Added reminder in the figure caption that the orange curves are computed from stable $n:n$ solutions that come from numerical integration of the system.
+
+\RC
+The notation $\bar{g}_{+}(n) < \bar{g}_{-}(n)$ seems strange – seems like these should be reversed (the math is fine, I’m questioning the choice of notation).
+
+\AR
+We changed the $\bar{g}_{+}(n) < \bar{g}_{-}(n)$ notation to $\bar{g}_{\mathcal{L}}(n) < \bar{g}_{\mathcal{R}}(n)$, where the $\mathcal{L}$ and $\mathcal{R}$ subscripts stand for ``left'' and ``right'' branch borders.
+
+\RC
+Line 415: [21] is cited twice.
+
+\AR
+Corrected.
+
+\RC
+Rather than stating eqn. (54), it would be clearer just to reference eqn. (47) there.
+
+\AR
+We removed eqn. (54) and referenced eqn. (47).
+
+\RC
+A better explanation of what is shown in Fig. 12 is needed. Is this $\bar{g}_{+}(n)$ and $\bar{g}_{-}(n)$ for various n, computed numerically from (56) and (58)?
+
+\AR
+A short clarification was added in the text and captions to Fig. 12.
+
+\RC
+Discussion lines 459-462: Please explain what such “light” has been shed here. If none, as it appears, that’s OK for this math paper, but then this comment doesn’t really belong in the discussion.
+
+\AR
+Our formulation was indeed misleading. This paper does not provide much insight on the underlying biological mechanisms in anti-phase burst generation. Instead, by ``underlying mechanisms'' we were referring to the ``mathematical principles'', e.g. importance of model parameters for the rhythm etc. A clarification was added in the text.
+
+\RC
+I’m confused about lines 534-6. I have never heard of learning in a CPG. Please clarify what is meant.
+
+\AR
+An elaborate explanation of learning in CPGs seems to be beyond the scope of this paper, and we have removed the learning reference. If the reviewer is interested in learning in CPGs, please consider \citet{lukowiak1999}, where the authors experimentally study learning through operant conditioning in the respiratory CPG of the Lymnaea stagnalis snail, which consists of three inter-neurons.
+
+
+% \subsection{Major concern \#3}
+
+% \RC Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+% \AR Ok, I changed this:
+
+% \begin{quote}
+% The cat in the box is \DIFdelbegin \DIFdel{dead}\DIFdelend \DIFaddbegin \DIFadd{alive}\DIFaddend .
+% \begin{align}
+% E &= mc^2 \\
+% m\cdot \DIFdelbegin \DIFdel{a=F}\DIFdelend \DIFaddbegin \DIFadd{v=p}\DIFaddend .
+% \end{align}
+% \end{quote}
+
+% But I actually have no idea what you were talking about.
+
+\bibliographystyle{apalike}
+\bibliography{bibliography.bib}
+\end{document}

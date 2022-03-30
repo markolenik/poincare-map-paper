@@ -75,6 +75,11 @@ class ODE(ABC):
         """Numerically compute fixed point of nullclines."""
         pass
 
+    @abstractmethod
+    def find_limit_cycle(self, **kwargs) -> pd.DataFrame:
+        """Integrate and return either limit cycle solution or empty dataframe."""
+        pass
+
 
 class ML(ODE):
     def rand_ics(self, seed: int | None = None) -> pd.DataFrame:
@@ -87,23 +92,30 @@ class ML(ODE):
         )
         return pd.DataFrame([ics], columns=self.state_vars)
 
-    def find_equilibrium(self, thresh: float = 2, **kwargs) -> pd.DataFrame:
+    def find_limit_cycle(self, thresh: float = 2, **kwargs) -> pd.DataFrame:
         """Integrate and return either limit cycle or stable fixed point."""
         solution = self.run(**kwargs)
         if not solution.empty:
             spikes = helpers.spike_times(solution["v"])
             if spikes.empty:
-                # Return stable fixed point instead.
-                return solution.iloc[-1]
+                # If no limit can be found return empty DataFrame.
+                return pd.DataFrame(columns=solution.columns)
             else:
                 lc_index = helpers.limit_cycle_index(
                     solution["v"], spikes, thresh=thresh
                 )
                 lc = solution.loc[lc_index]
-                return lc
-        else:
-            # Return empty dataframe.
-            return solution
+                # Make lc cyclic
+                lc = pd.DataFrame(
+                    np.vstack([lc.values, lc.iloc[0].values]),
+                    columns=lc.columns,
+                )
+                # Reset time index
+                period = lc.index[-1] - lc.index[0]
+                time = np.linspace(0, period, len(lc))
+                return lc.set_index(pd.Index(time, name=lc.index.name))
+        # If no limit can be found return empty DataFrame.
+        return pd.DataFrame(columns=solution.columns)
 
     def minf(self, v: float) -> float:
         """Calcium asymptotic function."""
@@ -121,7 +133,7 @@ class ML(ODE):
         I_k = self.pars["gk"] * (v - self.pars["vk"])
         return (-I_leak - I_ca - I_syn + self.pars["iapp"]) / I_k
 
-    def fixed_point(self, gtot: float, x0: float = -69) -> float | None:
+    def fixed_point(self, gtot: float = 0.0, x0: float = -69) -> float | None:
         """Numerically compute fixed point of nullclines."""
         root_fun = lambda v: self.vinf(v, gtot) - self.winf(v)
         root, info = optimize.newton(root_fun, x0=x0, full_output=True)
@@ -142,7 +154,7 @@ class ML(ODE):
         for _ in range(max_steps):
             if echo_progress:
                 print(f"g={round(g, 4)}")
-            equilibrium = self.find_equilibrium(g=g, **kwargs)
+            equilibrium = self.find_limit_cycle(g=g, **kwargs)
             if type(equilibrium) is pd.DataFrame:  # limit cycle
                 return g
             else:
@@ -247,10 +259,7 @@ class MLML(ODE):
                         results.append(
                             {
                                 **lc_info,
-                                **{
-                                    "g": g,
-                                    "lc": lc
-                                },
+                                **{"g": g, "lc": lc},
                             }
                         )
                         if echo_progress:

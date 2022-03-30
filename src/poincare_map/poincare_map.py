@@ -28,19 +28,19 @@ class PoincareMap(NamedTuple):
 
     # These are derived.
     gstar: float = 0.0068
-    T: float = 376  # Spiking period.
-    Tact: float = 49
-    Tinact: float = 327
+    T: float = 376  # Spiking period. Or 376?
+    Ta: float = 49
+    Ts: float = 327
 
     @property
     def Lambda(self):
         """Depression speed."""
-        return np.exp(-self.Tact / self.taub)
+        return np.exp(-self.Ta / self.taub)
 
     @property
     def Rho(self):
         """Depression recovery speed."""
-        return np.exp(-self.Tinact / self.taua)
+        return np.exp(-self.Ts / self.taua)
 
     @property
     def dsup(self):
@@ -51,7 +51,7 @@ class PoincareMap(NamedTuple):
     def gsup(self):
         """Minimum value of g for suppressed solution."""
         return (self.gstar / self.Lambda) * (
-            np.exp(self.Tinact / self.tauk) / self.dsup
+            np.exp(self.Ts / self.tauk) / self.dsup
         )
 
     @property
@@ -89,10 +89,21 @@ class PoincareMap(NamedTuple):
         delta_n = (
             (1 / (g * self.Lambda)) * self.gstar * np.exp(delta_t / self.tauk)
         )
-        exponent = (
-            -((self.n - 1) * self.T + self.Tact + 2 * delta_t) / self.taua
-        )
+        exponent = -((self.n - 1) * self.T + self.Ta + 2 * delta_t) / self.taua
         return 1 - (1 - self.Lambda * delta_n) * np.exp(exponent)
+
+    def Q_map_slope_num(self, delta_t: float, g: float) -> float:
+        eps = 0.00001
+        return (self.Q_map(delta_t + eps, g) - self.Q_map(delta_t, g))/eps
+
+    def Q_map_slope(self, delta_t: float, g: float) -> float:
+        A = (self.n - 1) * self.T + self.Ta
+        E1 = np.exp(-2 * delta_t / self.taua)
+        E2 = np.exp(delta_t / self.tauk - 2 * delta_t / self.taua)
+        return np.exp(-A / self.taua) * (
+            (2 / self.taua) * E1
+            + self.gstar / g * (1 / self.tauk - 2 / self.taua) * E2
+        )
 
     def P_map(self, d: float, g: float) -> float:
         """Explicit burstmap."""
@@ -113,7 +124,7 @@ class PoincareMap(NamedTuple):
             return None
         else:
             A = (1 - delta * self.Lambda) / (1 - d)
-            B = np.exp(-((self.n - 1) * self.T + self.Tact) / self.taua)
+            B = np.exp(-((self.n - 1) * self.T + self.Ta) / self.taua)
             return (self.gstar / (delta * self.Lambda)) * pow(
                 A * B, 1 / self.tau
             )
@@ -123,7 +134,7 @@ class PoincareMap(NamedTuple):
         df = self.phi_stable(g)
         if df is not None:
             delta_t = self.F_map(df, g)
-            return 2 * ((self.n - 1) * self.T + self.Tact + delta_t)
+            return 2 * ((self.n - 1) * self.T + self.Ta + delta_t)
 
     def critical_fp(self, x0: float = 0.5) -> Tuple[float, float]:
         """Compute critical fixed point (db, gb) at fold bifurcation
@@ -161,13 +172,13 @@ class PoincareMap(NamedTuple):
         if df is not None:
             # Value of d at (n-1)T + Tact
             dlast = self._replace(n=self.n - 1).delta(df) * self.Lambda
-            return g * dlast * np.exp(-self.Tinact / self.tauk) - self.gstar
+            return g * dlast * np.exp(-self.Ts / self.tauk) - self.gstar
 
     def R_fun(self, g: float) -> float | None:
         """Compute R function (eq. 56)."""
         df = self.phi_stable(g)
         if df is not None:
-            return self.F_map(df, g) - self.Tinact
+            return self.F_map(df, g) - self.Ts
 
     def left_branch_border(self, x0: float = 1.0) -> float | None:
         """Compute left bifurcation border of n-branch."""

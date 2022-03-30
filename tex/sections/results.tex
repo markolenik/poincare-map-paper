@@ -37,7 +37,7 @@ However, the analysis in the following sections will only be concerned with the 
 % Summary of assumptions
 The goal of the following mathematical analysis is to reduce the complexity of the
 eight-dimensional system to a more tractable problem.
-As we will explain, we do this by approximating the full dynamics by a reduced system describing the dynamics of the depression variable $d$ of either of the two cells.
+As we will explain, we do this by approximating the full dynamics by a reduced system that describes the evolution of the depression variable $d$ of either of the two cells.
 We will construct the solution of $d$ in a piecewise manner from one spike to the next, first during the active phase, and then during the silent phase.
 This construction will require two assumptions about the membrane and synaptic dynamics.
 The first assumption states that during a burst the active cell fires at its uncoupled period $T$, which simplifies the construction of the solution of $d$.
@@ -53,7 +53,7 @@ However here we will use these assumptions to construct a Poincaré map of $d$, 
 Our first assumption about the model states that the active cell fires at its uncoupled period $T$, that is, during the active phase of a burst we have $ISI=T$.
 Solution profiles in \cref{fig:burst-sols} suggest that the $ISI$s are indeed approximately constant.
 Numerically computing $ISI$s for all stable $n:n$ solutions in \cref{fig:bif-diagram} reveals that $ISI$s differ by at most $1\, \si{ms}$ from the intrinsic firing period $T\approx 376\, \si{ms}$.
-Assuming $ISI=T$ seems reasonable given that inhibition acting on the silent cell decays exponentially on a much shorter timescale $\tau_{\kappa}$ than the duration of the $ISI$. Therefore once the silent cell is released its trajectory quickly approaches the spiking limit cycle.
+Assuming $ISI=T$ seems reasonable given that inhibition acting on the silent cell decays exponentially on a much shorter timescale $\tau_{\kappa}$ than the duration of the $ISI$. Therefore, once the silent cell is released its trajectory quickly approaches the spiking limit cycle.
 Naturally the above assumption requires a sufficiently small $\tau_{\kappa}$, and fails when $\tau_{\kappa}$ is large.
 In the Supplementary Material \cref{sec:tauk} we numerically explore how different values of $\tau_{\kappa}$ affect the $ISIs$ of the active cell.
 Finally, assuming $ISI=T$ allows us to ignore the non-linear membrane dynamics during the active phase, and to construct the evolution of the synaptic variables iteratively from spike to spike.
@@ -62,10 +62,10 @@ Finally, assuming $ISI=T$ allows us to ignore the non-linear membrane dynamics d
 % Assumption 2: Release
 \linelabel{line:release1}
 Our second assumption states that the silent cell is released and spikes as soon as the total inhibitory conductance $\bar g s$ acting on it drops below some threshold value.
-We call this critical threshold value the ``release conductance'', and define it as the value of $\bar g s$ at the time when the voltage of the quiet cell first crosses the firing threshold $v_{\theta}$, that is when that cell is released and fires its first spike.
-Recall that when a cell is quiet its $v$- and $w$-nullclines intersect at a stable fixed point and $\bar g s > g_{bif}$.
+We call this critical threshold value the ``release conductance'', and define it as the value of $\bar g s$ at the time when the voltage of the silent cell first crosses the firing threshold $v_{\theta}$, that is when that cell is released and fires its first spike.
+Recall that when a cell is silent its $v$- and $w$-nullclines intersect at a stable fixed point and $\bar g s > g_{bif}$.
 % The following does not necessarily imply that it fires instantly on release.
-A sufficient condition for the quiet cell to be released is therefore $\bar g s < g_{bif}$.
+A sufficient condition for the silent cell to be released is therefore $\bar g s < g_{bif}$.
 However, depending on the topology of the stable manifold, the $(v,w)$-trajectory of the silent cell can escape the stable fixed point and allow the cell to produce a spike for $\bar g s > g_{bif}$.
 In this case the value of the release conductance depends on the type of $n:n$ solution and the coupling strength $\bar g$.
 For any stable $n:n$ solution in \cref{fig:bif-diagram} we can compute an associated release conductance numerically by recording the value of $\bar g s$ at the time of the first spike of the silent cell.
@@ -85,13 +85,12 @@ Therefore, using
 	~\label{eq:release}
 	\bar g s=g^{\star}
 \end{equation}
-as a constant release condition for all $n:n$ solutions allows us to accurately predict the timing of the release of the quiet cell.
+as a constant release condition for all $n:n$ solutions allows us to accurately predict the timing of the release of the silent cell.
 And to simplify the terminology, from now on we will refer to \cref{eq:release} simply as the ``release condition''.
 \linelabel{line:release2}
 
-% NOTE: Perhaps mention the first assumption here as well.
 In summary: We assume that the release condition is sufficient to predict when the silent cell is released.
-Due to the symmetry of $n:n$ solutions the release occurs at exactly half the period of the full cycle, that is at $P/2$.
+Due to the symmetry of $n:n$ solutions the release occurs at exactly half the period of the full cycle.
 The release time therefore uniquely determines the type of $n:n$ solution.
 Furthermore, computation of the release time does not depend on the membrane nor the synaptic dynamics of the silent cell.
 Instead, the solution of the synaptic variable $s$ of the active cell is sufficient to predict when $\bar g s =g^{\star}$ is satisfied.
@@ -108,7 +107,7 @@ The map $\Pi_{n}$ therefore describes the evolution of $d$, of either of the two
 To simplify the map construction we will assume that an active cell fires exactly $n$ times before it becomes silent.
 We will construct $\Pi_n$ by evolving $d$ first during the active phase and then during the silent phase of the $n:n$ limit cycle.
 The terms ``active'' and ``silent'' phases will be defined in terms of the state of the depression variable.
-Hence, during the active phase the depression variable of the active cell will both decay and recover, while during the silent phase it will only recover.
+During the active phase the depression variable of the active cell both decays and recovers, while during the silent phase it only recovers.
 First, let us give explicit definitions of the active and silent phases of a burst.
 A schematic illustration of both phases is given in \cref{fig:free-quiet}.
 
@@ -124,10 +123,11 @@ Let $P_n$ denote the full cycle period of a $n:n$ solution:
 	P_n = 2\Big( (n-1)T + T_{a} + \Delta t \Big).
 \end{equation}
 We can now define the active and silent phases of cell 1 explicitly.
+% TODO: This NEEDS editing. Silent phase term here confusing.
 The active phase of a burst is the interval that lasts from the first spike time up until the beginning of the silent phase of the last spike, that is for time $0<t<(n-1)T + T_{a}$.
 During the active phase of cell 1, the silent cell 2 is inhibited sufficiently strong to prevent it from firing, hence $\bar g s > g^{\star}$.
 The silent phase of cell 1 is the remaining duration of the cycle when the cell is not firing, that is for $(n-1)T + T_{a} < t < P_n$.
-Hence the silent phase lasts for $(n-1)T + T_{a} + 2\Delta t$.
+The silent phase lasts for $(n-1)T + T_{a} + 2\Delta t$.
 
 Note that only the silent phase depends on $\Delta t$, which will play a central role in the construction of $\Pi_n$.
 From \cref{eq:P} $\Delta t$ can be computed as
@@ -189,7 +189,7 @@ where to keep the notation simple we let
 	\rho    & :=\exp(-T_{s}/\tau_{a}). \label{eq:rho}
 \end{align}
 
-Given constant $T_{a}$ and $T_{s}$, parameter $\lambda$ determines how much the synapses depresses during the active phase of the spike, while $\rho$ determines how much it recovers during the silent phase.
+Given constant $T_{a}$ and $T_{s}$, the derived parameter $\lambda$ determines how much the synapses depresses when $v>v_{\theta}$, while $\rho$ determines how much it recovers when $v<v_{\theta}$.
 Since $0<\lambda, \rho<1$, the map in \cref{eq:map-d} is increasing and contracting, with a fixed point at
 \begin{equation}
 	~\label{eq:dsup}
@@ -198,7 +198,6 @@ Since $0<\lambda, \rho<1$, the map in \cref{eq:map-d} is increasing and contract
 where $0<d_{s}<1$.
 The value $d_{s}$ is the maximum depression value that can be observed in the suppressed solution where the active cell fires at its uncoupled period $T$ (see \cref{fig:burst-sols}E).
 Using the release condition in \cref{eq:release} allows us to derive the value of the minimum coupling strength that will produce the full suppressed solution, denoted as $\bar g_{s}$.
-% TODO  Would be good to elaborate on the idea that lambda and tau can be viewed as the new time constants in the reduced system.
 Solving \cref{eq:dot-s-down} for $s(t)$ with $t=T_{s}$ and setting the initial value $s(0)=d_s\lambda$ then gives us the aforementioned approximation of the release conductance $g^{\star}$:
 \begin{equation}
 	\label{eq:gstar}
@@ -237,7 +236,7 @@ Substituting $s(\Delta t)$ into $s$ of the release condition (\cref{eq:release})
 	\bar g \dn(d^\star) \lambda e^{-\Delta t/\tau_\kappa}=g^{\star}.
 \end{equation}
 Our assumption of the release condition guarantees that the silent cell 2 spikes and becomes active when $\bar g s - g^{\star}$ crosses zero.
-Solving \cref{eq:release2} for $\Delta t$ allows us to compute $\Delta t$ as a function of $d^{\star}$, which defines our map $F_{n}$:
+Solving \cref{eq:release2} for $\Delta t$ allows us to compute $\Delta t$ as a function of $d^{\star}$, which defines the map $F_{n}$:
 \begin{equation}
 	\label{eq:Fn-map}
 	F_n(d^\star):=\tau_\kappa \ln{\left(\frac{\bar g }{g^\star} \lambda \delta_{n}(d^\star)\right)}= \Delta t.
@@ -374,7 +373,7 @@ Because we are primarily interested in the stable fixed points $d^\star_f>d^\sta
 	\phi_n(\bar g):= G_n^{-1}(\bar g).
 \end{equation}
 Function $\phi_n(\bar g)$ is also monotonic, and is therefore straightforward to compute numerically.
-Here we use the Python package Pynverse \citep{pynverse} for that purpose.
+We use the Python package Pynverse \citep{pynverse} for that purpose.
 
 Having found the stable fixed points $d^\star_f$ as a function of $\bar g$, we can now compute the associated cycle period.
 Recall that the period is given by \cref{eq:P}, which can be written as a function of $\bar g$:
@@ -487,5 +486,5 @@ We also note the occurrence of bistability between pairs of $n:n$ and $(n+1):(n+
 As previously observed in \cref{fig:folds}B our maps prediction of the cycle period is accurate.
 However, the mismatch in the left and right branch borders is significant.
 This mismatch might be due to the millisecond release delay error (\cref{fig:gstar-diag}B) induced by our assumption of a constant release conductance for all $n:n$ solutions (see \cref{eq:release}).
-Another explanation for the border mismatch could be that our assumptions on the time scales of $w$ and $s$ dynamics do not hold near the stability borders, and that they can only be captured by more complex approximations.
+Another explanation for the border mismatch could be that our assumptions on the time scales of $(v,w)$ vs $s$- and $d$-dynamics do not hold near the stability borders, and that they can only be captured by more complex approximations.
 Nevertheless, our map allows approximate extrapolation of the cycle period and the respective bifurcation borders where numerical integration of the ODEs would require a very small time step.

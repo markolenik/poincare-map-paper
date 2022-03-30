@@ -99,16 +99,18 @@ The data sets generated for this study are available on request to the correspon
 \bibliographystyle{frontiersinHLTH&FPHY} % for Health, Physics and Mathematics articles
 \bibliography{bibliography.bib}
 
+
 \section*{Figure captions}
 
 \begin{figure}[h!]
   \centering
   \includegraphics{nullclines}
-  \caption{Periodic solution of relaxation-oscillator model neuron. $\bm{\mathrm{(A)}}$
+  \caption{Periodic solution of ML model neuron.
+    $\bm{\mathrm{(A)}}$
     Projection of limit cycle onto ($v,w$)-phase plane with $v$-nullcline (blue,
     $v_\infty$) and $w$-nullcline (orange, $w_\infty$). Unstable fixed point $p_{f}$
-    is indicated by an orange dot. $\bm{\mathrm{(B)}}$ Corresponding voltage trace
-    $v(t)$ of an action potential.~\label{fig:nullclines}}
+    is indicated by an orange dot; firing threshold $v_{\theta}$ is denoted by a dashed line.
+    $\bm{\mathrm{(B)}}$ Corresponding voltage trace $v(t)$ of an action potential.~\label{fig:nullclines}}
 \end{figure}
 
 \begin{figure}[h!]
@@ -125,33 +127,21 @@ The data sets generated for this study are available on request to the correspon
   \caption{Numerically computed bifurcation diagram of the cycle period of stable $n:n$ solutions for increasing coupling strength $\gbar$. Dashed lines show the interval between the $5-5$ and the suppressed solution, where higher period $n:n$ solutions occur on increasingly smaller intervals of $\gbar$.\label{fig:bif-diagram}}
 \end{figure}
 
-% \begin{figure}[h!]
-%   \centering
-%   \includegraphics{nullclines-coupled}
-%   \caption{Nullclines $v_{\infty}$ (blue) and $w_{\infty}$ (orange) in the
-%   $(v,w$)-phase plane for different values of the total synaptic conductance $\gbar
-%   s$. For small $\gbar s < g^{\star}$, fixed point $p_{f}$ is unstable (orange
-%   point). Larger values $\gbar s$ move $v_{\infty}$ down in the $(v,w)$-plane until
-%   $p_{f}$ changes stability (half orange,  half blue point) at some critical total
-%   conductance value $\gbar s = g^{\star}$, and becomes stable (blue point) for
-%   $\gbar>g^{\star}$.~\label{fig:nullclines-coupled}}
-% \end{figure}
-
 \begin{figure}[h!]
   \centering
   \includegraphics{gstar-diag}
-  \caption{Numerically computed values of the release conductance ($\tilde g^{\star}$) for various $n:n$ solutions. The dashed line indicates the analytical approximation of the release conductance by $g^{\star}$.\label{fig:gstar-diag}}
+  \caption{
+    Numerically computed values of the release conductance $\bm{\mathrm{(A)}}$ and release delay ($\bm{\mathrm{B}}$) for various $n:n$ solutions and values $\bar g$. The dashed line indicates the analytical approximation of the release conductance by $g^{\star}$.\label{fig:gstar-diag}}
 \end{figure}
 
 \begin{figure}[h!]
   \centering
   \includegraphics{free-quiet}
-  \caption{Schematic diagram of the free and quiet phases for a $3-3$ solution.
+  \caption{Schematic diagram of the active and silent phases for a $3:3$ solution.
     $\bm{\mathrm{(A)}}$ Membrane potentials of cell 1 ($v_{1}$) and cell 2 ($v_{2}$).
-    The grey patches depict inter-burst-intervals $\delt$. $\bm{\mathrm{(B)}}$ Total
-    synaptic conductance of cell 1 ($\gbar s_1$) as it crosses the release conductance
-    $g^{\star}$. $\bm{\mathrm{(C)}}$ Solution $d_1(t)$ of depression variable of cell
-    1, during free (blue) and quiet phases (orange).~\label{fig:free-quiet}}
+    Grey patches depict $\delt$ intervals.
+    $\bm{\mathrm{(B)}}$ Total synaptic conductance of cell 1 ($\gbar s_1$) as it crosses the release conductance $g^{\star}$.
+    $\bm{\mathrm{(C)}}$ Solution $d_1(t)$ of depression variable of cell 1, during active (blue) and silent phases (orange).~\label{fig:free-quiet}}
 \end{figure}
 
 \begin{figure}[h!]
@@ -160,7 +150,7 @@ The data sets generated for this study are available on request to the correspon
   \caption{Numerically computed bifurcation diagram of $\delt$ for varying $\gbar$.
     Each continuous branch is associated with a stable $n:n$ burst solution. Increasing
     $\gbar$ increases $\Delta t$ until the solutions bifurcate at $\Delta t\approx
-    T$.~\label{fig:delta-t}}
+    T_{s}$.~\label{fig:delta-t}}
 \end{figure}
 
 \begin{figure}[h!]
@@ -175,9 +165,8 @@ The data sets generated for this study are available on request to the correspon
   \centering
   \includegraphics{Pn-map}
   \caption{Map $\Pi_{n}:d^{\star}\mapsto d^{\star}$. $\bm{\mathrm{(A)}}$ $\Pi_{n}$ for $n=1,2,3,4$
-  at $\gbar=0.6$ $\si{mS/cm^{2}}$. $\bm{\mathrm{(B)}}$ $\Pi_{2}$ with $n=2$ for
-  varying $\gbar \approx 0.01, 0.034, 0.3$ $\si{mS/cm^{2}}$. The identity function is
-  illustrated by a diagonal line.~\label{fig:Pn-map}}
+  at $\gbar=0.5$ $\si{mS/cm^{2}}$. $\bm{\mathrm{(B)}}$ $\Pi_{2}$ with $n=2$ for
+  various $\gbar$. The identity function is illustrated by a diagonal line.~\label{fig:Pn-map}}
 \end{figure}
 
 \begin{figure}[h!]
@@ -192,9 +181,7 @@ The data sets generated for this study are available on request to the correspon
 \begin{figure}[h!]
   \centering
   \includegraphics[width=0.8\textwidth]{final-bif}
-  \caption{Bifurcation diagrams of stable $n:n$ solutions computed analytically from
-    fixed points of $\Pi_n$ and plotted on the respective intervals of $\gbar\in
-    \big[\gbar_{\mathcal{L}}(n),\gbar_{\mathcal{R}}(n)\big]$ (blue), and computed from numerical integrations of the ODEs (orange).~\label{fig:final-bif}}
+  \caption{Bifurcation diagram of the period of stable $n:n$ solutions computed analytically from fixed points of $\Pi_n$, plotted on the respective intervals of $\gbar\in \big[\gbar_{\mathcal{L}}(n),\gbar_{\mathcal{R}}(n)\big]$ (blue), and computed from numerical integrations of the ODEs (orange).~\label{fig:final-bif}}
 \end{figure}
 
 \end{document}
