@@ -39,7 +39,6 @@ The dynamics of the synaptic interactions between the neurons are governed by a 
 	0                & if $v_{i}>v_{\theta}$.\label{eq:dot-s-up}
 \end{numcases}
 
-% TOD: Needs EDITING
 Variable $d_{i}$ describes a firing rate dependent depletion mechanism that governs the amount of depression acting on the synapse.
 The model is agnostic with respect to the exact mechanism of this depletion, be it pre- or post-synaptic.
 When the voltage of cell $i$ is above firing threshold ($v_i>v_\theta$), variable $d_i$ decays with time constant $\tau_b$, and recovers with time constant $\tau_a$ when voltage is below firing threshold ($v_i < v_\theta$).
@@ -51,11 +50,6 @@ These equations are a mathematically tractable simplification of the established
 When the total inhibitory conductance $\bar g s_{j}$ is constant, the membrane dynamics are determined by the cubic $v$-nullcline $v_{\infty}(v_i)$ and the sigmoid $w$-nullcline $w_{\infty}(v_{i})$, satisfying $\dot v_{i}=0$ and $\dot w_{i}=0$, respectively.
 In case of no inhibition ($\bar g=0$), the two curves intersect near the local minimum of $v_{\infty}$ to the left of $v_{\theta}$ (commonly referred to as ``left knee'' of $v_{\infty}$), creating an unstable fixed point $p_{f}$ with a surrounding stable limit cycle of period $T=T_{a}+T_{s}$ (\cref{fig:nullclines}A).
 Here $T_{a}$ is the amount of time the membrane potential spends above firing threshold ($v_{i}>v_\theta$), while $T_{s}$ is the time it spends below firing threshold ($v_{i}<v_\theta$). Trajectories along that limit cycle have the familiar shape of the action potential (\cref{fig:nullclines}B).
-% The trajectory of an action potential can be dissected into four phases: (1) a silent phase, (2) a jump up, (3) an active phase, and (4) a jump down~\citep[see e.g.][]{ermentrout2010}.
-% During the silent phase the trajectory evolves along the left branch ($v_{i}<v_{\theta}$) of the cubic $v$-nullcline.
-% Once the trajectory reaches the local minimum of $v_{\infty}$, it ``jumps up'' to the right branch ($v_{i}>v_{\theta}$), crossing the firing threshold $v_{\theta}$.
-% During the active phase the trajectory then evolves along the right branch of the cubic until it arrives at the local maximum, where it ``jumps down'' to the left branch commencing a new cycle.
-% In the case of a non-zero inhibition ($g_{j}>0$) the location of $v_{\infty}$ depends on the exact value of $g_{j}$.
 Applying a constant nonzero inhibition, e.g. by letting $s_{j}=1$ and $\bar g > 0$, moves the cubic $v_{\infty}$ with the ensuing unstable fixed point down $w_{\infty}$ in the $(v_{i}, w_{i})$ -plane.
 When $\bar g$ is large enough, the fixed point moves past the left knee and becomes stable via a subcritical Andoronov-Hopf bifurcation, attracting all previously periodic trajectories.
 In the following section we will refer to the value of the total conductance $\bar g s_{j}$ at the bifurcation point as $g_{bif}$.
@@ -63,5 +57,3 @@ In the following section we will refer to the value of the total conductance $\b
 The two-cell network model is numerically integrated using an adaptive step-size integrator for stiff differential equations implemented with XPPAUT~\citep{ermentrout2002} and controlled through the Python packages SciPy~\citep{scipy2020} and PyXPP~\citep{pyxpp}.
 The following mathematical analysis is performed on the equations of a single cell.
 Unless required for clarity, we will therefore omit the subscripts $i,j$ from here on.
-% % TODO: Edit this later
-% It should be noted that \citep{bose2011} used $n-n$ to denote the stable bursts with $n$ spikes, however, here we use the $n:n$ notation for more clarity.
