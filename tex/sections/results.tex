@@ -15,9 +15,7 @@ With each action potential of the active cell, short-term depression leads to a 
 \linelabel{line:D}
 If $d$ depresses faster at spike time than it can recover in the inter-spike-intervals ($ISI$s), the total synaptic conductance $\bar g s$ will eventually become sufficiently small to allow for the silent cell to be released \citep{wang1992,skinner1994} and start firing, thus inhibiting the previously active cell.
 While a cell is silent its depression variable can recover.
-Once the silent cell becomes active again its synaptic inhibition will be sufficient to terminate the burst of the previously active cell and commence a new cycle.
-% BUG: This is not 100% true, gbar AND the initial conditions uniquely determine the type of n:n pattern.
-As previously demonstrated by~\citet{bose2011}, in a two-cell reciprocally inhibitory network with synaptic depression the coupling strength $\bar g$ determines the type of $n:n$ solution.
+Once the silent cell becomes active again its synaptic inhibition will be sufficient to As previously demonstrated by~\citet{bose2011}, in a two-cell reciprocally inhibitory network with synaptic depression the coupling strength $\bar g$ determines the type of $n:n$ solution.
 Increasing $\bar g$ produces higher $n:n$ burst solutions with more spikes per burst and a longer cycle period.
 \Cref{fig:burst-sols} shows numerically stable $n:n$ solutions for varying values of $\bar g$.
 For small values of $\bar g$ the network produces anti-phase spiking $1:1$ solutions.
@@ -64,12 +62,10 @@ Finally, assuming $ISI=T$ allows us to ignore the non-linear membrane dynamics d
 Our second assumption states that the silent cell is released and spikes as soon as the total inhibitory conductance $\bar g s$ acting on it drops below some threshold value.
 We call this critical threshold value the ``release conductance'', and define it as the value of $\bar g s$ at the time when the voltage of the silent cell first crosses the firing threshold $v_{\theta}$, that is when that cell is released and fires its first spike.
 Recall that when a cell is silent its $v$- and $w$-nullclines intersect at a stable fixed point and $\bar g s > g_{bif}$.
-% The following does not necessarily imply that it fires instantly on release.
 A sufficient condition for the silent cell to be released is therefore $\bar g s < g_{bif}$.
 However, depending on the topology of the stable manifold, the $(v,w)$-trajectory of the silent cell can escape the stable fixed point and allow the cell to produce a spike for $\bar g s > g_{bif}$.
 In this case the value of the release conductance depends on the type of $n:n$ solution and the coupling strength $\bar g$.
 For any stable $n:n$ solution in \cref{fig:bif-diagram} we can compute an associated release conductance numerically by recording the value of $\bar g s$ at the time of the first spike of the silent cell.
-% ''Converges'' is probably the wrong word here...
 Such values of the release conductance are shown in \cref{fig:gstar-diag}A, and the graph suggests that as $n$ increases, the value of the release conductance converges to some constant conductance value $g^{\star} \approx 0.0068\, \si{mS/cm^2}$.
 Here $g^{\star}$ is the value of $\bar g s$ at the end of a cycle of a suppressed solution, just before the active cell spikes.
 Using $g^{\star}$ as a constant approximation for the release conductance will allow us to formulate a scalar condition that predicts the release time of the silent cell.
@@ -123,7 +119,6 @@ Let $P_n$ denote the full cycle period of a $n:n$ solution:
 	P_n = 2\Big( (n-1)T + T_{a} + \Delta t \Big).
 \end{equation}
 We can now define the active and silent phases of cell 1 explicitly.
-% TODO: This NEEDS editing. Silent phase term here confusing.
 The active phase of a burst is the interval that lasts from the first spike time up until the beginning of the silent phase of the last spike, that is for time $0<t<(n-1)T + T_{a}$.
 During the active phase of cell 1, the silent cell 2 is inhibited sufficiently strong to prevent it from firing, hence $\bar g s > g^{\star}$.
 The silent phase of cell 1 is the remaining duration of the cycle when the cell is not firing, that is for $(n-1)T + T_{a} < t < P_n$.
@@ -302,8 +297,7 @@ $\Pi_n$ is monotonically increasing with respect to $\bar g$ and also $d^\star$:
 	\dv{\Pi_n}{d^\star} & >0.
 \end{align}
 \noindent
-\linelabel{line:mono}
-The monotonicity of $\Pi_{n}$ w.r.t. $\bar g$ is evident from \Cref{eq:non-degen1}, while the monotonicity w.r.t. $d^{\star}$ follows from the monotonicity of both $Q_{n}$ and $F_{n}$.
+The monotonicity of $\Pi_{n}$ w.r.t. $\bar g$ is evident from \cref{eq:Pn-map}, while the monotonicity w.r.t. $d^{\star}$ follows from the monotonicity of both $Q_{n}$ and $F_{n}$.
 In the following sections we will heavily rely on this monotonicity property of $\Pi_n$.
 Just as $F_n$, curves $\Pi_n$ spawn at the asymptote $d_{a}$ (\cref{eq:da}), and because
 \begin{equation}
@@ -326,12 +320,6 @@ Moreover, because $\Pi_n$ and its slope are monotonic with respect to $d^\star$,
 	\Pi_n(d^\star_b, \bar g_b)                  & =d^\star_b, \\
 	\frac{d}{d^\star}\Pi_n(d^\star_b, \bar g_b) & =1.
 \end{align}
-% Equations~\eqref{eq:non-degen1} and~\eqref{eq:non-degen2} constitute the non-degeneracy conditions for a codimension-1 fold bifurcation of maps, indicating that in a neighbourhood of $(d^\star_{b}, \bar g_{b})$ map $\Pi_n$ has the topological normal form described by the graph of
-% \begin{equation}
-% 	\label{eq:normal-form}
-% 	x\mapsto \beta+x-x^{2},
-% \end{equation}
-% with a stable and unstable fixed point $x=\pm\sqrt{\beta}$, and slopes $\dv*{x}{\beta}=\mp {(2\sqrt{\beta})}^{-1}$, respectively.
 
 \subsection{Fold bifurcations of maps}
 Fixed points of $\Pi_n$ satisfy the fixed point equation
@@ -387,8 +375,6 @@ where map $F_n$ (\cref{eq:Fn-map}) calculates $\Delta t$ given a stable fixed po
 \Cref{fig:folds}B shows the period $P_{n}(\bar g)$ computed from \cref{eq:period} versus the cycle period of stable $n:n$ solutions, computed from numerically integrating the full system of ODEs.
 The overlap between blue and orange curves suggests that stable fixed points of $\Pi_{n}$ accurately predict the cycle period of stable solutions of the flow system.
 
-
-% TODO: Need to double-check this paragraph about implicit differentiation. It should still hold after the model change I believe.
 It is evident from \cref{fig:folds}A that $\phi_n$ is strictly increasing with $\bar g$.
 This property follows directly from the quadratic normal form of the fold bifurcation, but can also be shown using implicit differentiation and the fixed point equation $\Phi_n(\phi_n(\bar g), \bar g)=0$ in \cref{eq:Phi}.
 For $d^\star_f=\phi_n(\bar g)>d_b(n)$ we get:
@@ -415,7 +401,6 @@ The latter allows more time for the synapse to depress in the active phase and r
 
 While fixed points of our Poincaré map predict the cycle period of the flow system excellently, its construction relies on the strong assumption that the active phase contains exactly $n$ spikes.
 As is evident from \cref{fig:folds}B this assumption is clearly violated in the flow system, as stable $n:n$ bursts exists only on certain parameter intervals of $\bar g$.
-% TODO: Edit this sentence.
 \linelabel{line:ll}
 The multi-stability of fixed points of maps $\Pi_{n}$ in \cref{fig:folds}B does therefore not imply a similar multi-stability of the flow system.
 In the last sub-section we will analyse the mechanisms that guide how the stable $n:n$ are created and destroyed, and use our previous analysis to derive the corresponding parameter intervals of $\bar g$ where such solutions exist.
@@ -439,7 +424,7 @@ For $n>1$ there are the following relations:
 \linelabel{line:branchA}
 All of the above relations are reminiscent of the bifurcation scenario of type period increment with co-existent attractors, first described for piecewise-linear scalar maps with a single discontinuity by Avrutin and colleagues~\cite[e.g.
 	see][]{gardini2012,tramontana2012,avrutin2011}.
-While our maps $\Pi_n$ are fully continuous, the above observation suggests that a different piecewise-linear scalar map that captures the period increment bifurcations of the full system might exist.
+While our maps $\Pi_n$ are fully continuous, the above observation suggests that a different piecewise-linear scalar map that captures such period increment dynamics of the full system might exist.
 We will explore what such a map might look like in the discussion.
 
 \linelabel{line:branchB}
@@ -463,7 +448,6 @@ which lets us define a function
 	\mathcal{R}_{n}(\bar g):=F_n(\phi_n(\bar g), \bar g)-T_{s},
 \end{equation}
 whose root is the desired right bifurcation border $\bar g_{\mathcal{R}}(n)$.
-% NOTE: @CONOR: After changing the model I'm not sure anymore whether the next equation is clear from my explanation or I need another sentence.
 In case of the left bifurcation border at $\bar g_{\mathcal{L}}(n)$, the release condition is satisfied just before the active cell has produced its $n$th spike, where total synaptic conductance is given by
 \begin{equation}
 	\bar g \delta_{n-1}\big(\phi_n(\bar g)\big)\lambda e^{-T_{s}/\tau_\kappa} = g^\star,
@@ -476,7 +460,6 @@ which can be rewritten as a function
 whose root is $\bar g_{\mathcal{L}}(n)$.
 Both $\mathcal{R}_n$ and $\mathcal{L}_n$ are increasing with respect to $\bar g$, which makes finding their roots numerically straightforward.
 
-% TODO: Edit a bit more
 \Cref{fig:final-bif} shows the period $P_{n}(\bar g)$ as predicted by the fixed points of $\Pi_{n}$ (\cref{eq:period}) plotted on their respective intervals $\bar g \in [\bar g_{\mathcal{L}}(n),\bar g_{\mathcal{R}}(n)]$ (blue), as well as the cycle period acquired from numerical integration of the full system of ODEs (orange).
 Here $g_{\mathcal{L}}(n)$ and $\bar g_{\mathcal{R}}(n)$ were computed from \cref{eq:L,eq:R}, respectively.
 Note that the width of $n:n$ branches decreases with $n$, which confirms the inequality in \cref{eq:robustness}.
