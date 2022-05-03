@@ -35,7 +35,7 @@
 \newcommand{\leak}{\mathrm{L}}
 \newcommand{\dstar}{d^\star}
 \newcommand{\gstar}{g^\star}
-\newcommand{\gbar}{\bar g}
+\newcommand{\bar g}{\bar g}
 \newcommand{\delt}{\Delta t}
 \newcommand{\taus}{\tau_s}
 \newcommand{\dn}{\delta_n}
@@ -117,14 +117,14 @@ The data sets generated for this study are available on request to the correspon
   \centering
   \includegraphics{burst-sols}
   \caption{Voltage traces of both cells of numerically stable solutions for increasing
-    values of the coupling strength $\gbar$ (increasing top to
+    values of the coupling strength $\bar g$ (increasing top to
     bottom).~\label{fig:burst-sols}}
 \end{figure}
 
 \begin{figure}[h!]
   \centering
   \includegraphics{bif-diagram}
-  \caption{Numerically computed bifurcation diagram of the cycle period of stable $n:n$ solutions for increasing coupling strength $\gbar$. Dashed lines show the interval between the $5-5$ and the suppressed solution, where higher period $n:n$ solutions occur on increasingly smaller intervals of $\gbar$.\label{fig:bif-diagram}}
+  \caption{Numerically computed bifurcation diagram of the cycle period of stable $n:n$ solutions for increasing coupling strength $\bar g$. Regions of bistability are indicated by light blue vertical stripes. Dashed lines show the interval between the $5:5$ and the suppressed solution, where higher period $n:n$ solutions occur on increasingly smaller intervals of $\bar g$.\label{fig:bif-diagram}}
 \end{figure}
 
 \begin{figure}[h!]
@@ -140,16 +140,16 @@ The data sets generated for this study are available on request to the correspon
   \caption{Schematic diagram of the active and silent phases for a $3:3$ solution.
     $\bm{\mathrm{(A)}}$ Membrane potentials of cell 1 ($v_{1}$) and cell 2 ($v_{2}$).
     Grey patches depict $\delt$ intervals.
-    $\bm{\mathrm{(B)}}$ Total synaptic conductance of cell 1 ($\gbar s_1$) as it crosses the release conductance $g^{\star}$.
+    $\bm{\mathrm{(B)}}$ Total synaptic conductance of cell 1 ($\bar g s_1$) as it crosses the release conductance $g^{\star}$.
     $\bm{\mathrm{(C)}}$ Solution $d_1(t)$ of depression variable of cell 1, during active (blue) and silent phases (orange).~\label{fig:free-quiet}}
 \end{figure}
 
 \begin{figure}[h!]
   \centering
   \includegraphics{delta-t}
-  \caption{Numerically computed bifurcation diagram of $\delt$ for varying $\gbar$.
+  \caption{Numerically computed bifurcation diagram of $\delt$ for varying $\bar g$.
     Each continuous branch is associated with a stable $n:n$ burst solution. Increasing
-    $\gbar$ increases $\Delta t$ until the solutions bifurcate at $\Delta t\approx
+    $\bar g$ increases $\Delta t$ until the solutions bifurcate at $\Delta t\approx
     T_{s}$.~\label{fig:delta-t}}
 \end{figure}
 
@@ -157,7 +157,7 @@ The data sets generated for this study are available on request to the correspon
   \centering
   \includegraphics{FQ-maps}
   \caption{Maps $F_n$ $\bm{\mathrm{(A)}}$ and $Q_n$ $\bm{\mathrm{(B)}}$ for
-  $\gbar=0.5$ $\si{mS/cm^{2}}$ and $n=1,2,3,4$. Curves $F_n$ intersect at
+  $\bar g=0.5$ $\si{mS/cm^{2}}$ and $n=1,2,3,4$. Curves $F_n$ intersect at
   $d^{\star}=d_{s}$ which is indicated by a dashed vertical line. Curves $Q_n$ intersect at $\Delta t = \tau_{\kappa}\ln\Big(\bar g / g^{\star}\Big)$. \label{fig:FQ-maps}}
 \end{figure}
 
@@ -165,8 +165,8 @@ The data sets generated for this study are available on request to the correspon
   \centering
   \includegraphics{Pn-map}
   \caption{Map $\Pi_{n}:d^{\star}\mapsto d^{\star}$. $\bm{\mathrm{(A)}}$ $\Pi_{n}$ for $n=1,2,3,4$
-  at $\gbar=0.5$ $\si{mS/cm^{2}}$. $\bm{\mathrm{(B)}}$ $\Pi_{2}$ with $n=2$ for
-  various $\gbar$. The identity function is illustrated by a diagonal line.~\label{fig:Pn-map}}
+  at $\bar g=0.5$ $\si{mS/cm^{2}}$. $\bm{\mathrm{(B)}}$ $\Pi_{2}$ with $n=2$ for
+  various $\bar g$. The identity function is illustrated by a diagonal line.~\label{fig:Pn-map}}
 \end{figure}
 
 \begin{figure}[h!]
@@ -181,7 +181,7 @@ The data sets generated for this study are available on request to the correspon
 \begin{figure}[h!]
   \centering
   \includegraphics[width=0.8\textwidth]{final-bif}
-  \caption{Bifurcation diagram of the period of stable $n:n$ solutions computed analytically from fixed points of $\Pi_n$, plotted on the respective intervals of $\gbar\in \big[\gbar_{\mathcal{L}}(n),\gbar_{\mathcal{R}}(n)\big]$ (blue), and computed from numerical integrations of the ODEs (orange).~\label{fig:final-bif}}
+  \caption{Bifurcation diagram of the period of stable $n:n$ solutions computed analytically from fixed points of $\Pi_n$, plotted on the respective intervals of $\bar g\in \big[\bar g_{\mathcal{L}}(n),\bar g_{\mathcal{R}}(n)\big]$ (blue), and computed from numerical integrations of the ODEs (orange).~\label{fig:final-bif}}
 \end{figure}
 
 \end{document}

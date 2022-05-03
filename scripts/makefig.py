@@ -91,11 +91,6 @@ ax.text(ml.pars["vtheta"] - 10, 0.48, r"$v_\theta$")
 
 # Add inhibited vnullcline
 
-# ax.text(-45, 0.39, "Jump Down")
-# ax.text(-4.5, 0.003, "Jump Up")
-# ax.text(-65, 0.08, "Silent\nState")
-# ax.text(35, 0.2, "Active\nState")
-
 ax.text(-53, 0.53, r"$v_\infty$")
 ax.text(8, 0.53, r"$w_\infty$")
 
@@ -193,14 +188,20 @@ fig.savefig(paths.figures / "burst-sols.pdf")
 
 
 #%% Numeric bifurcation diagram
-ns = np.arange(1, 10)
+ns = df['n'].unique()
 
 fig, ax = plt.subplots(tight_layout=True)
 # Plot numeric diagram
-for n in df["n"].unique():
+for n in ns:
     dfn = df[df["n"] == n]
     ax.plot(dfn["g"], dfn["period"], c="C0", lw=2.5)
 
+
+# Highlight bi-stability regions.
+for n1, n2 in zip(ns, ns[1:]):
+    n1_right = df.loc[df['n']==n1]['g'].max()
+    n2_left = df.loc[df['n']==n2]['g'].min()
+    ax.axvspan(n1_right, n2_left, ymin=0, ymax=1, color="C0", alpha=0.2)
 
 # Add dotted lines with higher-order solutions.
 ax.axvline(df["g"].max(), c="grey", ls="--")
