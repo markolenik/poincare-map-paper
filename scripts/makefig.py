@@ -803,7 +803,7 @@ ax.plot(tauks, [ISIs[0] for ISIs in ISI_list], label=r"$ISI_1$")
 ax.plot(tauks, [ISIs[1] for ISIs in ISI_list], label=r"$ISI_2$")
 ax.plot(tauks, [ISIs[2] for ISIs in ISI_list], label=r"$ISI_3$")
 ax.plot(tauks, np.ones(len(tauks)) * pmap.T, "k--")
-ax.set(xlabel=r"$\tau_k$", ylabel=r"$ISI$", xlim=(0, 800), ylim=(350, 525))
+ax.set(xlabel=r"$\tau_k$ $(\si{ms})$", ylabel=r"$ISI$ $(\si{ms})$", xlim=(0, 800), ylim=(350, 525))
 ax.legend()
 
 # Add T
@@ -815,7 +815,7 @@ fig.savefig(paths.figures / "tauk-vs-ISI.pdf")
 #%% Response stuff
 # ================================================================================================
 
-#%% Irregular solution (for supplemenatary)
+# Irregular solution
 g = 0.581
 
 sol = mlml.run(g=g, transient=480000, total=500000)
@@ -828,7 +828,7 @@ ax.set(xlabel="time " + r"$(\si{ms})$", ylabel=r"$v_i$ " + r"$(\si{mV})$")
 ax.legend()
 fig.savefig(paths.figures / "irregular.pdf")
 
-#%% Comparison of Boses model to our update model (nullclines)
+# Comparison of Boses model to our update model (nullclines)
 
 # Plot.
 fig, axs = plt.subplots(ncols=2, tight_layout=True, figsize=FIG2by1)

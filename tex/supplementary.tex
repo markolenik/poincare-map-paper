@@ -86,12 +86,12 @@ Model parameters were adapted from~\cite{bose2011} and are given in \cref{tab:pa
 
 
 \section{Computing bifurcation diagram numerically}\label{appendix2}
-The bifurcation diagram of stable $n-n$ solutions of the two-cell network in \cref{fig:bif-diagram} is obtained numerically as follows:
-We initialise the coupling strength at parameter values associated with one type of $n-n$ solution, that is we choose the values $\bar g = 0.35, 0.4, 0.5, 0.52, 0.56$ for the $1-1$, $2-2$, $3-3$, $4-4$, and $5-5$ solutions respectively.
+The bifurcation diagram of stable $n:n$ solutions of the two-cell network in \cref{fig:bif-diagram} is obtained numerically as follows:
+We initialise the coupling strength at parameter values associated with one type of $n:n$ solution, that is we choose the values $\bar g = 0.35, 0.4, 0.5, 0.52, 0.56$ for the $1:1$, $2:2$, $3:3$, $4:4$, and $5:5$ solutions respectively.
 For each $\bar g$ the system is then numerically integrated sufficiently long for any transients to fully subside.
 We then identify one period of the solution by finding the first return of the depression variable $d_{1}$.
 That is, we choose some value $d_{k}$ at a spike time $t_{k}$, and by iterating from spike to spike find some subsequent value $d_{k+1}$ at spike time such that $|d_{k+1}-d_{k}|<\epsilon$.
-If a periodic solution of type $n-n$ is found in such way, $\bar g$ is step-wise increased/decreased, and the above algorithm is repeated.
+If a periodic solution of type $n:n$ is found in such way, $\bar g$ is step-wise increased/decreased, and the above algorithm is repeated.
 Otherwise, the set of all previously found solutions and the corresponding values $\bar g$ are returned.
 
 \section{Numerical validation of constant ISI assumption}
@@ -125,23 +125,18 @@ For $\tau_\kappa > 100$ the first $ISI_{1}$ becomes increasingly longer with $\t
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.8\textwidth]{tauk-vs-ISI}
-	\caption{Voltage traces of both cells of numerically stable solutions for increasing
-		values of the coupling strength $\gbar$ (increasing top to
-		bottom).~\label{fig:tauk-vs-ISI}}
+	\caption{Numerically computed values of the first ($ISI_{1}$), second ($ISI_{2}$), and third ($ISI_{3}$) inter-spike-intervals as a function of $\tau_{\kappa} \in \interval[open left]{0}{800}$.~\label{fig:tauk-vs-ISI}}
 \end{figure}
 
-% TODO
-% **Note of caution**: Our ICs might be inaccurate for very large $\tau_\kappa$ , since then $w(0) \approx w_\infty(g^\star)$ will be likely violated.
-
-% \section{Irregular solutions}
-% Even
 
 \bibliographystyle{frontiersinHLTH&FPHY} % for Health, Physics and Mathematics articles
 \bibliography{bibliography.bib}
 
 \end{document}
 
+
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: t
 %%% End:
+

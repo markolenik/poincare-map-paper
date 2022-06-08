@@ -4,18 +4,16 @@ Short-term synaptic depression of inhibition in a half-centre oscillator acts as
 Such $n:n$ solutions consist of cells firing bursts of $n$ spikes in alternation.
 \Cref{fig:burst-sols}A shows the timecourse of a typical $4:4$ burst.
 While one cell is firing a burst it provides an inhibitory conductance to the other cell,  preventing it from firing.
-\linelabel{line:C1}
 Therefore, at any given moment one cell is spiking while the other is suppressed and does not spike.
 We will refer to the currently firing cell as ``active'' and we will call the suppressed cell ``silent''.
 Additionally, we will distinguish between two phases of a $n:n$ solution:
-\linelabel{line:C2}
 We will refer to the time interval when a cell is firing as the ``active phase'', and we will call the remaining duration of a cycle, when a cell is not firing, the ``silent  phase''.
 
-With each action potential of the active cell, short-term depression leads to a decrease of $d$, and consequently of $s$ (\cref{fig:burst-sols}B).
-\linelabel{line:D}
+With each action potential of the active cell, short-term depression leads to a decrease of $d$, and consequently of $s$.
 If $d$ depresses faster at spike time than it can recover in the inter-spike-intervals ($ISI$s), the total synaptic conductance $\bar g s$ will eventually become sufficiently small to allow for the silent cell to be released \citep{wang1992,skinner1994} and start firing, thus inhibiting the previously active cell.
 While a cell is silent its depression variable can recover.
-Once the silent cell becomes active again its synaptic inhibition will be sufficient to As previously demonstrated by~\citet{bose2011}, in a two-cell reciprocally inhibitory network with synaptic depression the coupling strength $\bar g$ determines the type of $n:n$ solution.
+Once the silent cell becomes active again its synaptic inhibition will be sufficient to terminate the burst of the previously active cell and commence a new cycle.
+As previously demonstrated by~\citet{bose2011}, in a two-cell reciprocally inhibitory network with synaptic depression the coupling strength $\bar g$ determines the type of $n:n$ solution.
 Increasing $\bar g$ produces higher $n:n$ burst solutions with more spikes per burst and a longer cycle period.
 \Cref{fig:burst-sols} shows numerically stable $n:n$ solutions for varying values of $\bar g$.
 For small values of $\bar g$ the network produces anti-phase spiking $1:1$ solutions.
