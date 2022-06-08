@@ -53,7 +53,6 @@ clean-all: clean-output
 	@find . -type f -name "*.dat" -delete
 	@find . -type d -name "__pycache__" -delete
 
-
-
-# TODO: Add linter and tests
-# TODO: Add conda install env etc
+.PHONY: figures
+figures: figures
+	@python $(scripts_dir)/makefig.py
