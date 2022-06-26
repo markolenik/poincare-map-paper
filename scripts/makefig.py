@@ -644,15 +644,16 @@ fig.savefig(paths.figures / "folds.pdf")
 ns = np.arange(1, 10)
 
 fig, ax = plt.subplots(tight_layout=True)
-# Plot numeric diagram
-for n in df["n"].unique():
-    dfn = df[df["n"] == n]
-    ax.plot(dfn["g"], dfn["period"], c="C0", lw=2.5)
 
 # Plot analytic diagram on top
 for n in df_ana["n"].unique():
     dfn_ana = df_ana[df_ana["n"] == n]
-    ax.plot(dfn_ana["g"], dfn_ana["period"], c="C1", lw=1.3)
+    ax.plot(dfn_ana["g"], dfn_ana["period"], c="C0", lw=2.5)
+
+# Plot numeric diagram
+for n in df["n"].unique():
+    dfn = df[df["n"] == n]
+    ax.plot(dfn["g"], dfn["period"], c="C1", lw=1.3)
 
 ax.set(
     xlim=(0.3, pmap.gsup),
