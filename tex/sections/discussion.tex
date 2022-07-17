@@ -2,7 +2,6 @@
 % PROBLEM SUMMARY
 Synaptic depression of inhibition is believed to play an important role in the generation of rhythmic activity involved in many motor rhythms such as in leech swimming \citep{mangan1994} and leech heart beat~\citep{calabrese1995}, and in the lobster pyloric system~\citep{manor1997, rabbah2007}.
 In inhibitory half-centre CPGs, such as believed to be found in the struggling network of \textit{Xenopus} tapdoles,  synaptic depression can act as a burst termination mechanism, enabling the alternation of bursting between the two sides of the CPG~\citep{li2007}.
-\linelabel{line:principle}
 Modelling can shed light on the underlying mathematical principles that enable the generation of such anti-phase bursts, and help identify the components that control this rhythm allowing it to switch between different patterns.
 
 % MAIN RESULTS
@@ -38,14 +37,12 @@ A more abstract model such as the quadratic integrate-and-fire model \citep{izhi
 Our simulations of the network showed that $n:n$ solutions lose robustness as their period is increased.
 That is, solutions with a larger cycle period occur on increasingly smaller intervals of the coupling strength.
 We were able to replicate this finding by numerically finding the respective left and right borders of stable $n:n$ branches of fixed points of $\Pi_n$, and showing that the distance between these borders shrinks with $n$.
-\linelabel{line:disc-pincA}
 We have also noted the resemblance of our bifurcation diagram to one where such $n:n$ branches are created via the bifurcation scenario of type period-increment with co-existent attractors, first described for scalar linear maps with a discontinuity \citep{avrutin2012,avrutin2011}.
 It is worthwhile noting that the bifurcations of piecewise linear maps studied by~\citeauthor{avrutin2012} result from a ``reinjection'' mechanism \cite{perez1985}.
 Here the orbit of a map performs multiple iterations on one side of the discontinuity, before jumping to the other side and being \textit{reinjected} back into the initial side of the discontinuity.
 The stark difference of such a map to our map is that reinjection allows a \emph{single} scalar map to produce periodic solutions of varying periods.
 In contrast, we rely on $n$ different maps $\Pi_n$ to describe the burst dynamics without explicitly capturing the period increment dynamics.
 It is therefore conceivable that despite the complexity and non-linearity of the dynamics of our two-cell network, a single piecewise-linear map might be already sufficient to capture the mechanisms that shape the parameter space of the full system.
-\linelabel{line:disc-pincB}
 In their discussion,~\citet{bose2011} briefly outline ideas about how such a linear map could be constructed.
 
 % FLOW SYSTEM BIFURCATION

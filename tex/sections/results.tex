@@ -45,7 +45,6 @@ Both assumptions were first used in~\cite{bose2011} to derive algebraic conditio
 However here we will use these assumptions to construct a Poincaré map of $d$, which will provide a geometric intuition for the dynamics of the full two-cell network and its dependence on model parameters.
 
 % Assumption 1: active phase
-\linelabel{line:E1}
 Our first assumption about the model states that the active cell fires at its uncoupled period $T$, that is, during the active phase of a burst we have $ISI=T$.
 Solution profiles in \cref{fig:burst-sols} suggest that the $ISI$s are indeed approximately constant.
 Numerically computing $ISI$s for all stable $n:n$ solutions in \cref{fig:bif-diagram} reveals that $ISI$s differ by at most $1\, \si{ms}$ from the intrinsic firing period $T\approx 376\, \si{ms}$.
@@ -53,10 +52,8 @@ Assuming $ISI=T$ seems reasonable given that inhibition acting on the silent cel
 Naturally the above assumption requires a sufficiently small $\tau_{\kappa}$, and fails when $\tau_{\kappa}$ is large.
 In the Supplementary Material \cref{sec:tauk} we numerically explore how different values of $\tau_{\kappa}$ affect the $ISIs$ of the active cell.
 Finally, assuming $ISI=T$ allows us to ignore the non-linear membrane dynamics during the active phase, and to construct the evolution of the synaptic variables iteratively from spike to spike.
-\linelabel{line:E2}
 
 % Assumption 2: Release
-\linelabel{line:release1}
 Our second assumption states that the silent cell is released and spikes as soon as the total inhibitory conductance $\bar g s$ acting on it drops below some threshold value.
 We call this critical threshold value the ``release conductance'', and define it as the value of $\bar g s$ at the time when the voltage of the silent cell first crosses the firing threshold $v_{\theta}$, that is when that cell is released and fires its first spike.
 Recall that when a cell is silent its $v$- and $w$-nullclines intersect at a stable fixed point and $\bar g s > g_{bif}$.
@@ -81,14 +78,12 @@ Therefore, using
 \end{equation}
 as a constant release condition for all $n:n$ solutions allows us to accurately predict the timing of the release of the silent cell.
 And to simplify the terminology, from now on we will refer to \cref{eq:release} simply as the ``release condition''.
-\linelabel{line:release2}
 
 In summary: We assume that the release condition is sufficient to predict when the silent cell is released.
 Due to the symmetry of $n:n$ solutions the release occurs at exactly half the period of the full cycle.
 The release time therefore uniquely determines the type of $n:n$ solution.
 Furthermore, computation of the release time does not depend on the membrane nor the synaptic dynamics of the silent cell.
 Instead, the solution of the synaptic variable $s$ of the active cell is sufficient to predict when $\bar g s =g^{\star}$ is satisfied.
-\linelabel{line:F}
 Finally, the value of $s$ at each spike time is determined by the evolution of the depression variable $d$ of the active cell.
 Constructing a solution of $d$ during the active phase of either cell will therefore uniquely determine the solution of the full eight-dimensional network.
 However, finding the solution $d$ requires us to know the initial value $d(0)$ at the start of a cycle at $t=0$.
@@ -250,7 +245,6 @@ Substituting that duration into the solution of $d$ (\cref{eq:dot-d-up}) with th
 	Q_n(\Delta t) := 1- (1- \dn(d^\star) \lambda)e^{-((n-1)T + T_{a} + 2\Delta t)/\tau_a}.
 \end{equation}
 \noindent
-\linelabel{line:abc}
 We can find $\delta_{n}(d^{\star})$, i.e. the value of $d$ at the $n$th spike time, by rearranging the release condition in \cref{eq:release2}:
 \begin{equation}
 	\label{eq:dn}
@@ -275,7 +269,6 @@ Having found $F_n$ and $Q_n$, we can now construct the full map $\Pi_n(d^\star)=
 	e^{-((n-1)T + T_{a})/\tau_a},
 \end{equation}
 where we substituted $\tau = 2\tau_{k}/\tau_{a}$.
-\linelabel{line:remind}
 Recall that $\delta_{n}(d^{\star})$ and $g^{\star}$ are obtained from \cref{eq:delta-map} and \cref{eq:gstar}, respectively.
 Since $d$ is the slowest variable of the system and $\tau_a \gg \tau_\kappa$, we will also assume $\tau<1$.
 \Cref{fig:Pn-map}A depicts $\Pi_n$ for various $n$.
@@ -399,7 +392,6 @@ The latter allows more time for the synapse to depress in the active phase and r
 
 While fixed points of our Poincaré map predict the cycle period of the flow system excellently, its construction relies on the strong assumption that the active phase contains exactly $n$ spikes.
 As is evident from \cref{fig:folds}B this assumption is clearly violated in the flow system, as stable $n:n$ bursts exists only on certain parameter intervals of $\bar g$.
-\linelabel{line:ll}
 The multi-stability of fixed points of maps $\Pi_{n}$ in \cref{fig:folds}B does therefore not imply a similar multi-stability of the flow system.
 In the last sub-section we will analyse the mechanisms that guide how the stable $n:n$ are created and destroyed, and use our previous analysis to derive the corresponding parameter intervals of $\bar g$ where such solutions exist.
 
@@ -419,15 +411,12 @@ For $n>1$ there are the following relations:
 \Cref{eq:easy1,eq:easy2} are self-explanatory.
 \Cref{eq:coexistence} formally describes occurrence of co-existence between stable $n:n$ and $(n+1):(n+1)$ solutions.
 \Cref{eq:robustness} implies that the parameter interval on $\bar g$ of $n:n$ solutions decreases with $n$, in other words, bursts with more spikes occur on increasingly smaller intervals of the coupling strength.
-\linelabel{line:branchA}
 All of the above relations are reminiscent of the bifurcation scenario of type period increment with co-existent attractors, first described for piecewise-linear scalar maps with a single discontinuity by Avrutin and colleagues~\cite[e.g.
 	see][]{gardini2012,tramontana2012,avrutin2011}.
 While our maps $\Pi_n$ are fully continuous, the above observation suggests that a different piecewise-linear scalar map that captures such period increment dynamics of the full system might exist.
 We will explore what such a map might look like in the discussion.
 
-\linelabel{line:branchB}
 Let us now find algebraic equations that will allow us to calculate the critical parameters $\bar g_{\mathcal{L}}(n)$ and $\bar g_{\mathcal{R}}(n)$ associated with the left and right $n:n$ branch borders.
-\linelabel{line:bbb}
 Recall that the period $P_n$ derived from the fixed points of $\Pi_n$ is an increasing function of $\bar g$ (\cref{eq:dPdg}).
 That is, as the coupling strength increases, it takes longer for the total synaptic conductance to fall below the value of the release conductance, which delays the release of the silent cell, and $\Delta t$ becomes larger.
 When $\Delta t > T_{s}$, the active cell can produce another spike and the solution bifurcates into a $(n+1):(n+1)$ solution.
