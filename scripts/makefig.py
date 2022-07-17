@@ -233,7 +233,6 @@ fig.savefig(paths.figures / "bif-diagram.pdf")
 
 
 #%% Free-quiet
-# TODO: Replace gbar*s with ggot?
 
 n = 3
 mlml = ode.MLML(paths.mlml_file)
@@ -571,13 +570,11 @@ fig.savefig(paths.figures / "Pn-map.pdf")
 #%% Folds
 
 ns = [1, 2, 3, 4, 5]
-# gs = np.linspace(0, 0.6, 100)
 gs = np.geomspace(0.000001, 0.6, 100)
 ds = np.linspace(-1.5, 1, 5000)
 gmax = gs[-1]
 
 fig, axs = plt.subplots(figsize=FIG2by1, tight_layout=True, ncols=2)
-axs[0] = axs[0]
 
 # A: Compute analytic bifurcation curves of d.
 curves = []

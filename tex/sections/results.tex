@@ -315,7 +315,7 @@ In the limit $\bar g\to 0$, $\Pi_n$ also decreases without bound, but as $\bar g
 It follows from \cref{eq:non-degen1} and the intermediate value theorem that for some $\bar g$ large enough $\Pi_n$ intersects the diagonal.
 Moreover, because $\Pi_n$ and its slope are monotonic with respect to $d^\star$, there exists some critical fixed point $(d^\star_b, \bar g_b)$ where $\Pi_n$ aligns with the diagonal tangentially with
 \begin{align}
-	\Pi_n(d^\star_b, \bar g_b)                  & =d^\star_b, \\
+	\Pi_n(d^\star_b, \bar g_b)               & =d^\star_b, \\
 	\dv{}{d^\star}\Pi_n(d^\star_b, \bar g_b) & =1.
 \end{align}
 
@@ -349,8 +349,8 @@ of $G_n(d^\star_f)$:
 \end{align}
 Function $G_n$ is strictly monotonic on the respective intervals of $d^\star_f$ that correspond to the stable and unstable fixed points, that is
 \begin{align}
-	\dv{G_n}{d^\star_f} & < 0, \text{ for } d^\star_f>d^\star_b(n) \text{ stable},   \\[0.5ex]
-	\dv{G_n}{d^\star_f} & > 0, \text{ for } d^\star_f<d^\star_b(n) \text{ unstable},
+	\dv{G_n}{d^\star_f} & > 0, \text{ for } d^\star_f>d^\star_b(n) \text{ stable},   \\[0.5ex]
+	\dv{G_n}{d^\star_f} & < 0, \text{ for } d^\star_f<d^\star_b(n) \text{ unstable},
 \end{align}
 which allows us to express the stable and unstable fixed points as the inverse of $G_n$ on their respective intervals of $d^\star_f$.
 Because we are primarily interested in the stable fixed points $d^\star_f>d^\star_b(n)$, we define the stable fixed point function $d^\star_f = \phi_n(\bar g)$ as
@@ -412,9 +412,9 @@ Let us briefly recap our observations regarding $\bar g_{\mathcal{L}}(n)$ and $\
 For $n>1$ there are the following relations:
 \begin{align}
 	\bar g_{\mathcal{L}}(n)                               & < \bar g_{\mathcal{R}}(n)\label{eq:easy1},                                                                 \\
-	\bar g_{\mathcal{L}}(n)                               & < \bar g_{\mathcal{R}}(n+1)\text{ and } \bar g_{\mathcal{R}}(n)<\bar g_{\mathcal{L}}(n+1)\label{eq:easy2}, \\
-	\bar g_{\mathcal{R}}(n+1)                             & < \bar g_{\mathcal{R}}(n)\label{eq:coexistence},                                                           \\
-	\bar g_{\mathcal{L}}(n+1) - \bar g_{\mathcal{R}}(n+1) & < \bar g_{\mathcal{R}}(n) - \bar g_{\mathcal{R}}(n)\label{eq:robustness}.
+	\bar g_{\mathcal{L}}(n)                               & < \bar g_{\mathcal{L}}(n+1)\text{ and } \bar g_{\mathcal{R}}(n)<\bar g_{\mathcal{R}}(n+1)\label{eq:easy2}, \\
+	\bar g_{\mathcal{L}}(n+1)                             & < \bar g_{\mathcal{R}}(n)\label{eq:coexistence},                                                           \\
+	\bar g_{\mathcal{R}}(n+1) - \bar g_{\mathcal{L}}(n+1) & < \bar g_{\mathcal{R}}(n) - \bar g_{\mathcal{L}}(n)\label{eq:robustness}.
 \end{align}
 \Cref{eq:easy1,eq:easy2} are self-explanatory.
 \Cref{eq:coexistence} formally describes occurrence of co-existence between stable $n:n$ and $(n+1):(n+1)$ solutions.
@@ -459,7 +459,7 @@ whose root is $\bar g_{\mathcal{L}}(n)$.
 Both $\mathcal{R}_n$ and $\mathcal{L}_n$ are increasing with respect to $\bar g$, which makes finding their roots numerically straightforward.
 
 \Cref{fig:final-bif} shows the period $P_{n}(\bar g)$ as predicted by the fixed points of $\Pi_{n}$ (\cref{eq:period}) plotted on their respective intervals $\bar g \in [\bar g_{\mathcal{L}}(n),\bar g_{\mathcal{R}}(n)]$ (blue), as well as the cycle period acquired from numerical integration of the full system of ODEs (orange).
-Here $g_{\mathcal{L}}(n)$ and $\bar g_{\mathcal{R}}(n)$ were computed from \cref{eq:L,eq:R}, respectively.
+Here $g_{\mathcal{L}}(n)$ and $\bar g_{\mathcal{R}}(n)$ were computed from eqs. \ref{eq:L} and \ref{eq:R}, respectively.
 Note that the width of $n:n$ branches decreases with $n$, which confirms the inequality in \cref{eq:robustness}.
 That is, bursts with more spikes occur on increasingly smaller intervals of $\bar g$, which can be interpreted as a lost of robustness with respect to the coupling strength of long-cyclic solutions.
 We also note the occurrence of bistability between pairs of $n:n$ and $(n+1):(n+1)$ branches, which also confirms our initial observation in
