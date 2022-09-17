@@ -158,7 +158,7 @@ Because $\Pi_{n}$ maps first from $d^{\star}$ to $\Delta t$, and then back to $d
 As will become evident, $\delt<0$ is only a formal violation of the biological realism of the map $\Pi_{n}$, as numerically stable $n:n$ solutions of the full system of ODEs only exist for $\Delta t>0$.
 
 We start the construction of $\Pi_n$ by first considering the active phase and building the map $F_n$.
-At each spike time $t_{k}$ where $d(t_k) = d_k$, variable $d$ decays first for the duration of $T_{a}$, as described by the solution to eq. (\ref{eq:dot-d-down}).  % cref doesn't work with cases package
+At each spike time $t_{k}$ where $d(t_k) = d_k$, variable $d$ decays first for the duration of $T_{a}$, as described by the solution to eq. (\ref{eq:dot-d}).  % cref doesn't work with cases package
 At $t = t_k + T_{a}$ we have
 \begin{equation}
 	d(t_k + T_{a}) = d_k e^{-T_{a}/\tau_b}.
@@ -186,7 +186,7 @@ Since $0<\lambda, \rho<1$, the map in \cref{eq:map-d} is increasing and contract
 where $0<d_{s}<1$.
 The value $d_{s}$ is the maximum depression value that can be observed in the suppressed solution where the active cell fires at its uncoupled period $T$ (see \cref{fig:burst-sols}E).
 Using the release condition in \cref{eq:release} allows us to derive the value of the minimum coupling strength that will produce the full suppressed solution, denoted as $\bar g_{s}$.
-Solving \cref{eq:dot-s-down} for $s(t)$ with $t=T_{s}$ and setting the initial value $s(0)=d_s\lambda$ then gives us the aforementioned approximation of the release conductance $g^{\star}$:
+Solving \cref{eq:dot-s} for $s(t)$ with $t=T_{s}$ and setting the initial value $s(0)=d_s\lambda$ then gives us the aforementioned approximation of the release conductance $g^{\star}$:
 \begin{equation}
 	\label{eq:gstar}
 	\bar g_s d_s\lambda e^{-T_{s}/\tau_\kappa}=g^{\star} \approx 0.0068\, \si{mS/cm^2}.
@@ -213,7 +213,7 @@ At the end of the active phase at time $t_n + T_{a}$ variable $d$ has decayed to
 	s(t_n + T_{a})=\delta_n(d^\star)\lambda.
 \end{equation}
 Finally $s$ decays exponentially for $\Delta t < T_{s}$.
-Solving \cref{eq:dot-s-down} with initial condition $s(0)=\dn(d^\star)\lambda$ yields:
+Solving \cref{eq:dot-s} with initial condition $s(0)=\dn(d^\star)\lambda$ yields:
 \begin{equation}
 	~\label{eq:s-sol}
 	s(\Delta t)=\dn(d^\star) \lambda e^{-\Delta t/\tau_\kappa}.
@@ -239,7 +239,7 @@ Map $F_n$ is defined on $d^{\star}>d_{a}$, where $d_{a}$ is a vertical asymptote
 
 We now turn to the construction of map $Q_n$, which describes the recovery of the depression variable during the silent phase.
 As we have identified earlier, the recovery of $d$ in the silent phase of a $n:n$ solution starts at time $t_{n} + T_{a}$ and lasts for the duration of $(n-1)T + T_{a} + 2\Delta t$.
-Substituting that duration into the solution of $d$ (\cref{eq:dot-d-up}) with the initial condition $d(0)=\dn(d^\star) \lambda$ yields the map $Q_{n}$:
+Substituting that duration into the solution of $d$ (\cref{eq:dot-d}) with the initial condition $d(0)=\dn(d^\star) \lambda$ yields the map $Q_{n}$:
 \begin{equation}
 	\label{eq:Qn-map}
 	Q_n(\Delta t) := 1- (1- \dn(d^\star) \lambda)e^{-((n-1)T + T_{a} + 2\Delta t)/\tau_a}.

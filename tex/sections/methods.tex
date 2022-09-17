@@ -27,17 +27,21 @@ kinetics of the potassium gating variable $w_{i}$, and is given by
 The steady-state activation functions $m_{\infty}$ and $w_{\infty}$ as well as the default model parameters are described in the Supplementary Material S1.
 
 The dynamics of the synaptic interactions between the neurons are governed by a synaptic gating variable $s_{i}$ and a depression variable $d_{i}$:
-\begin{numcases}{\dot d_{i} = }
-	(1-d_{i})/\tau_{a} &  if $v_{i}<v_{\theta}$, \label{eq:dot-d-up}
-	\\
-	-d_{i}/\tau_{b}    &  if $v_{i}>v_{\theta}$, \label{eq:dot-d-down}
-\end{numcases}
+\begin{equation}
+	\label{eq:dot-d}
+	\dot d_{i} = \begin{cases}
+		(1-d_{i})/\tau_{a} & \text{ if } v_{i}<v_{\theta}, \\
+		-d_{i}/\tau_{b}    & \text{ if } v_{i}>v_{\theta},
+	\end{cases}
+\end{equation}
 
-\begin{numcases}{\dot s_{i} = }
-	-s_{i} / \tau_{\kappa} & if $v_{i}<v_{\theta}$,\label{eq:dot-s-down}
-	\\
-	0                & if $v_{i}>v_{\theta}$.\label{eq:dot-s-up}
-\end{numcases}
+\begin{equation}
+	\label{eq:dot-s}
+	\dot s_{i} = \begin{cases}
+		-s_{i} / \tau_{\kappa} & \text{ if } v_{i}<v_{\theta}  \\
+		0                      & \text{ if } v_{i}>v_{\theta}.
+	\end{cases}
+\end{equation}
 
 Variable $d_{i}$ describes a firing rate dependent depletion mechanism that governs the amount of depression acting on the synapse.
 The model is agnostic with respect to the exact mechanism of this depletion, be it pre- or post-synaptic.
