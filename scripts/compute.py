@@ -14,11 +14,11 @@ from poincare_map import ode, paths, poincare_map
 def compute_numeric_bif_diagram(dt: float=0.5) -> pd.DataFrame:
     """Compute bifurcation diagram numerically for n=1,2,3,4,5."""
     mlml = ode.MLML("odes/mlml.ode")
-    nsteps = 100
+    nsteps = 90
 
     gmin = 0.01
     ns = [1, 2, 3, 4, 5]
-    g0s = [0.35, 0.4, 0.5, 0.52, 0.56]
+    g0s = [0.35, 0.41, 0.51, 0.52, 0.56]
     gsteps = [0.002, 0.002, 0.002, 0.001, 0.001]
     totals = [5000, 8000, 10000, 15000, 15000]
 
@@ -68,7 +68,7 @@ if __name__ == "__main__":
         print(
             "Computing numeric bifurcation diagram. This might take a while ..."
         )
-        numeric_diagram = compute_numeric_bif_diagram()
+        numeric_diagram = compute_numeric_bif_diagram(dt=0.05)
         numeric_diagram.to_pickle(paths.numeric_bif_diagram)
 
     if (not paths.analytic_bif_diagram.exists()) or args.recompute:

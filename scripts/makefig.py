@@ -7,9 +7,7 @@ import pandas as pd
 
 import matplotlib
 
-# NOTE: Maybe plot directly as pgf and import?
 matplotlib.use("pgf")
-import matplotlib
 from matplotlib import patches
 from matplotlib.figure import Figure
 from matplotlib import pyplot as plt
@@ -33,8 +31,6 @@ rcp["axes.spines.top"] = False
 rcp["axes.spines.right"] = False
 rcp["axes.unicode_minus"] = False
 rcp["text.usetex"] = True
-rcp["pgf.rcfonts"] = False
-rcp["pgf.texsystem"] = "pdflatex"
 rcp["xtick.labelsize"] = "small"
 rcp["ytick.labelsize"] = "small"
 rcp["axes.labelsize"] = "x-large"
@@ -42,7 +38,14 @@ rcp["axes.titlesize"] = "xx-large"
 rcp["figure.titlesize"] = "large"
 rcp["font.size"] = 9
 # Use latex preamble.
-rcp["pgf.preamble"] = r"\usepackage{amsmath} \usepackage{siunitx}"
+rcp["pgf.rcfonts"] = False
+rcp["pgf.texsystem"] = "pdflatex"
+rcp["pgf.preamble"]= "\n".join([  # plots will use this preamble
+        r"\usepackage[utf8]{inputenc}",
+        r"\usepackage[T1]{fontenc}",
+        r"\usepackage[detect-all,locale=UK]{siunitx}",
+        r"\usepackage{amssymb}",
+    ])
 
 matplotlib.rcParams.update(rcp)
 
@@ -609,16 +612,16 @@ patch_unstable = Line2D([], [], linestyle=":", linewidth=1, label="unstable")
 axs[0].legend(handles=[patch_stable, patch_unstable], loc=(0.5, 0.9))
 
 # B: Compute period curves.
-axs[0] = axs[1]
+ax = axs[1]
 for n in ns:
     pmap_n = PoincareMap(n)
     dfn = df[df["n"] == n]
     # analytic
-    axs[0].plot(gs, [pmap_n.period(g) for g in gs], color="C0")
+    ax.plot(gs, [pmap_n.period(g) for g in gs], color="C0")
     # numeric
-    axs[0].plot(dfn["g"], dfn["period"], color="C1")
+    ax.plot(dfn["g"], dfn["period"], color="C1")
 
-axs[0].set(
+ax.set(
     ylim=(500, 4300),
     xlabel=r"$\bar g$ " + r"$(\si{mS/cm^{2}})$",
     ylabel="period " + r"$(\si{ms})$",
@@ -626,14 +629,14 @@ axs[0].set(
 
 # Add labels
 for n in ns:
-    axs[0].text(gmax + 0.01, PoincareMap(n).period(gmax) - 50, r"$%s$" % n)
+    axs[1].text(gmax + 0.01, PoincareMap(n).period(gmax) - 50, r"$%s$" % n)
 
-for idx, axs[0] in enumerate(axs):
-    axs[0].set_title(string.ascii_uppercase[idx], loc="left")
+for idx, ax in enumerate(axs):
+    ax.set_title(string.ascii_uppercase[idx], loc="left")
 
 patch_ana = Line2D([], [], color="C0", linewidth=1, label="analytic")
 patch_num = Line2D([], [], color="C1", linewidth=1, label="numeric")
-axs[0].legend(handles=[patch_ana, patch_num], loc=(0.5, 0.9))
+axs[1].legend(handles=[patch_ana, patch_num], loc=(0.5, 0.9))
 
 fig.savefig(paths.figures / "folds.pdf")
 
@@ -854,7 +857,7 @@ ax.set(
     xticks=np.arange(-60, 80, 40),
     yticks=np.arange(0, 0.6, 0.2),
 )
-ax.set_title(r"$I$\si{\mu A/cm^2}$=3.8$ " + r"$\si{\mu A/cm^2}$", fontsize=10)
+ax.set_title(r"$I=3.8$ " + r"$\si{\mu A/cm^2}$", fontsize=10)
 
 # B: Changed model
 vs = np.linspace(-69, 60, 100)
