@@ -54,5 +54,5 @@ clean-all: clean-output
 	@find . -type d -name "__pycache__" -delete
 
 .PHONY: figures
-figures: figures
+figures: 
 	@python $(scripts_dir)/makefig.py

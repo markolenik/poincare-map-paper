@@ -1,3 +1,4 @@
+#%%
 import os
 import tqdm
 from functools import partial
@@ -742,25 +743,25 @@ for idx, ax in enumerate(axs):
 
 fig.savefig(paths.figures / "gstar-diag.pdf")
 
-#%% ISI stats
-def calc_ISI(sol):
-    """Return list of ISIs."""
-    isis1 = np.diff(helpers.spike_times(sol["v1"]).values)
-    isis2 = np.diff(helpers.spike_times(sol["v2"]).values)
-    return list(np.concatenate([isis1, isis2]))
+# #%% ISI stats
+# def calc_ISI(sol):
+#     """Return list of ISIs."""
+#     isis1 = np.diff(helpers.spike_times(sol["v1"]).values)
+#     isis2 = np.diff(helpers.spike_times(sol["v2"]).values)
+#     return list(np.concatenate([isis1, isis2]))
 
 
-all_isis = list(np.concatenate(df["lc"].apply(calc_ISI).values))
-mean = np.mean(all_isis)
-std = np.std(all_isis)
-interval = [min(all_isis), max(all_isis)]
-print(f"mean: {mean}")
-print(f"std: {std}")
-print(f"interval: [{interval[0]}, {interval[1]}]")
+# all_isis = list(np.concatenate(df["lc"].apply(calc_ISI).values))
+# mean = np.mean(all_isis)
+# std = np.std(all_isis)
+# interval = [min(all_isis), max(all_isis)]
+# print(f"mean: {mean}")
+# print(f"std: {std}")
+# print(f"interval: [{interval[0]}, {interval[1]}]")
 
-fig, ax = plt.subplots()
-ax.hist(all_isis, bins="auto")
-fig.savefig("tmp/ISI-hist.pdf")
+# fig, ax = plt.subplots()
+# ax.hist(all_isis, bins="auto")
+# fig.savefig("tmp/ISI-hist.pdf")
 
 
 #%% Exploring tauk

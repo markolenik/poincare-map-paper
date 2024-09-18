@@ -71,10 +71,10 @@ if __name__ == "__main__":
         numeric_diagram = compute_numeric_bif_diagram()
         numeric_diagram.to_pickle(paths.numeric_bif_diagram)
 
-    # if (not paths.analytic_bif_diagram.exists()) or args.recompute:
-    #     print("Computing analytic bifurcation diagram.")
-    #     analytic_diagram = compute_analytic_bif_diagram()
-    #     analytic_diagram.to_pickle(paths.analytic_bif_diagram)
+    if (not paths.analytic_bif_diagram.exists()) or args.recompute:
+        print("Computing analytic bifurcation diagram.")
+        analytic_diagram = compute_analytic_bif_diagram()
+        analytic_diagram.to_pickle(paths.analytic_bif_diagram)
 
     print("Done!")
     print(f"Computation took {time.time() - t0} seconds.")
